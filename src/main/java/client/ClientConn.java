@@ -9,6 +9,8 @@ import java.net.Socket;
 
 import org.bson.Document;
 
+import attori.Utente;
+
 public class ClientConn {
 	Socket client;
 	
@@ -24,7 +26,7 @@ public class ClientConn {
 			  BufferedReader kb 
 	            = new BufferedReader( 
 	                new InputStreamReader(System.in)); 
-	        String str, str1; 
+	        String str; 
 	        Document doc = new Document().append("comando", "new_bonifico");
 	        System.out.println(doc.toJson());
 	        while (!(str = kb.readLine()).equals("exit")) { 
@@ -34,9 +36,13 @@ public class ClientConn {
 	            dos.flush();
 	  
 	            // receive from the server 
-	            String stringa = br.readUTF(); 
-	  
-	            System.out.println(stringa); 
+	            String line = br.readUTF();
+				System.out.println(line);
+				//{auth="aaazzzzpppppeeee",comando="new_bonifico",params:{destinatario="iban",quantita="1000"}}
+				Document u = Document.parse(line);
+				Utente utente = new Utente(u.getString("nome"), u.getString("cognome"), u.getString("telefono"), u.getString("email"), u.getString("password"), u.getInteger("tipoUtente"), u.getString("codiceFiscale"));
+				
+	            System.out.println(utente.toString()); 
 	        } 
 	        kb.close();
 	        client.close();

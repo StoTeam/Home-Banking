@@ -2,6 +2,9 @@ package server;
 
 import java.io.*;
 import org.bson.Document;
+
+import attori.Utente;
+
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.net.ServerSocket;
@@ -35,7 +38,9 @@ public class Sessione implements Runnable {
 				String com = comando.getString("comando");
 				controllo(com);
 				//Send data back to client
-				out.writeBytes(line);
+				Utente u = new Utente("Gianluca", "Rossi", "333444555", "ggg@google.it", "xxXxxxXxxX", 1, "RSSGLC99F21H999L");
+				Document utente = u.utenteToDocument();
+				out.writeUTF(utente.toJson());
 			}catch (IOException e) {
 				System.out.println("Read failed");
 				System.exit(-1);
