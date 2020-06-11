@@ -1,5 +1,7 @@
 package attori;
 
+import org.bson.Document;
+
 public class Utente extends Persona {
 
 	private String codiceFiscale;
@@ -23,4 +25,25 @@ public class Utente extends Persona {
 			throw new IllegalArgumentException(codiceFiscale + " Non è un codice fiscale valido");
 		}
 	}
+	
+	public Document utenteToDocument() {
+		Document utente = new Document().append("nome", getNome())
+				.append("cognome", getCognome())
+				.append("telefono", getTelefono())
+				.append("email", getEmail())
+				.append("password", getPassword())
+				.append("tipoUtente", getTipoUtente())
+				.append("codiceFiscale", getCodiceFiscale());
+		return utente;	
+	}
+
+
+	@Override
+	public String toString() {
+		return "Utente [codiceFiscale=" + codiceFiscale + ", getNome()=" + getNome() + ", getCognome()=" + getCognome()
+				+ ", getTelefono()=" + getTelefono() + ", getEmail()=" + getEmail() + ", getPassword()=" + getPassword()
+				+ "]";
+	}
+	
+	
 }
