@@ -1,3 +1,4 @@
+package livelli;
 
 public enum Admin {
 
