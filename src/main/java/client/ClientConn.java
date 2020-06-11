@@ -1,6 +1,7 @@
 package client;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,7 +20,7 @@ public class ClientConn {
 			System.err.println("Impossibile connettere sulla porta 4444");
 			e.printStackTrace();
 		}
-		try(DataOutputStream dos = new DataOutputStream(client.getOutputStream()); BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()))){
+		try(DataOutputStream dos = new DataOutputStream(client.getOutputStream()); DataInputStream br = new DataInputStream(client.getInputStream())){
 			  BufferedReader kb 
 	            = new BufferedReader( 
 	                new InputStreamReader(System.in)); 
@@ -29,12 +30,13 @@ public class ClientConn {
 	        while (!(str = kb.readLine()).equals("exit")) { 
 	  
 	            // send to the server 
-	            dos.writeBytes(str); 
+	            dos.writeUTF(doc.toJson());
+	            dos.flush();
 	  
 	            // receive from the server 
-	            str1 = br.readLine(); 
+	            String stringa = br.readUTF(); 
 	  
-	            System.out.println(str1); 
+	            System.out.println(stringa); 
 	        } 
 	        kb.close();
 	        client.close();
