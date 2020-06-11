@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import org.bson.Document;
+
 public class ClientConn {
 	Socket client;
 	
@@ -22,13 +24,12 @@ public class ClientConn {
 	            = new BufferedReader( 
 	                new InputStreamReader(System.in)); 
 	        String str, str1; 
-	  
-	        // repeat as long as exit 
-	        // is not typed at client 
+	        Document doc = new Document().append("comando", "new_bonifico");
+	        System.out.println(doc.toJson());
 	        while (!(str = kb.readLine()).equals("exit")) { 
 	  
 	            // send to the server 
-	            dos.writeBytes(str + "\n"); 
+	            dos.writeBytes(str); 
 	  
 	            // receive from the server 
 	            str1 = br.readLine(); 

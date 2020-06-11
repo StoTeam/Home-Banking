@@ -29,13 +29,16 @@ public class Sessione implements Runnable {
 		}
 		while(true){
 			try{
-				line = in.readLine();
+				StringBuilder sb = new StringBuilder();
+				sb.append(in.readLine());
+				line = sb.toString();
+				System.out.println(line);
 				//{auth="aaazzzzpppppeeee",comando="new_bonifico",params:{destinatario="iban",quantita="1000"}}
 				Document comando = Document.parse(line);
 				String com = comando.getString("comando");
 				controllo(com);
 				//Send data back to client
-				out.println(line);
+				out.write(line);
 			}catch (IOException e) {
 				System.out.println("Read failed");
 				System.exit(-1);
@@ -51,6 +54,7 @@ public class Sessione implements Runnable {
 			
 			
 		default:
+			System.out.println("Non trovato");
 			return false;
 		}
 	}
