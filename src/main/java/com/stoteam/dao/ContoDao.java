@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.stoteam.attori.Azienda;
+import com.stoteam.attori.Persona;
 import com.stoteam.attori.Utente;
 import com.stoteam.conto.Conto;
 
@@ -31,13 +33,18 @@ public class ContoDao {
 	}
 	public static Conto getConto(Connection c, int id) {
 		Conto co = null;
+		Persona p = null;
 		String query = "SELECT * FROM conto WHERE id = ?;";
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(query);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			Utente p = UtenteDao.getUtente(c, rs.getInt("id_intestatario"));
+			if(!GeneralDao.azOrPers(c, rs.getInt("id_intestatario"))) {
+				p = UtenteDao.getUtente(c, rs.getInt("id_intestatario"));
+			} else {
+				p = AziendaDao.getAzienda(c, rs.getInt("id_intestatario"));
+			}
 			co = new Conto(rs.getString("codice"), rs.getString("iban"), p, rs.getDouble("saldo"));
 			co.setId(rs.getInt("id"));
 			co.setIdIntestatario(rs.getInt("id_intestatario"));
@@ -49,7 +56,7 @@ public class ContoDao {
 	}
 	public static int getIdConto(Connection c, int codice_conto) {
 		int id = 0;
-		String query = "SELECT * FROM utente WHERE codice_conto = ?;";
+		String query = "SELECT * FROM conto WHERE codice_conto = ?;";
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(query);

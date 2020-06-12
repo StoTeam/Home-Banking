@@ -3,6 +3,7 @@ package com.stoteam.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GeneralDao {
@@ -105,6 +106,25 @@ public class GeneralDao {
 			}
 		} else {
 			throw new IllegalArgumentException("Non puoi modificare il campo: " + colonna);
+		}
+	}
+	public static boolean azOrPers(Connection c, int idInt) {
+		PreparedStatement ps = null;
+		String query = "SELECT * FROM utente,azienda WHERE id_intestatario = ?;";
+		ResultSet rs = null;
+		try {
+			ps = c.prepareStatement(query);
+			ps.setInt(1, idInt);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			rs.findColumn("partita_iva");
+			return true;
+		} catch (SQLException e) {
+			return false;
 		}
 	}
 }

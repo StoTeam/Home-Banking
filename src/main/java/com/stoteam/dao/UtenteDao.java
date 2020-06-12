@@ -32,13 +32,13 @@ public class UtenteDao {
 			e.printStackTrace();
 		}
 	}
-	public static Utente getUtente(Connection c, int id) {
+	public static Utente getUtente(Connection c, int idInt) {
 		Utente u = null;
 		String query = "SELECT * FROM utente WHERE id_intestatario = ?;";
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(query);
-			ps.setInt(1, id);
+			ps.setInt(1, idInt);
 			ResultSet rs = ps.executeQuery();
 			u = new Utente(rs.getString("nome"), rs.getString("cognome"), rs.getString("telefono"), rs.getString("email"), rs.getString("pass"), rs.getInt("tipo_utente"), rs.getString("indirizzo"), rs.getString("codice_fiscale"));
 			u.setId(rs.getInt("id"));
@@ -51,7 +51,7 @@ public class UtenteDao {
 	}
 	public static int getIdUtente(Connection c, String cf) {
 		int id = 0;
-		String query = "SELECT * FROM utente WHERE id = ?;";
+		String query = "SELECT * FROM utente WHERE codice_fiscale = ?;";
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(query);

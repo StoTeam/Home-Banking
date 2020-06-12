@@ -5,7 +5,7 @@ public class Azienda extends Persona {
 	private String ragioneSociale;
 	private String pIva;
 
-	public Azienda(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo, String ragioneSociale, String pIva, String sede) {
+	public Azienda(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo, String ragioneSociale, String pIva) {
 		super(nome, cognome, telefono, email, password, tipoUtente, indirizzo);
 		setRagioneSociale(ragioneSociale);
 		setpIva(pIva);
