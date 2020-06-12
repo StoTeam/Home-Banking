@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.stoteam.attori.Azienda;
+import com.stoteam.carte.Bancomat;
 import com.stoteam.conto.Conto;
 import com.stoteam.movimenti.Bonifico;
 import com.stoteam.movimenti.Deposito;
@@ -61,9 +62,11 @@ public class MovimentoDao {
 			if(tipoMovimento.equals("bonifico")) {
 				Conto destinatario = ContoDao.getConto(c, rs.getInt("conto_id_d"));
 				m = new Bonifico(rs.getDouble("importo"), mittente, "bonifico", destinatario, rs.getString("causale"));
+				m.setDataEsecuzione(rs.getString("data_esecuzione"));
+				((Bonifico) m).setDataArrivo(rs.getString("data_arrivo"));
 			} else if(tipoMovimento.equals("pagamento")) {
 				Conto destinatario = ContoDao.getConto(c, rs.getInt("conto_id_d"));
-				//m = new Pagamento(rs.getDouble("importo"), mittente, "pagamento", destinatario, carta.getId());
+				//m = new Pagamento(mittente, rs.getDouble("importo"), "pagamento", destinatario,  *carta.getId()*);
 			} else if(tipoMovimento.equals("deposito")) {
 				m = new Deposito(mittente, tipoMovimento, rs.getDouble("importo"));
 			} else if(tipoMovimento.equals("prelievo")) {
