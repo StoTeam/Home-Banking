@@ -9,26 +9,8 @@ import com.stoteam.attori.Utente;
 
 public class UtenteDao {
 	
-	private static int createIntestatario(Connection c) {
-		String insert = "INSERT INTO intestatario";
-		PreparedStatement ps = null;
-		String query = "SELECT TOP 1 * FROM intestatario ORDER BY id DESC";
-		PreparedStatement qry = null;
-		int idInt = 0;
-		try {
-			ps = c.prepareStatement(insert);
-			ps.execute();
-			qry = c.prepareStatement(query);
-			ResultSet rs = qry.executeQuery();
-			idInt = rs.getInt("id");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return idInt;
-	}
 	public static void UpUtente(Connection c, Utente u) {
-		int idInt = createIntestatario(c);
+		int idInt = IntestatarioDao.createIntestatario(c);
 		String insert = "INSERT INTO utente (nome, cognome, telefono, email, pass, tipo_utente, indirizzo, codice_fiscale, id_intestatario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement ps = null;
 		try {
@@ -67,10 +49,23 @@ public class UtenteDao {
 		}
 		return u;
 	}
-	public static void updateUtente(Connection c, String cf, String colonna, String modifica) {
+	public static void updateUtente(Connection c, String colonna, String modifica, String cf) {
 		colonna = colonna.toLowerCase();
 		if(colonna.equals("telefono") || colonna.equals("email") || colonna.equals("pass") || colonna.equals("indirizzo")) {
-			
+			String update = "UPDATE utente SET ? = ?, WHERE codice_fiscale = ?;";
+			PreparedStatement ps = null;
+			try {
+				ps = c.prepareStatement(update);
+				ps.setString(1, colonna);
+				ps.setString(2, modifica);
+				ps.setString(3, cf);
+				ps.execute();
+				System.out.println("Colonna: " + colonna + " | Aggiornata a: " + modifica);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			throw new IllegalArgumentException("Non puoi modificare il campo: " + colonna);
 		}
 	}
 }
