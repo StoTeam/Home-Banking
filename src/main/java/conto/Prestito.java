@@ -13,6 +13,7 @@ public class Prestito {
 	private double taeg;
 	private int tempo; //per quanto tempo dura il prestito
 	private boolean isFisso;
+	private boolean isApprovato;
 	private final LocalDateTime dataInizio;
 	private LocalDateTime dataFine;
 	private LocalDateTime dataRata;

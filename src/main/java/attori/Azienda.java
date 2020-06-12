@@ -4,13 +4,11 @@ public class Azienda extends Persona {
 	
 	private String ragioneSociale;
 	private String pIva;
-	private String sede;
 
-	public Azienda(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String ragioneSociale, String pIva, String sede) {
-		super(nome, cognome, telefono, email, password, tipoUtente);
+	public Azienda(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo, String ragioneSociale, String pIva, String sede) {
+		super(nome, cognome, telefono, email, password, tipoUtente, indirizzo);
 		setRagioneSociale(ragioneSociale);
 		setpIva(pIva);
-		setSede(sede);
 		
 	}
 
@@ -30,14 +28,4 @@ public class Azienda extends Persona {
 			this.pIva = pIva;
 		}
 	}
-	public String getSede() {
-		return sede;
-	}
-	public void setSede(String sede) {
-		if(sede != null && !sede.trim().isEmpty())
-			this.sede = sede;
-	}
-	
-	
-
 }

@@ -7,8 +7,8 @@ public class Utente extends Persona {
 	private String codiceFiscale;
 
 
-	public Utente(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String codiceFiscale) {
-		super(nome, cognome, telefono, email, password, tipoUtente);
+	public Utente(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo, String codiceFiscale) {
+		super(nome, cognome, telefono, email, password, tipoUtente, indirizzo);
 		setCodiceFiscale(codiceFiscale);
 	}
 

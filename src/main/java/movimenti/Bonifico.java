@@ -9,6 +9,7 @@ public class Bonifico extends Movimento{
 
 	private Conto destinatario;
 	private String causale;
+	private LocalDateTime dataArrivo;
 	
 	public Bonifico(double importo, Conto mittente, Conto destinatario, String causale) {
 		super(mittente, importo);

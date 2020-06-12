@@ -7,17 +7,19 @@ public abstract class Persona {
 	private String telefono;
 	private String email;
 	private String password;
+	private String indirizzo;
 	private boolean auth;
 	private int reputazione;
 	private int tipoUtente;
 	
-	public Persona(String nome, String cognome, String telefono, String email, String password, int tipoUtente) {
+	public Persona(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo) {
 		setNome(nome);
 		setCognome(cognome);
 		setTelefono(telefono);
 		setEmail(email);
 		setPassword(password);
 		setTipoUtente(tipoUtente);
+		setIndirizzo(indirizzo);
 	}
 
 	public String getNome() {
@@ -86,6 +88,12 @@ public abstract class Persona {
 		if(tipoUtente >= 0 && tipoUtente < 2)
 		this.tipoUtente = tipoUtente;
 	}
-	
+	public String getIndirizzo() {
+		return this.indirizzo;
+	}
+	public void setIndirizzo(String indirizzo) {
+		if(indirizzo != null && !indirizzo.trim().isEmpty())
+			this.indirizzo = indirizzo;
+	}
 	
 }

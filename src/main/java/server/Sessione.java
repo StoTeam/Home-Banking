@@ -38,7 +38,7 @@ public class Sessione implements Runnable {
 				String com = comando.getString("comando");
 				controllo(com);
 				//Send data back to client
-				Utente u = new Utente("Gianluca", "Rossi", "333444555", "ggg@google.it", "xxXxxxXxxX", 1, "RSSGLC99F21H999L");
+				Utente u = new Utente("Gianluca", "Rossi", "333444555", "ggg@google.it", "xxXxxxXxxX", 1, "Via Roma, 14", "RSSGLC99F21H999L");
 				Document utente = u.utenteToDocument();
 				out.writeUTF(utente.toJson());
 			}catch (IOException e) {

@@ -40,7 +40,7 @@ public class ClientConn {
 				System.out.println(line);
 				//{auth="aaazzzzpppppeeee",comando="new_bonifico",params:{destinatario="iban",quantita="1000"}}
 				Document u = Document.parse(line);
-				Utente utente = new Utente(u.getString("nome"), u.getString("cognome"), u.getString("telefono"), u.getString("email"), u.getString("password"), u.getInteger("tipoUtente"), u.getString("codiceFiscale"));
+				Utente utente = new Utente(u.getString("nome"), u.getString("cognome"), u.getString("telefono"), u.getString("email"), u.getString("password"), u.getInteger("tipoUtente"), u.getString("indirizzo"), u.getString("codiceFiscale"));
 				
 	            System.out.println(utente.toString()); 
 	        } 
