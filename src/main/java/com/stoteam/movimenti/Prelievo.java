@@ -1,6 +1,6 @@
-package movimenti;
+package com.stoteam.movimenti;
 
-import conto.Conto;
+import com.stoteam.conto.Conto;
 
 public class Prelievo extends Movimento{
 

@@ -1,8 +1,8 @@
-package conto;
+package com.stoteam.conto;
 
 import java.time.LocalDateTime;
 
-import attori.Persona;
+import com.stoteam.attori.Persona;
 
 public class Prestito {
 	

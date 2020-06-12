@@ -1,9 +1,9 @@
-package server;
+package com.stoteam.server;
 
 import java.io.*;
 import org.bson.Document;
 
-import attori.Utente;
+import com.stoteam.attori.Utente;
 
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;

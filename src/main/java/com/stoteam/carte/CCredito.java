@@ -1,6 +1,6 @@
-package carte;
+package com.stoteam.carte;
 
-import conto.Conto;
+import com.stoteam.conto.Conto;
 
 public class CCredito extends Bancomat{
 

@@ -1,4 +1,4 @@
-package client;
+package com.stoteam.client;
 /**
  * Client connection dell'app StaBanca!
  * @author Gianluca Tiribelli

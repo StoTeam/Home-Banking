@@ -1,4 +1,4 @@
-package attori;
+package com.stoteam.attori;
 
 import org.bson.Document;
 

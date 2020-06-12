@@ -1,8 +1,8 @@
-package movimenti;
+package com.stoteam.movimenti;
 
 import java.util.ArrayList;
 
-import conto.Conto;
+import com.stoteam.conto.Conto;
 
 public class Movimenti<T> extends ArrayList<T>{
 

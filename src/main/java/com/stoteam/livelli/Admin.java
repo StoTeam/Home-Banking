@@ -1,4 +1,4 @@
-package livelli;
+package com.stoteam.livelli;
 
 public enum Admin {
 

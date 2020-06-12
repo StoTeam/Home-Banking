@@ -1,4 +1,4 @@
-package client;
+package com.stoteam.client;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -9,7 +9,7 @@ import java.net.Socket;
 
 import org.bson.Document;
 
-import attori.Utente;
+import com.stoteam.attori.Utente;
 
 public class ClientConn {
 	Socket client;

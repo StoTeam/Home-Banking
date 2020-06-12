@@ -1,4 +1,4 @@
-package attori;
+package com.stoteam.attori;
 
 public class Azienda extends Persona {
 	

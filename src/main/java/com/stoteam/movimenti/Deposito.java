@@ -1,9 +1,9 @@
-package movimenti;
+package com.stoteam.movimenti;
 
 import java.time.LocalDateTime;
 
-import attori.Persona;
-import conto.Conto;
+import com.stoteam.attori.Persona;
+import com.stoteam.conto.Conto;
 
 public class Deposito extends Movimento{
 	

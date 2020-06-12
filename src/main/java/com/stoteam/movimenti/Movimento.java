@@ -1,8 +1,8 @@
-package movimenti;
+package com.stoteam.movimenti;
 
 import java.time.LocalDateTime;
 
-import conto.Conto;
+import com.stoteam.conto.Conto;
 
 public abstract class Movimento {
 

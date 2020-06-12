@@ -1,6 +1,6 @@
-package conto;
+package com.stoteam.conto;
 
-import attori.Persona;
+import com.stoteam.attori.Persona;
 
 public class Conto {
 

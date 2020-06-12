@@ -1,8 +1,8 @@
-package carte;
+package com.stoteam.carte;
 
 import java.time.LocalDate;
 
-import conto.Conto;
+import com.stoteam.conto.Conto;
 
 public class Bancomat {
 

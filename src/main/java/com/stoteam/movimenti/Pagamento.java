@@ -1,7 +1,7 @@
-package movimenti;
+package com.stoteam.movimenti;
 
-import carte.Bancomat;
-import conto.Conto;
+import com.stoteam.carte.Bancomat;
+import com.stoteam.conto.Conto;
 
 public class Pagamento extends Movimento{
 
