@@ -9,7 +9,7 @@ import com.stoteam.attori.Azienda;
 
 public class AziendaDao {
 
-	public static void UpUtente(Connection c, Azienda a) {
+	public static void UpAzienda(Connection c, Azienda a) {
 		int idInt = IntestatarioDao.createIntestatario(c);
 		String insert = "INSERT INTO aziende (nome, cognome, telefono, email, pass, tipo_utente, indirizzo, ragione_sociale, partita_iva, id_intestatario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement ps = null;

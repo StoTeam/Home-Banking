@@ -8,8 +8,8 @@ public class Pagamento extends Movimento{
 	private Conto destinatario;
 	private Bancomat carta;
 	
-	public Pagamento(Conto conto, double importo, Bancomat carta) {
-		super(conto, importo);
+	public Pagamento(Conto conto, double importo, String tipoMovimento, Bancomat carta) {
+		super(conto, importo, tipoMovimento);
 		setDestinatario(conto);
 		setCarta(carta);
 	}

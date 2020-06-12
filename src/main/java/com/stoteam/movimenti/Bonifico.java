@@ -1,5 +1,6 @@
 package com.stoteam.movimenti;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 import com.stoteam.attori.Persona;
@@ -11,8 +12,8 @@ public class Bonifico extends Movimento{
 	private String causale;
 	private LocalDateTime dataArrivo;
 	
-	public Bonifico(double importo, Conto mittente, Conto destinatario, String causale) {
-		super(mittente, importo);
+	public Bonifico(double importo, Conto mittente, String tipoMovimento, Conto destinatario, String causale) {
+		super(mittente, importo, tipoMovimento);
 		setDestinatario(destinatario);
 		setCausale(causale);
 	}
@@ -30,5 +31,11 @@ public class Bonifico extends Movimento{
 		if(causale != null && !causale.trim().isEmpty())
 			this.causale = causale;
 	}
-
+	public String getDataArrivo() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(dataArrivo);
+	}
+	public void setDataArrivo(String data) {
+		dataArrivo = LocalDateTime.parse(data);
+	}
 }
