@@ -32,13 +32,13 @@ public class UtenteDao {
 			e.printStackTrace();
 		}
 	}
-	public static Utente getUtente(Connection c, String cf) {
+	public static Utente getUtente(Connection c, int id) {
 		Utente u = null;
-		String query = "SELECT * FROM utente WHERE codice_fiscale = ?;";
+		String query = "SELECT * FROM utente WHERE id_intestatario = ?;";
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(query);
-			ps.setString(1, cf);
+			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			u = new Utente(rs.getString("nome"), rs.getString("cognome"), rs.getString("telefono"), rs.getString("email"), rs.getString("pass"), rs.getInt("tipo_utente"), rs.getString("indirizzo"), rs.getString("codice_fiscale"));
 			u.setId(rs.getInt("id"));
@@ -49,23 +49,19 @@ public class UtenteDao {
 		}
 		return u;
 	}
-	public static void updateUtente(Connection c, String colonna, String modifica, String cf) {
-		colonna = colonna.toLowerCase();
-		if(colonna.equals("telefono") || colonna.equals("email") || colonna.equals("pass") || colonna.equals("indirizzo")) {
-			String update = "UPDATE utente SET ? = ?, WHERE codice_fiscale = ?;";
-			PreparedStatement ps = null;
-			try {
-				ps = c.prepareStatement(update);
-				ps.setString(1, colonna);
-				ps.setString(2, modifica);
-				ps.setString(3, cf);
-				ps.execute();
-				System.out.println("Colonna: " + colonna + " | Aggiornata a: " + modifica);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} else {
-			throw new IllegalArgumentException("Non puoi modificare il campo: " + colonna);
+	public static int getIdUtente(Connection c, String cf) {
+		int id = 0;
+		String query = "SELECT * FROM utente WHERE id = ?;";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(query);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			id = rs.getInt("id");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return id;
 	}
 }
