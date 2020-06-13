@@ -4,6 +4,8 @@ import com.stoteam.attori.Persona;
 
 public class Conto {
 
+	private int id;
+	private int idIntestatario;
 	private String codice;
 	private String iban;
 	private Persona utente;
@@ -45,5 +47,16 @@ public class Conto {
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
-	
+	public double getSaldoContabile() {
+		return this.saldoContabile;
+	}
+	public void setIdIntestatario(int idInt) {
+		this.idIntestatario = idInt;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getId() {
+		return this.id;
+	}
 }

@@ -7,8 +7,8 @@ import com.stoteam.conto.Conto;
 
 public class Deposito extends Movimento{
 	
-	public Deposito(Conto utente, double importo) {
-		super(utente, importo);
+	public Deposito(Conto utente, String tipoMovimento, double importo) {
+		super(utente, importo, tipoMovimento);
 	}
 	
 }
