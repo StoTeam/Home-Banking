@@ -2,7 +2,6 @@ package com.stoteam.attori;
 
 public abstract class Persona {
 	
-	private int id;
 	private String nome;
 	private String cognome;	
 	private String telefono;
@@ -12,7 +11,6 @@ public abstract class Persona {
 	private boolean auth;
 	private int reputazione;
 	private int tipoUtente;
-	private int idIntestatario;
 	
 	public Persona(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo) {
 		setNome(nome);
@@ -22,19 +20,10 @@ public abstract class Persona {
 		setPassword(password);
 		setTipoUtente(tipoUtente);
 		setIndirizzo(indirizzo);
-	}	
-	public int getIdIntestatario() {
-		return idIntestatario;
 	}
-	public void setIdIntestatario(int id_intestatario) {
-		this.idIntestatario = id_intestatario;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getId() {
-		return this.id;
-	}
+
+
+
 	public String getNome() {
 		return nome;
 	}
