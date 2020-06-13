@@ -1,17 +1,20 @@
 package com.stoteam.carte;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.stoteam.conto.Conto;
 
 public class Bancomat {
 
+	private int id;
+	private int contoId;
 	private boolean isBlock;
 	private Conto utente;
 	private double spesaMensile;
 	private String pin;
-	private final LocalDate dataRilascio;
-	private final LocalDate dataScadenza;
+	private LocalDate dataRilascio;
+	private LocalDate dataScadenza;
 	private String codSicurezza;
 	
 	public Bancomat(Conto utente, String pin, String codSicurezza) {
@@ -21,7 +24,18 @@ public class Bancomat {
 		this.dataScadenza = dataRilascio.plusYears(3);
 		this.codSicurezza = codSicurezza;
 	}
-
+	public int getId() {
+		return this.id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getContoId() {
+		return this.contoId;
+	}
+	public void setContoId(int contoId) {
+		this.contoId = contoId;
+	}
 	public boolean isBlock() {
 		return isBlock;
 	}
@@ -37,6 +51,12 @@ public class Bancomat {
 	}
 	public double getSpesaMensile() {
 		return spesaMensile;
+	}
+	public void setSpesaMensile(double spesa) {
+		this.spesaMensile = spesa;
+	}
+	public void addSpesaMensile(double spesa) {
+		this.spesaMensile += spesa;
 	}
 	public String getPin() {
 		return pin;
@@ -54,5 +74,14 @@ public class Bancomat {
 	}
 	public LocalDate getDataScadenza() {
 		return dataScadenza;
+	}
+	public void setDataScadenza(String data) {
+		this.dataScadenza = LocalDate.parse(data);
+	}
+	public LocalDate getDataRilascio() {
+		return dataRilascio;
+	}
+	public void setDataRilascio(String data) {
+		this.dataRilascio = LocalDate.parse(data);
 	}
 }

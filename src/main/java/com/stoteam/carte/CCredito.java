@@ -5,12 +5,12 @@ import com.stoteam.conto.Conto;
 public class CCredito extends Bancomat{
 
 	double limite;
-	double disponibilità;
+	double disponibilita;
 	boolean usoPin = false;
-	public CCredito(Conto utente, String pin, String codSicurezza) {
+	public CCredito(Conto utente, String pin, String codSicurezza, double limite) {
 		super(utente, pin, codSicurezza);
 		setLimite(limite);
-		this.disponibilità = limite;
+		this.disponibilita = limite;
 	}
 	public double getLimite() {
 		return limite;
@@ -19,13 +19,16 @@ public class CCredito extends Bancomat{
 		if(limite > 0)
 			this.limite = limite;
 	}
-	public double getDisponibilità() {
-		return disponibilità;
+	public double getDisponibilita() {
+		return disponibilita;
+	}
+	public void setDisponibilita(double disponibilita) {
+		this.disponibilita = disponibilita;
 	}
 	public boolean isUsoPin() {
 		return usoPin;
 	}
 	public void setUsoPin(boolean usoPin) {
 		this.usoPin = usoPin;
-	}	
+	}
 }
