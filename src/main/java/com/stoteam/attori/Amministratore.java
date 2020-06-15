@@ -7,7 +7,7 @@ public class Amministratore extends Persona {
 
 	
 	//cambiare con ENUM
-	private int livelloAccesso;
+	private String livelloAccesso;
 	private List<String> areaCompetenza = new ArrayList<>();
 	
 	
