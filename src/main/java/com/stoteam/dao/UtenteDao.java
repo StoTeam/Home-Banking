@@ -59,7 +59,7 @@ public class UtenteDao {
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(query);
-			ps.setInt(1, id);
+			ps.setString(1, cf);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
 				id = rs.getInt("id");
