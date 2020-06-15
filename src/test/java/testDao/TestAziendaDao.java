@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import com.stoteam.attori.Azienda;
 import com.stoteam.dao.AziendaDao;
 import com.stoteam.dao.DbConnection;
+import com.stoteam.dao.GeneralDao;
 
 class TestAziendaDao {
 
@@ -54,7 +55,7 @@ class TestAziendaDao {
     	String email = "john@doea.it";
     	String password = "aaablablabla";
     	String indirizzo = "via le mani dal naso, 69";
-    	String ragioneSociale = "BBBZZZ00B00H000L";
+    	String ragioneSociale = "HoStatoIo SPA";
     	String pIva = "01234567891";
     	int tipoUtente = 1;
         Azienda account = new Azienda(name, surname, telefono, email, password, tipoUtente, indirizzo, ragioneSociale, pIva);
@@ -62,6 +63,7 @@ class TestAziendaDao {
         // then
         Connection c = DbConnection.Connect();
         AziendaDao.UpAzienda(c, account);
+        GeneralDao.update(c, "aziende", "ragione_sociale", "asdrubale", AziendaDao.getIdAzienda(c, pIva));
         Azienda accountDb = AziendaDao.getAzienda(c, account.getId());
         System.out.println(accountDb.toString());
         String result = accountDb.getRagioneSociale();
@@ -75,6 +77,6 @@ class TestAziendaDao {
 		}
         
         // expect
-        assertEquals(ragioneSociale, result, "The name must be the same");
+        assertNotEquals(ragioneSociale, result, "The name must NOT be the same");
     }
 }
