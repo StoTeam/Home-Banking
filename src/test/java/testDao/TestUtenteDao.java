@@ -22,7 +22,7 @@ class TestUtenteDao {
     	String telefono = "000000111";
     	String email = "john@doea.it";
     	String password = "aaablablabla";
-    	String indirizzo = "via le mani dal culo, 69";
+    	String indirizzo = "via le mani dal naso, 69";
     	String codiceFiscale = "BBBZZZ00B00H000L";
     	int tipoUtente = 1;
         Utente account = new Utente(name, surname, telefono, email, password, tipoUtente, indirizzo, codiceFiscale);
