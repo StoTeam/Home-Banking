@@ -8,17 +8,19 @@ import java.sql.SQLException;
 public class IntestatarioDao {
 	
 	public static int createIntestatario(Connection c) {
-		String insert = "INSERT INTO intestatario";
+		String insert = "INSERT INTO intestatario () VALUES ()";
 		PreparedStatement ps = null;
-		String query = "SELECT TOP 1 * FROM intestatario ORDER BY id DESC";
+		String query = "SELECT * FROM intestatario LIMIT 1";
 		PreparedStatement qry = null;
 		int idInt = 0;
 		try {
 			ps = c.prepareStatement(insert);
-			ps.execute();
+			ps.executeUpdate();
 			qry = c.prepareStatement(query);
 			ResultSet rs = qry.executeQuery();
+			rs.next();
 			idInt = rs.getInt("id");
+			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

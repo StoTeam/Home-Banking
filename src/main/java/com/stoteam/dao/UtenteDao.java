@@ -26,23 +26,27 @@ public class UtenteDao {
 			ps.setInt(9, idInt);
 			ps.execute();
 			u.setIdIntestatario(idInt);
+			u.setId(UtenteDao.getIdUtente(c, u.getCodiceFiscale()));
 			System.out.println("Utente Salvato");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public static Utente getUtente(Connection c, int idInt) {
+	public static Utente getUtente(Connection c, int id) {
 		Utente u = null;
-		String query = "SELECT * FROM utente WHERE id_intestatario = ?;";
+		String query = "SELECT * FROM utente WHERE id = ?;";
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(query);
-			ps.setInt(1, idInt);
+			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			u = new Utente(rs.getString("nome"), rs.getString("cognome"), rs.getString("telefono"), rs.getString("email"), rs.getString("pass"), rs.getInt("tipo_utente"), rs.getString("indirizzo"), rs.getString("codice_fiscale"));
-			u.setId(rs.getInt("id"));
-			u.setIdIntestatario(rs.getInt("id_intestatario"));
+			while(rs.next()) {
+				u = new Utente(rs.getString("nome"), rs.getString("cognome"), rs.getString("telefono"), rs.getString("email"), rs.getString("pass"), rs.getInt("tipo_utente"), rs.getString("indirizzo"), rs.getString("codice_fiscale"));
+				u.setId(rs.getInt("id"));
+				u.setIdIntestatario(rs.getInt("id_intestatario"));
+			}
+			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,13 +59,30 @@ public class UtenteDao {
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(query);
-			ps.setInt(1, id);
+			ps.setString(1, cf);
 			ResultSet rs = ps.executeQuery();
-			id = rs.getInt("id");
+			while(rs.next())
+				id = rs.getInt("id");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return id;
+	}
+	public static void removeUtente(Connection c, int id) {
+		String deleteU = "DELETE FROM utente WHERE id = " + id;
+		int idInt = UtenteDao.getUtente(c, id).getIdIntestatario();
+		String deleteI = "DELETE FROM intestatario WHERE id = " + idInt;
+		PreparedStatement ps = null;
+		PreparedStatement psI = null;
+		try {
+			ps = c.prepareStatement(deleteU);
+			ps.execute();
+			psI = c.prepareStatement(deleteI);
+			psI.execute();
+			System.out.println("Utente eliminato");
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

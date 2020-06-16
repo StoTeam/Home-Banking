@@ -10,7 +10,7 @@ public class DbConnection {
 
 	public static Connection Connect() {		
 		try {
-			conn = DriverManager.getConnection(System.getenv("DB_CONNECT"));
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/stabanca!?user=root&password=gianluca");
 			System.out.println("Connesso al DB");
 		} catch (SQLException e) {
 			e.printStackTrace();
