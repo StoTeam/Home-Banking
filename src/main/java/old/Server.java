@@ -1,4 +1,4 @@
-package com.stoteam.server;
+package old;
 /**
  * StaBanca! main server
  * @author Gianluca Tiribelli
