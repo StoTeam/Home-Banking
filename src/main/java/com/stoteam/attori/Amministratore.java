@@ -38,7 +38,7 @@ public class Amministratore extends Persona {
 	}
 	
 
-	private void setAreaCompetenza(List<String> areaCompetenza) {
+	public void setAreaCompetenza(List<String> areaCompetenza) {
 		this.areaCompetenza = areaCompetenza;
 		
 	}
