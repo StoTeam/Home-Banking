@@ -39,7 +39,7 @@ public class UtenteResource {
 		int id = UtenteDao.checkLogUtente(c, ld.getEmail(), ld.getPassword());
 		if(id > 0) {
 			Cookie login = new Cookie("logged", "true");
-			return Response.status(200).entity(UtenteDao.getUtente(c, id).toJson()).build();
+			return Response.status(200).entity(UtenteDao.getUtente(c, id).toJson()).entity(login).build();
 		}
 		try {
 			c.close();
@@ -48,5 +48,22 @@ public class UtenteResource {
 			e.printStackTrace();
 		}
 		return Response.status(404).build();
+	}
+	
+	@GET
+	@Path("logout")
+	public Response logOut(@Context HttpServletRequest req) {
+		boolean log = Boolean.parseBoolean((String) req.getAttribute("logged"));
+		if(log) {
+			Cookie login = new Cookie("logged", "false");
+			return Response.status(200).entity(login).build();	
+		}
+		return Response.status(400).build();
+	}
+	
+	@PUT
+	@Path("utenteId")
+	public Response editUtente() {
+		return null;
 	}
 }
