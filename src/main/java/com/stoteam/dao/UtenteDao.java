@@ -85,4 +85,23 @@ public class UtenteDao {
 			e.printStackTrace();
 		}
 	}
+	public static int checkLogUtente(Connection c, String email, String password) {
+		String query = "SELECT pass, id FROM utente WHERE email = ?";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(query);
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				if(password.equals(rs.getString("pass"))) {
+					System.out.println("LOGIN!");
+					return rs.getInt("id");
+				}
+			}
+				return -1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
 }
