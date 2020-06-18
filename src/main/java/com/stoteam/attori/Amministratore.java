@@ -48,13 +48,6 @@ public class Amministratore extends Persona {
 		this.livelloAccesso = livelloAccesso;
 		
 	}
-
-
-	public void setId(int int1) {
-		
-	}
-	
-	
 	
 	public String toCSV(String string) {
 		return toCSV(";");

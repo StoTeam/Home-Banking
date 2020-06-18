@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import com.stoteam.attori.*;
 import com.stoteam.dao.DbConnection;
@@ -19,9 +20,8 @@ public class UtenteResource {
 	@POST
 	@Produces("application/json")
 	public Response createUser(Utente utente) {
-		Utente u = new Utente(utente.getNome(), utente.getCognome(), utente.getTelefono(), utente.getEmail(), utente.getPassword(), utente.getTipoUtente(), utente.getIndirizzo(), utente.getCodiceFiscale());
 		Connection c = DbConnection.Connect();
-		UtenteDao.UpUtente(c, u);
+		UtenteDao.UpUtente(c, utente);
 		try {
 			c.close();
 		} catch (SQLException e) {
@@ -38,8 +38,8 @@ public class UtenteResource {
 		Connection c = DbConnection.Connect();
 		int id = UtenteDao.checkLogUtente(c, ld.getEmail(), ld.getPassword());
 		if(id > 0) {
-			Cookie login = new Cookie("logged", "true");
-			return Response.status(200).entity(UtenteDao.getUtente(c, id).toJson()).entity(login).build();
+			NewCookie login = new NewCookie("logged", "true");
+			return Response.status(200).cookie(login).entity(UtenteDao.getUtente(c, id).toJson()).build();
 		}
 		try {
 			c.close();
