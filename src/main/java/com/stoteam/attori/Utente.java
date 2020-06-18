@@ -1,13 +1,27 @@
 package com.stoteam.attori;
 
-import org.bson.Document;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+import javax.json.bind.JsonbBuilder;
+import javax.json.bind.JsonbConfig;
+import javax.json.bind.annotation.JsonbCreator;
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.config.PropertyVisibilityStrategy;
 
 public class Utente extends Persona {
 
 	private String codiceFiscale;
 
-
-	public Utente(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo, String codiceFiscale) {
+	@JsonbCreator
+	public Utente(@JsonbProperty("nome") String nome, 
+				  @JsonbProperty("cognome") String cognome,
+				  @JsonbProperty("telefono") String telefono, 
+				  @JsonbProperty("email") String email, 
+				  @JsonbProperty("password") String password, 
+				  @JsonbProperty("tipoUtente") int tipoUtente, 
+				  @JsonbProperty("indirizzo") String indirizzo, 
+				  @JsonbProperty("codiceFiscale") String codiceFiscale) {
 		super(nome, cognome, telefono, email, password, tipoUtente, indirizzo);
 		setCodiceFiscale(codiceFiscale);
 	}
@@ -22,21 +36,9 @@ public class Utente extends Persona {
 		if(reg) {
 			this.codiceFiscale = codiceFiscale;
 		} else {
-			throw new IllegalArgumentException(codiceFiscale + " Non è un codice fiscale valido");
+			throw new IllegalArgumentException(codiceFiscale + " Non ï¿½ un codice fiscale valido");
 		}
 	}
-	
-	public Document utenteToDocument() {
-		Document utente = new Document().append("nome", getNome())
-				.append("cognome", getCognome())
-				.append("telefono", getTelefono())
-				.append("email", getEmail())
-				.append("password", getPassword())
-				.append("tipoUtente", getTipoUtente())
-				.append("codiceFiscale", getCodiceFiscale());
-		return utente;	
-	}
-
 
 	@Override
 	public String toString() {
@@ -45,5 +47,19 @@ public class Utente extends Persona {
 				+ "]";
 	}
 	
-	
+	public String toJson() {
+		JsonbConfig config = new JsonbConfig().withPropertyVisibilityStrategy(new PropertyVisibilityStrategy() {
+			
+			@Override
+			public boolean isVisible(Method arg0) {
+				return false;
+			}
+			
+			@Override
+			public boolean isVisible(Field arg0) {
+				return true;
+			}
+		});
+		return JsonbBuilder.newBuilder().withConfig(config).build().toJson(this);
+	}
 }

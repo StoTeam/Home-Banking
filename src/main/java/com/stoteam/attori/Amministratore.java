@@ -38,7 +38,7 @@ public class Amministratore extends Persona {
 	}
 	
 
-	private void setAreaCompetenza(List<String> areaCompetenza) {
+	public void setAreaCompetenza(List<String> areaCompetenza) {
 		this.areaCompetenza = areaCompetenza;
 		
 	}
@@ -48,13 +48,6 @@ public class Amministratore extends Persona {
 		this.livelloAccesso = livelloAccesso;
 		
 	}
-
-
-	public void setId(int int1) {
-		
-	}
-	
-	
 	
 	public String toCSV(String string) {
 		return toCSV(";");

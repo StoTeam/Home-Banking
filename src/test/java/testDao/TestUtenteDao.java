@@ -5,12 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import com.stoteam.attori.Azienda;
 import com.stoteam.attori.Utente;
-import com.stoteam.dao.AziendaDao;
 import com.stoteam.dao.DbConnection;
 import com.stoteam.dao.GeneralDao;
 import com.stoteam.dao.UtenteDao;

@@ -40,7 +40,7 @@ public class MovimentoDao {
 				ps.setInt(5, p.getDestinatario().getId());
 				ps.setString(6, "");
 				ps.setString(7, "");
-				ps.setInt(8, p.getConto().getId());
+				ps.setInt(8, p.getCarta().getId());
 			}
 			ps.execute();
 			System.out.println("Utente Salvato");

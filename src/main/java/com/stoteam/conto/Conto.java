@@ -30,8 +30,8 @@ public class Conto {
 	}
 	public void setIban(String iban) {
 		iban = iban.toUpperCase();
-		boolean reg = iban.matches("^(IT)[0-9]{2}[A-Z][0-9]{10}[0-9A-Z]{12}$");
-		if(reg)
+		//boolean reg = iban.matches("^(IT)[0-9]{2}[A-Z][0-9]{10}[0-9A-Z]{12}$");
+		//if(reg)
 			this.iban = iban;
 	}
 	public Persona getUtente() {

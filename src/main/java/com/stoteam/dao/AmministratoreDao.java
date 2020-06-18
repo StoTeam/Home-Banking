@@ -39,8 +39,9 @@ public class AmministratoreDao {
 			ps = c.prepareStatement(query);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			a = new Amministratore(rs.getString("nome"), rs.getString("cognome"), rs.getString("telefono"), rs.getString("email"), rs.getString("pass"), rs.getInt("tipo_utente"), rs.getString("indirizzo"), rs.getString("livello_accesso"), a.setAreaCompetenza(CSVToList(rs.getString("livello_accesso"))));
+			a = new Amministratore(rs.getString("nome"), rs.getString("cognome"), rs.getString("telefono"), rs.getString("email"), rs.getString("pass"), rs.getInt("tipo_utente"), rs.getString("indirizzo"));
 			a.setId(rs.getInt("id"));
+			a.setAreaCompetenza(a.CSVToList(rs.getString("area_competenza")));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

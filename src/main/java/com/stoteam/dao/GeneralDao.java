@@ -90,11 +90,12 @@ public class GeneralDao {
 	}
 	public static boolean azOrPers(Connection c, int idInt) {
 		PreparedStatement ps = null;
-		String query = "SELECT * FROM utente,azienda WHERE id_intestatario = ?;";
+		String query = "select * from utente, aziende where utente.id_intestatario = ? AND aziende.id_intestatario = ?;";
 		ResultSet rs = null;
 		try {
 			ps = c.prepareStatement(query);
 			ps.setInt(1, idInt);
+			ps.setInt(2, idInt);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

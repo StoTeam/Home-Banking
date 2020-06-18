@@ -25,7 +25,8 @@ public class ContoDao {
 			ps.setInt(5, idInt);
 			ps.execute();
 			co.setIdIntestatario(idInt);
-			System.out.println("Utente Salvato");
+			co.setId(getIdConto(c, co.getCodice()));
+			System.out.println("Conto Salvato");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,34 +41,50 @@ public class ContoDao {
 			ps = c.prepareStatement(query);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			if(!GeneralDao.azOrPers(c, rs.getInt("id_intestatario"))) {
-				p = UtenteDao.getUtente(c, rs.getInt("id_intestatario"));
-			} else {
-				p = AziendaDao.getAzienda(c, rs.getInt("id_intestatario"));
+			if(rs.next()) {
+				if(!GeneralDao.azOrPers(c, rs.getInt("id_intestatario"))) {
+					p = UtenteDao.getUtente(c, rs.getInt("id"));
+				} else {
+					p = AziendaDao.getAzienda(c, rs.getInt("id"));
+				}
+				co = new Conto(rs.getString("codice_conto"), rs.getString("iban"), p, rs.getDouble("saldo"));
+				co.setId(rs.getInt("id"));
+				co.setIdIntestatario(rs.getInt("id_intestatario"));
 			}
-			co = new Conto(rs.getString("codice"), rs.getString("iban"), p, rs.getDouble("saldo"));
-			co.setId(rs.getInt("id"));
-			co.setIdIntestatario(rs.getInt("id_intestatario"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return co;
 	}
-	public static int getIdConto(Connection c, int codice_conto) {
+	public static int getIdConto(Connection c, String codice_conto) {
 		int id = 0;
 		String query = "SELECT * FROM conto WHERE codice_conto = ?;";
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(query);
-			ps.setInt(1, codice_conto);
+			ps.setString(1, codice_conto);
 			ResultSet rs = ps.executeQuery();
-			id = rs.getInt("id");
+			if(rs.next())
+				id = rs.getInt("id");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return id;
+	}
+	
+	public static void removeConto(Connection c, int id) {
+		String deleteU = "DELETE FROM conto WHERE id = ?";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(deleteU);
+			ps.setInt(1, id);
+			ps.execute();
+			System.out.println("Conto eliminato");
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
