@@ -43,9 +43,9 @@ public class ContoDao {
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				if(!GeneralDao.azOrPers(c, rs.getInt("id_intestatario"))) {
-					p = UtenteDao.getUtente(c, rs.getInt("id_intestatario"));
+					p = UtenteDao.getUtente(c, rs.getInt("id"));
 				} else {
-					p = AziendaDao.getAzienda(c, rs.getInt("id_intestatario"));
+					p = AziendaDao.getAzienda(c, rs.getInt("id"));
 				}
 				co = new Conto(rs.getString("codice_conto"), rs.getString("iban"), p, rs.getDouble("saldo"));
 				co.setId(rs.getInt("id"));
