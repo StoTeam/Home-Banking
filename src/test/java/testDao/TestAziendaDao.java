@@ -45,7 +45,9 @@ class TestAziendaDao {
         
         // expect
         assertEquals(ragioneSociale, result, "The name must be the same");
-    }
+        
+	}
+        
 	@Test
 	void test_editName() {
         // given
@@ -62,7 +64,7 @@ class TestAziendaDao {
         
         // then
         Connection c = DbConnection.Connect();
-        AziendaDao.UpAzienda(c, account);
+        //AziendaDao.UpAzienda(c, account);
         GeneralDao.update(c, "aziende", "ragione_sociale", "asdrubale", AziendaDao.getIdAzienda(c, pIva));
         Azienda accountDb = AziendaDao.getAzienda(c, account.getId());
         System.out.println(accountDb.toString());
@@ -79,4 +81,5 @@ class TestAziendaDao {
         // expect
         assertNotEquals(ragioneSociale, result, "The name must NOT be the same");
     }
+	
 }

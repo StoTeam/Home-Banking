@@ -8,7 +8,7 @@ CREATE TABLE utente (
     cognome varchar(255),
     telefono char(11),
     email varchar(255) unique,
-	passw varchar(1024),
+	pass varchar(1024),
     tipo_utente int,
     indirizzo varchar(255),
     codice_fiscale char(16),

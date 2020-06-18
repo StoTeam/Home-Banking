@@ -12,7 +12,7 @@ public class Amministratore extends Persona {
 	private List<String> areaCompetenza = new ArrayList<>();
 	
 	
-	public Amministratore(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo) {
+	public Amministratore(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo, String livelloAccesso, List<String> areaCompetenza) {
 		super(nome, cognome, telefono, email, password, tipoUtente, indirizzo);
 		setLivelloAccesso(livelloAccesso);
 		setAreaCompetenza(areaCompetenza);
@@ -24,10 +24,15 @@ public class Amministratore extends Persona {
 	}
 
 
-	public String competenzaCSV() {
+	public String toCSV() {
 		StringBuilder sb = new StringBuilder();
-		for(String s : areaCompetenza) {
-			sb.append(s + ";");
+		if(areaCompetenza.size() > 1) {
+			sb.append(areaCompetenza.get(0));
+		} else {
+			for(int i = 0; i < areaCompetenza.size()-1; i++) {
+				sb.append(areaCompetenza.get(i) + ";");
+			}
+			sb.append(areaCompetenza.get(areaCompetenza.size()-1));			
 		}
 		return sb.toString();
 	}
@@ -44,20 +49,17 @@ public class Amministratore extends Persona {
 	}
 
 
-	private void setLivelloAccesso(String livelloAccesso) {
+	public void setLivelloAccesso(String livelloAccesso) {
 		this.livelloAccesso = livelloAccesso;
 		
 	}
 	
-	public String toCSV(String string) {
-		return toCSV(";");
+	@Override
+	public String toString() {
+		return "Amministratore [livelloAccesso=" + livelloAccesso + ", areaCompetenza=" + toCSV() + "]";
 	}
 
 	
-	@Override
-	public String toString() {
-		return "Amministratore [livelloAccesso=" + livelloAccesso + ", areaCompetenza=" + areaCompetenza + "]";
-	}
 	
 	
 

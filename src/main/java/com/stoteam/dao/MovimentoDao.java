@@ -43,7 +43,7 @@ public class MovimentoDao {
 				ps.setInt(8, p.getCarta().getId());
 			}
 			ps.execute();
-			System.out.println("Utente Salvato");
+			System.out.println("Movimento Salvato");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,5 +78,20 @@ public class MovimentoDao {
 			e.printStackTrace();
 		}
 		return m;
+	}
+	public static void removeMovimento(Connection c, int id) {
+		String deleteM = "DELETE FROM movimento WHERE id = " + id;
+		Movimento idInt = MovimentoDao.getMovimento(c, id);
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(deleteM);
+			ps.setInt(1, id);
+			ps.execute();
+			System.out.println("Movimento eliminato");
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		
 	}
 }
