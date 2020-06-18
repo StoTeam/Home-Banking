@@ -53,11 +53,6 @@ public class Amministratore extends Persona {
 		this.livelloAccesso = livelloAccesso;
 		
 	}
-
-	public String toCSV(String string) {
-		return toCSV(";");
-	}
-
 	
 	@Override
 	public String toString() {
