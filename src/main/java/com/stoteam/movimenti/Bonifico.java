@@ -1,5 +1,6 @@
 package com.stoteam.movimenti;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
@@ -16,6 +17,7 @@ public class Bonifico extends Movimento{
 		super(mittente, importo, tipoMovimento);
 		setDestinatario(destinatario);
 		setCausale(causale);
+		dataArrivo = LocalDateTime.now().plusMinutes(10);
 	}
 	public Conto getDestinatario() {
 		return destinatario;
@@ -32,10 +34,11 @@ public class Bonifico extends Movimento{
 			this.causale = causale;
 	}
 	public String getDataArrivo() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		return sdf.format(dataArrivo);
+		Timestamp ts = Timestamp.valueOf(dataArrivo);
+		return ts.toString();
 	}
 	public void setDataArrivo(String data) {
-		dataArrivo = LocalDateTime.parse(data);
+		Timestamp ts = Timestamp.valueOf(data);
+		dataArrivo = ts.toLocalDateTime();
 	}
 }

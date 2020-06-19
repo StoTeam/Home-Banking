@@ -70,15 +70,17 @@ public class UtenteDao {
 		return id;
 	}
 	public static void removeUtente(Connection c, int id) {
-		String deleteU = "DELETE FROM utente WHERE id = " + id;
+		String deleteU = "DELETE FROM utente WHERE id = ?";
 		int idInt = UtenteDao.getUtente(c, id).getIdIntestatario();
-		String deleteI = "DELETE FROM intestatario WHERE id = " + idInt;
+		String deleteI = "DELETE FROM intestatario WHERE id = ?";
 		PreparedStatement ps = null;
 		PreparedStatement psI = null;
 		try {
 			ps = c.prepareStatement(deleteU);
+			ps.setInt(1, id);
 			ps.execute();
 			psI = c.prepareStatement(deleteI);
+			psI.setInt(1, idInt);
 			psI.execute();
 			System.out.println("Utente eliminato");
 		} catch(SQLException e) {

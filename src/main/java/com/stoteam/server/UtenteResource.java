@@ -2,14 +2,20 @@ package com.stoteam.server;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.CompletableFuture;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.server.ManagedAsync;
+
 import com.stoteam.attori.*;
 import com.stoteam.dao.DbConnection;
 import com.stoteam.dao.UtenteDao;
@@ -18,17 +24,18 @@ import com.stoteam.dao.UtenteDao;
 public class UtenteResource {
 	
 	@POST
+	@ManagedAsync
 	@Produces("application/json")
-	public Response createUser(Utente utente) {
-		Connection c = DbConnection.Connect();
-		UtenteDao.UpUtente(c, utente);
-		try {
-			c.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return Response.status(418).build();
-		}
-		return Response.status(200).entity(utente.toJson()).build();
+	public void createUser(Utente utente, @Suspended final AsyncResponse ar) {
+		CompletableFuture fut = CompletableFuture.runAsync(() -> {
+			Connection c = DbConnection.Connect();
+			UtenteDao.UpUtente(c, utente);
+			try {
+				c.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}).thenApply(res -> ar.resume(Response.status(200).build()));
 	}
 	
 	@POST

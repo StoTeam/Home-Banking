@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.stoteam.attori.Utente;
 import com.stoteam.conto.Conto;
+import com.stoteam.dao.ContoDao;
 import com.stoteam.dao.DbConnection;
 import com.stoteam.dao.GeneralDao;
 import com.stoteam.dao.MovimentoDao;
@@ -24,21 +25,30 @@ public class TestMovimentoDao {
         // given
         String tipoMovimento = "bonifico";
         double importo = 1000;
-        String conto = "00A000d0F";
-    	String dataEsecuzione = "01/01/2020";
-    	Conto mittente = new Conto("Ciccio", dataEsecuzione, null, importo);
-    	Conto destinatario = new Conto ("Franco", dataEsecuzione, null, importo);
+        Utente u1 = new Utente("ablabaa", "sdasdwasdawdas", "00000000000", "jjjjjj@eeeee.ee", "xxxxxxxxxxxx", 1, "via velletri", "ADFXCV93C32H501L");
+        Utente u2 = new Utente("grhease", "thgsdfadfawdad", "00000011111", "qqqqqq@eeeee.ee", "xxxxxxxxxxxx", 1, "via velletri", "AGXXCV93C32H666L");
+        Conto mittente = new Conto("Ciccia", "AAACCCVVVBBBB", u1, importo);
+    	Conto destinatario = new Conto ("Franca", "AAACCCRRRTTTT", u2, importo);
     	String causale = "stipendio";
     	
         Bonifico bonifico = new Bonifico(importo, mittente, tipoMovimento, destinatario, causale);
         
         // then
         Connection c = DbConnection.Connect();
+        UtenteDao.UpUtente(c, u1);
+        UtenteDao.UpUtente(c, u2);
+        ContoDao.UpConto(c, mittente);
+        ContoDao.UpConto(c, destinatario);
         MovimentoDao.UpMovimento(c, bonifico);
         Movimento accountDb = MovimentoDao.getMovimento(c, bonifico.getId());
+        System.out.println(bonifico.getId());
         System.out.println(accountDb.toString());
         String result = accountDb.getTipoMovimento();
         MovimentoDao.removeMovimento(c, accountDb.getId());
+        ContoDao.removeConto(c, destinatario.getId());
+        ContoDao.removeConto(c, mittente.getId());
+        UtenteDao.removeUtente(c, u2.getId());
+        UtenteDao.removeUtente(c, u1.getId());
         //System.out.println(result);
         try {
 			c.close();
@@ -48,7 +58,7 @@ public class TestMovimentoDao {
 		}
         
         // expect
-        assertEquals(conto, result, "Conto must be the same");
+        assertEquals(tipoMovimento, result, "tipo movimento must be the same");
     }
 //	@Test
 //	void test_editName() {

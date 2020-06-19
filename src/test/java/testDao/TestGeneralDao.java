@@ -88,7 +88,7 @@ class TestGeneralDao {
     	String telefono = "000000111";
     	String email = "mel@doea.it";
     	String password = "aaablablabla";
-    	String indirizzo = "via le mani dal culo, 69";
+    	String indirizzo = "via le mani dal naso, 69";
     	String ragioneSociale = "BBBfffZ00B00H000L";
     	String pIva = "01234567891";
     	int tipoUtente = 1;
