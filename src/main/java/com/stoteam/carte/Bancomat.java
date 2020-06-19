@@ -7,7 +7,7 @@ import com.stoteam.conto.Conto;
 
 public class Bancomat {
 
-	private int id;
+	private int id = 0;
 	private int contoId;
 	private boolean isBlock;
 	private Conto utente;

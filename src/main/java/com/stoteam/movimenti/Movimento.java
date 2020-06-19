@@ -1,8 +1,10 @@
 package com.stoteam.movimenti;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import com.stoteam.conto.Conto;
 
@@ -15,7 +17,7 @@ public abstract class Movimento {
 	private LocalDateTime dataEsecuzione;
 	
 	public Movimento(Conto conto, double importo, String tipoMovimento) {
-		this.dataEsecuzione = LocalDateTime.now();
+		this.dataEsecuzione = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		setConto(conto);
 		setImporto(importo);
 		setTipoMovimento(tipoMovimento);
@@ -50,11 +52,12 @@ public abstract class Movimento {
 			this.tipoMovimento = tipoMovimento.trim();
 		}
 	}
-	public String getDataEsecuzione() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		return sdf.format(dataEsecuzione);
+	public Timestamp getDataEsecuzione() {
+		Timestamp ts = Timestamp.valueOf(dataEsecuzione);
+		return ts;
 	}
 	public void setDataEsecuzione(String data) {
-		dataEsecuzione = LocalDateTime.parse(data);
+		Timestamp ts = Timestamp.valueOf(data);
+		dataEsecuzione = ts.toLocalDateTime();
 	}
 }

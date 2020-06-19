@@ -20,7 +20,7 @@ class TestUtenteDao {
         String name = "John";
         String surname = "Doe";
     	String telefono = "000000111";
-    	String email = "john@doea.it";
+    	String email = "john@daaa.it";
     	String password = "aaablablabla";
     	String indirizzo = "via le mani dal naso, 69";
     	String codiceFiscale = "BBBZZZ00B00H000L";

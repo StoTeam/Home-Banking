@@ -10,7 +10,7 @@ public class IntestatarioDao {
 	public static int createIntestatario(Connection c) {
 		String insert = "INSERT INTO intestatario () VALUES ()";
 		PreparedStatement ps = null;
-		String query = "SELECT * FROM intestatario LIMIT 1";
+		String query = "SELECT * FROM intestatario ORDER BY id DESC LIMIT 1";
 		PreparedStatement qry = null;
 		int idInt = 0;
 		try {
