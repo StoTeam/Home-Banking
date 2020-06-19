@@ -1,7 +1,9 @@
 package com.stoteam.server;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +17,6 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.server.ManagedAsync;
-
 import com.stoteam.attori.*;
 import com.stoteam.dao.DbConnection;
 import com.stoteam.dao.UtenteDao;
@@ -80,9 +81,33 @@ public class UtenteResource {
 		return Response.status(400).build();
 	}
 	
+	@GET
+	@Path("{userId}")
+	@Produces("application/json")
+	public Response getUserById(@PathParam("userId") int id){
+		Connection c = DbConnection.Connect();
+		Utente u = UtenteDao.getUtente(c, id);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Response.status(200).entity(u.toJson()).build();		
+	}	
+	
 	@PUT
-	@Path("utenteId")
-	public Response editUtente() {
+	@Path("{userId}")
+	public Response editUtente(@PathParam("userId") int id, Utente newUser) {
+		Connection c = DbConnection.Connect();
+		UtenteDao.updateUtente(c, id, newUser);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
+	
 }
