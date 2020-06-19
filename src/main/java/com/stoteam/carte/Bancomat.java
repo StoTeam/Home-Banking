@@ -1,7 +1,9 @@
 package com.stoteam.carte;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import com.stoteam.conto.Conto;
 
@@ -13,14 +15,14 @@ public class Bancomat {
 	private Conto utente;
 	private double spesaMensile;
 	private String pin;
-	private LocalDate dataRilascio;
-	private LocalDate dataScadenza;
+	private LocalDateTime dataRilascio;
+	private LocalDateTime dataScadenza;
 	private String codSicurezza;
 	
 	public Bancomat(Conto utente, String pin, String codSicurezza) {
 		this.utente = utente;
 		this.pin = pin;
-		this.dataRilascio = LocalDate.now();
+		this.dataRilascio = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		this.dataScadenza = dataRilascio.plusYears(3);
 		this.codSicurezza = codSicurezza;
 	}
@@ -72,16 +74,16 @@ public class Bancomat {
 		if(codSicurezza != null && !codSicurezza.trim().isEmpty())
 			this.codSicurezza = codSicurezza;
 	}
-	public LocalDate getDataScadenza() {
-		return dataScadenza;
+	public Timestamp getDataScadenza() {
+		return Timestamp.valueOf(this.dataScadenza);
 	}
 	public void setDataScadenza(String data) {
-		this.dataScadenza = LocalDate.parse(data);
+		this.dataScadenza = Timestamp.valueOf(data).toLocalDateTime();
 	}
-	public LocalDate getDataRilascio() {
-		return dataRilascio;
+	public Timestamp getDataRilascio() {
+		return Timestamp.valueOf(this.dataRilascio);
 	}
 	public void setDataRilascio(String data) {
-		this.dataRilascio = LocalDate.parse(data);
+		this.dataRilascio = Timestamp.valueOf(data).toLocalDateTime();
 	}
 }
