@@ -23,19 +23,31 @@ import com.stoteam.dao.UtenteDao;
 @Path("/utente")
 public class UtenteResource {
 	
+//	@POST
+//	@ManagedAsync
+//	@Produces("application/json")
+//	public void createUser(Utente utente, @Suspended final AsyncResponse ar) {
+//		CompletableFuture fut = CompletableFuture.runAsync(() -> {
+//			Connection c = DbConnection.Connect();
+//			UtenteDao.UpUtente(c, utente);
+//			try {
+//				c.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}).thenApply(res -> ar.resume(Response.status(200).build()));
+//	}
 	@POST
-	@ManagedAsync
 	@Produces("application/json")
-	public void createUser(Utente utente, @Suspended final AsyncResponse ar) {
-		CompletableFuture fut = CompletableFuture.runAsync(() -> {
-			Connection c = DbConnection.Connect();
-			UtenteDao.UpUtente(c, utente);
-			try {
-				c.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}).thenApply(res -> ar.resume(Response.status(200).build()));
+	public Response createUser(Utente utente) {
+		Connection c = DbConnection.Connect();
+		UtenteDao.UpUtente(c, utente);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return Response.status(200).build();
 	}
 	
 	@POST
@@ -62,7 +74,7 @@ public class UtenteResource {
 	public Response logOut(@Context HttpServletRequest req) {
 		boolean log = Boolean.parseBoolean((String) req.getAttribute("logged"));
 		if(log) {
-			Cookie login = new Cookie("logged", "false");
+			NewCookie login = new NewCookie("logged", "false");
 			return Response.status(200).entity(login).build();	
 		}
 		return Response.status(400).build();
