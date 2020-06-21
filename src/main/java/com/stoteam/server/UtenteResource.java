@@ -1,8 +1,11 @@
 package com.stoteam.server;
 
 import java.lang.reflect.Field;
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
@@ -13,6 +16,7 @@ import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
@@ -23,91 +27,114 @@ import com.stoteam.dao.UtenteDao;
 
 @Path("/utente")
 public class UtenteResource {
+
+	Connection c = DbConnection.Connect();
+	List<NewCookie> cookies = new ArrayList<>();
 	
-//	@POST
-//	@ManagedAsync
-//	@Produces("application/json")
-//	public void createUser(Utente utente, @Suspended final AsyncResponse ar) {
-//		CompletableFuture fut = CompletableFuture.runAsync(() -> {
+	@POST
+	@ManagedAsync
+	@Produces("application/json")
+	public void createUser(Utente utente, @Suspended final AsyncResponse ar) {
+		CompletableFuture<Object> fut = CompletableFuture.runAsync(() -> {
 //			Connection c = DbConnection.Connect();
-//			UtenteDao.UpUtente(c, utente);
+			UtenteDao.UpUtente(c, utente);
 //			try {
 //				c.close();
 //			} catch (SQLException e) {
 //				e.printStackTrace();
 //			}
-//		}).thenApply(res -> ar.resume(Response.status(200).build()));
-//	}
-	@POST
-	@Produces("application/json")
-	public Response createUser(Utente utente) {
-		Connection c = DbConnection.Connect();
-		UtenteDao.UpUtente(c, utente);
-		try {
-			c.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return Response.status(200).build();
+		}).thenApply(res -> ar.resume(Response.seeOther(URI.create("login")).status(200).entity(utente.toJson()).build()));
 	}
-	
 	@POST
 	@Path("login")
+	@ManagedAsync
 	@Produces("application/json")
-	public Response logIn(LoginData ld) {
-		Connection c = DbConnection.Connect();
-		int id = UtenteDao.checkLogUtente(c, ld.getEmail(), ld.getPassword());
-		if(id > 0) {
-			NewCookie login = new NewCookie("logged", "true");
-			return Response.status(200).cookie(login).entity(UtenteDao.getUtente(c, id).toJson()).build();
-		}
-		try {
-			c.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return Response.status(404).build();
+	public synchronized void logIn(LoginData ld, @Suspended final AsyncResponse ar) {
+		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
+//			Connection c = DbConnection.Connect();
+			int id = UtenteDao.checkLogUtente(c, ld.getEmail(), ld.getPassword());
+			if(id > 0) {
+				cookies.add(new NewCookie("logged", "true"));
+				cookies.add(new NewCookie("id", "" + id));
+
+			}
+//			try {
+//				c.close();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("/")).status(200).cookie(cookies.remove(0), cookies.remove(0)).build()));
 	}
-	
+	//.thenApply(res -> ar.resume(Response.seeOther(URI.create("/" + id)).status(200).cookie(login, idAss).build()));
+
 	@GET
 	@Path("logout")
-	public Response logOut(@Context HttpServletRequest req) {
-		boolean log = Boolean.parseBoolean((String) req.getAttribute("logged"));
-		if(log) {
-			NewCookie login = new NewCookie("logged", "false");
-			return Response.status(200).entity(login).build();	
-		}
-		return Response.status(400).build();
+	public void logOut(@CookieParam("logged") Cookie login, @Suspended final AsyncResponse ar) {
+		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
+			boolean log = Boolean.parseBoolean(login.getValue());
+			if(log) {
+//				cookies.add(new NewCookie("logged", "false"));
+				System.out.println("CP TROVATO");	
+			}
+		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("")).status(200).cookie().build()));
 	}
-	
 	@GET
 	@Path("{userId}")
 	@Produces("application/json")
-	public Response getUserById(@PathParam("userId") int id){
-		Connection c = DbConnection.Connect();
-		Utente u = UtenteDao.getUtente(c, id);
-		try {
-			c.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return Response.status(200).entity(u.toJson()).build();		
-	}	
-	
+	public void getUserById(@PathParam("userId") int id, @Suspended final AsyncResponse ar, @CookieParam("id") Cookie idAss, @CookieParam("logged") Cookie logged){
+		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
+			boolean log = Boolean.parseBoolean(logged.getValue());
+			if(log && id == Integer.parseInt(idAss.getValue())) {
+//				Connection c = DbConnection.Connect();
+				Utente u = UtenteDao.getUtente(c, id);
+//				try {
+//					c.close();
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+			}
+		}).thenApply(res -> ar.resume(Response.status(200).build()));
+	}
+
+	@GET
+	@Produces("application/json")
+	public void getUserByCookie(@CookieParam("id") Cookie idAss, @CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar){
+		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {	
+			boolean log = Boolean.parseBoolean(logged.getValue());
+			int id = Integer.parseInt(idAss.getValue());
+			if(log) {
+//				Connection c = DbConnection.Connect();
+				Utente u = UtenteDao.getUtente(c, id);
+//				try {
+//					c.close();
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+			}
+		}).thenApply(res -> ar.resume(Response.status(200).build()));	
+	}
+
 	@PUT
 	@Path("{userId}")
-	public Response editUtente(@PathParam("userId") int id, Utente newUser) {
-		Connection c = DbConnection.Connect();
-		UtenteDao.updateUtente(c, id, newUser);
-		try {
-			c.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	public void editUtente(@PathParam("userId") int id, @CookieParam("logged") Cookie cp, @CookieParam("id") Cookie idAss, @Suspended final AsyncResponse ar, Utente newUser) {
+		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {	
+			boolean log = Boolean.parseBoolean(cp.getValue());
+			if(log && id == Integer.parseInt(idAss.getValue())) {
+//				Connection c = DbConnection.Connect();
+				UtenteDao.updateUtente(c, id, newUser);
+//				try {
+//					c.close();
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+			} else {
+				System.out.println("id non valido");
+			}
+		}).thenApply(res -> ar.resume(Response.status(200).build()));
 	}
-	
+
 }
