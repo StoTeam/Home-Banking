@@ -28,22 +28,21 @@ import com.stoteam.dao.UtenteDao;
 @Path("/utente")
 public class UtenteResource {
 
-	Connection c = DbConnection.Connect();
 	List<NewCookie> cookies = new ArrayList<>();
-	
+
 	@POST
 	@ManagedAsync
 	@Produces("application/json")
 	public void createUser(Utente utente, @Suspended final AsyncResponse ar) {
 		CompletableFuture<Object> fut = CompletableFuture.runAsync(() -> {
-//			Connection c = DbConnection.Connect();
+			Connection c = DbConnection.Connect();
 			UtenteDao.UpUtente(c, utente);
-//			try {
-//				c.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-		}).thenApply(res -> ar.resume(Response.seeOther(URI.create("login")).status(200).entity(utente.toJson()).build()));
+			try {
+				c.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}).thenApply(res -> ar.resume(Response.seeOther(URI.create("login")).status(200).build()));
 	}
 	@POST
 	@Path("login")
@@ -51,22 +50,21 @@ public class UtenteResource {
 	@Produces("application/json")
 	public synchronized void logIn(LoginData ld, @Suspended final AsyncResponse ar) {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
-//			Connection c = DbConnection.Connect();
+			Connection c = DbConnection.Connect();
 			int id = UtenteDao.checkLogUtente(c, ld.getEmail(), ld.getPassword());
 			if(id > 0) {
 				cookies.add(new NewCookie("logged", "true"));
 				cookies.add(new NewCookie("id", "" + id));
 
 			}
-//			try {
-//				c.close();
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			try {
+				c.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("/")).status(200).cookie(cookies.remove(0), cookies.remove(0)).build()));
 	}
-	//.thenApply(res -> ar.resume(Response.seeOther(URI.create("/" + id)).status(200).cookie(login, idAss).build()));
 
 	@GET
 	@Path("logout")
@@ -74,7 +72,7 @@ public class UtenteResource {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
 			boolean log = Boolean.parseBoolean(login.getValue());
 			if(log) {
-//				cookies.add(new NewCookie("logged", "false"));
+				cookies.add(new NewCookie("logged", "false"));
 				System.out.println("CP TROVATO");	
 			}
 		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("")).status(200).cookie().build()));
@@ -86,14 +84,14 @@ public class UtenteResource {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
 			boolean log = Boolean.parseBoolean(logged.getValue());
 			if(log && id == Integer.parseInt(idAss.getValue())) {
-//				Connection c = DbConnection.Connect();
+				Connection c = DbConnection.Connect();
 				Utente u = UtenteDao.getUtente(c, id);
-//				try {
-//					c.close();
-//				} catch (SQLException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				try {
+					c.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).build()));
 	}
@@ -105,14 +103,14 @@ public class UtenteResource {
 			boolean log = Boolean.parseBoolean(logged.getValue());
 			int id = Integer.parseInt(idAss.getValue());
 			if(log) {
-//				Connection c = DbConnection.Connect();
+				Connection c = DbConnection.Connect();
 				Utente u = UtenteDao.getUtente(c, id);
-//				try {
-//					c.close();
-//				} catch (SQLException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				try {
+					c.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).build()));	
 	}
@@ -123,14 +121,14 @@ public class UtenteResource {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {	
 			boolean log = Boolean.parseBoolean(cp.getValue());
 			if(log && id == Integer.parseInt(idAss.getValue())) {
-//				Connection c = DbConnection.Connect();
+				Connection c = DbConnection.Connect();
 				UtenteDao.updateUtente(c, id, newUser);
-//				try {
-//					c.close();
-//				} catch (SQLException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				try {
+					c.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				System.out.println("id non valido");
 			}

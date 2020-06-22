@@ -87,4 +87,21 @@ public class ContoDao {
 		}
 	}
 	
+	public static void updateConto(Connection c, int id, Conto newConto) {
+		Conto contoDB = ContoDao.getConto(c, id);
+		String update = "UPDATE conto SET codice_conto = ?, iban = ?, saldo = ?, saldo_contabile = ? WHERE id = ?";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(update);
+			ps.setString(1, newConto.getCodice());
+			ps.setString(2, newConto.getIban());
+			ps.setDouble(3, newConto.getSaldo());
+			ps.setDouble(4, newConto.getSaldoContabile());
+			ps.setInt(5, id);
+			ps.execute();
+			System.out.println("Conto Aggiornato");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

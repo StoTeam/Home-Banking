@@ -1,6 +1,14 @@
 package com.stoteam.conto;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.json.bind.annotation.JsonbCreator;
+import javax.json.bind.annotation.JsonbProperty;
+
 import com.stoteam.attori.Persona;
+import com.stoteam.dao.DbConnection;
+import com.stoteam.dao.UtenteDao;
 
 public class Conto {
 
@@ -16,6 +24,17 @@ public class Conto {
 		setCodice(codice);
 		setIban(iban);
 		setUtente(utente);
+		setSaldo(saldo);
+		this.saldoContabile = this.saldo;
+	}
+	@JsonbCreator
+	public Conto(@JsonbProperty("codice") String codice,
+				@JsonbProperty("iban") String iban, 
+				@JsonbProperty("idUtente") String idUtente, 
+				@JsonbProperty("saldo") double saldo) {
+		setCodice(codice);
+		setIban(iban);
+		setUtente(idUtente);
 		setSaldo(saldo);
 		this.saldoContabile = this.saldo;
 	}
@@ -40,6 +59,18 @@ public class Conto {
 	public void setUtente(Persona utente) {
 		if(utente != null)
 			this.utente = utente;
+	}
+	public void setUtente(String idUtente) {
+		if(idUtente != null) {
+			Connection c = DbConnection.Connect();
+			UtenteDao.getUtente(c, id);
+			try {
+				c.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	public double getSaldo() {
 		return saldo;
