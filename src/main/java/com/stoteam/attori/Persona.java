@@ -110,5 +110,4 @@ public abstract class Persona {
 		if(indirizzo != null && !indirizzo.trim().isEmpty())
 			this.indirizzo = indirizzo;
 	}
-	
 }

@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.ws.rs.CookieParam;
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.NewCookie;
+
 import com.stoteam.attori.Azienda;
 import com.stoteam.attori.Persona;
 import com.stoteam.attori.Utente;
@@ -12,19 +16,24 @@ import com.stoteam.conto.Conto;
 
 public class ContoDao {
 
-	public static void UpConto(Connection c, Conto co) {
-		int idInt = co.getUtente().getIdIntestatario();
+	public static void UpConto(Connection c, Conto co, int idInt) {
+		System.out.println("Inizializzazione upConto...");
+		System.out.println(co.toString());
+		System.out.println("id intestatario = " + idInt);
 		String insert = "INSERT INTO conto (codice_conto, iban, saldo, saldo_contabile, id_intestatario) VALUES (?, ?, ?, ?, ?);";
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(insert);
+			System.out.println("prepared statement");
 			ps.setString(1, co.getCodice());
 			ps.setString(2, co.getIban());
 			ps.setDouble(3, co.getSaldo());
 			ps.setDouble(4, co.getSaldoContabile());
 			ps.setInt(5, idInt);
 			ps.execute();
+			System.out.println("execute statement");
 			co.setIdIntestatario(idInt);
+			System.out.println("Set Id conto");
 			co.setId(getIdConto(c, co.getCodice()));
 			System.out.println("Conto Salvato");
 		} catch (SQLException e) {

@@ -27,37 +27,44 @@ import com.stoteam.dao.ContoDao;
 import com.stoteam.dao.DbConnection;
 import com.stoteam.dao.UtenteDao;
 
-@Path("/utente/{userId}/conto}")
+@Path("/utente/{idIntestatario}/conto")
 public class ContoResource {
 
 	List<NewCookie> cookies = new ArrayList<>();
-	@PathParam("userId") private int idUtente;
+	@PathParam("idIntestatario") private int idIntestatario;
 
 	@POST
 	@ManagedAsync
 	@Produces("application/json")
-	public void createConto(Conto conto, @CookieParam("id") Cookie idAss, @Suspended final AsyncResponse ar, @CookieParam("logged") Cookie logged) {
+	@Consumes("application/json")
+	public void createConto(Conto conto, @CookieParam("idInt") Cookie idInt, @Suspended final AsyncResponse ar, @CookieParam("logged") Cookie logged) {
 		CompletableFuture<Object> fut = CompletableFuture.runAsync(() -> {
-			boolean log = Boolean.parseBoolean(logged.getValue()) && Integer.parseInt(idAss.getValue()) == idUtente;
+			boolean log = Boolean.parseBoolean(logged.getValue()) && Integer.parseInt(idInt.getValue()) == idIntestatario;
+				System.out.println("verifiche in corso");
 			if(log) {
+				System.out.println("verifiche effettuate");
 				Connection c = DbConnection.Connect();
-				ContoDao.UpConto(c, conto);
+				System.out.println("connesso");
+				ContoDao.UpConto(c, conto, Integer.parseInt(idInt.getValue()));
+				System.out.println("Conto uploadato");
 				try {
 					c.close();
+					System.out.println("connessione chiusa");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
-		}).thenApply(res -> ar.resume(Response.seeOther(URI.create("{contoId}")).status(200).build()));
+		}).thenApply(res -> ar.resume(Response.status(200).build()));
+		System.out.println("Risposta applicata");
 	}
 
 	@GET
 	@Path("{contoId}")
 	@Produces("application/json")
-	public void getContoById(@PathParam("contoId") int contoId, @Suspended final AsyncResponse ar, @CookieParam("id") Cookie idAss, @CookieParam("logged") Cookie logged){
+	public void getContoById(@PathParam("contoId") int contoId, @Suspended final AsyncResponse ar, @CookieParam("idInt") Cookie idInt, @CookieParam("logged") Cookie logged){
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
 			boolean log = Boolean.parseBoolean(logged.getValue());
-			if(log && contoId == Integer.parseInt(idAss.getValue())) {
+			if(log && idIntestatario == Integer.parseInt(idInt.getValue())) {
 				Connection c = DbConnection.Connect();
 				Conto co = ContoDao.getConto(c, contoId);
 				try {
@@ -71,10 +78,10 @@ public class ContoResource {
 	}
 	@PUT
 	@Path("{contoId}")
-	public void editUtente(@PathParam("contoId") int id, @CookieParam("logged") Cookie cp, @CookieParam("id") Cookie idAss, @Suspended final AsyncResponse ar, Conto newConto) {
+	public void editUtente(@PathParam("contoId") int id, @CookieParam("logged") Cookie cp, @CookieParam("idInt") Cookie idInt, @Suspended final AsyncResponse ar, Conto newConto) {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {	
 			boolean log = Boolean.parseBoolean(cp.getValue());
-			if(log && id == Integer.parseInt(idAss.getValue())) {
+			if(log && idIntestatario == Integer.parseInt(idInt.getValue())) {
 				Connection c = DbConnection.Connect();
 				ContoDao.updateConto(c, id, newConto);
 				try {

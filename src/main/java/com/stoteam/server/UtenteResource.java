@@ -51,11 +51,13 @@ public class UtenteResource {
 	public synchronized void logIn(LoginData ld, @Suspended final AsyncResponse ar) {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
 			Connection c = DbConnection.Connect();
-			int id = UtenteDao.checkLogUtente(c, ld.getEmail(), ld.getPassword());
-			if(id > 0) {
+			int[] ids = new int[2];
+			ids[0] = UtenteDao.checkLogUtente(c, ld.getEmail(), ld.getPassword());
+			ids[1] = UtenteDao.getIdIntestatario(c, ids[0]);
+			if(ids[0] > 0) {
 				cookies.add(new NewCookie("logged", "true"));
-				cookies.add(new NewCookie("id", "" + id));
-
+				cookies.add(new NewCookie("id", "" + ids[0]));
+				cookies.add(new NewCookie("idInt", "" + ids[1]));
 			}
 			try {
 				c.close();
@@ -73,9 +75,11 @@ public class UtenteResource {
 			boolean log = Boolean.parseBoolean(login.getValue());
 			if(log) {
 				cookies.add(new NewCookie("logged", "false"));
+				cookies.add(new NewCookie("id", "0"));
+				cookies.add(new NewCookie("idInt", "0"));
 				System.out.println("CP TROVATO");	
 			}
-		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("")).status(200).cookie().build()));
+		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("")).status(200).cookie(cookies.remove(0)).build()));
 	}
 	@GET
 	@Path("{userId}")

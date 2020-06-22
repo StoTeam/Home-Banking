@@ -53,6 +53,24 @@ public class UtenteDao {
 		}
 		return u;
 	}
+	public static int getIdIntestatario(Connection c, int id) {
+		int idInt = 0;
+		String query = "SELECT id_intestatario FROM utente WHERE id = ?;";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(query);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				idInt = rs.getInt("id_intestatario");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return idInt;
+	}
 	public static int getIdUtente(Connection c, String cf) {
 		int id = 0;
 		String query = "SELECT * FROM utente WHERE codice_fiscale = ?;";
