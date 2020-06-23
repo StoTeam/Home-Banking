@@ -40,20 +40,21 @@ public class Prestito {
 		return importo;
 	}
 	public void setImporto(double importo) {
-		if(importo > 0)
+		if(importo >= 0)
 			this.importo = importo;
 	}
 	public double getDovuti() {
 		return dovuti;
 	}
 	public void setDovuti(double dovuti) {
+		if(dovuti >= 0)
 		this.dovuti = dovuti;
 	}
 	public double getPagati() {
 		return pagati;
 	}
 	public void addPagati(double pagati) {
-		if(pagati > 0)
+		if(pagati >= 0)
 			this.pagati += pagati;
 	}
 	public void setPagati(double pagati) {
@@ -63,21 +64,21 @@ public class Prestito {
 		return tan;
 	}
 	public void setTan(double tan) {
-		if(tan > 0)
+		if(tan >= 0)
 			this.tan = tan;
 	}
 	public double getTaeg() {
 		return taeg;
 	}
 	public void setTaeg(double taeg) {
-		if(taeg > 0)
+		if(taeg >= 0)
 			this.taeg = taeg;
 	}
 	public int getTempo() {
 		return tempo;
 	}
 	public void setTempo(int tempo) {
-		if(tempo > 0)
+		if(tempo >= 0)
 			this.tempo = tempo;
 	}
 	public boolean isFisso() {

@@ -23,11 +23,11 @@ public class Azienda extends Persona {
 		return pIva;
 	}
 	public void setpIva(String pIva) {
-		/*
+		
 		boolean reg = pIva.matches("p{Digit}{11}");
-		if(reg) {*/
+		if(reg) {
 			this.pIva = pIva;
-		//}
+		}
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class Azienda extends Persona {
 		return "Azienda [ragioneSociale=" + ragioneSociale + ", pIva=" + pIva + ", getIdIntestatario()="
 				+ getIdIntestatario() + ", getId()=" + getId() + ", getNome()=" + getNome() + ", getCognome()="
 				+ getCognome() + ", getTelefono()=" + getTelefono() + ", getEmail()=" + getEmail() + ", getPassword()="
-				+ getPassword() + ", isAuth()=" + isAuth() + ", getReputazione()=" + getReputazione()
+				+ getPassword() + ", isAuth()=" + isAuth()
 				+ ", getTipoUtente()=" + getTipoUtente() + ", getIndirizzo()=" + getIndirizzo() + ", getClass()="
 				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}

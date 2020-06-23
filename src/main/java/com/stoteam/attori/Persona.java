@@ -10,7 +10,6 @@ public abstract class Persona {
 	private String password;
 	private String indirizzo;
 	private boolean auth;
-	private int reputazione;
 	private int tipoUtente;
 	private int idIntestatario;
 	
@@ -89,12 +88,6 @@ public abstract class Persona {
 	}
 	public void setAuth(boolean auth) {
 		this.auth = auth;
-	}
-	public int getReputazione() {
-		return reputazione;
-	}
-	public void setReputazione(int reputazione) {
-		this.reputazione = reputazione;
 	}
 	public int getTipoUtente() {
 		return tipoUtente;
