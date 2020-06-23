@@ -2,9 +2,11 @@ package com.stoteam.carte;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
@@ -31,7 +33,7 @@ public class Bancomat {
 	public Bancomat(Conto conto, String pin, String codSicurezza) {
 		this.conto = conto;
 		this.pin = pin;
-		this.dataRilascio = LocalDateTime.now();
+		this.dataRilascio = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		this.dataScadenza = dataRilascio.plusYears(3);
 		this.codSicurezza = codSicurezza;
 	}
@@ -114,5 +116,6 @@ public class Bancomat {
 	}
 	public void setDataRilascio(Timestamp data) {
 		this.dataRilascio = data.toLocalDateTime();
+
 	}
 }
