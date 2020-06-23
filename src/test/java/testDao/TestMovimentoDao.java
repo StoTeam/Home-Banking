@@ -37,8 +37,8 @@ public class TestMovimentoDao {
         Connection c = DbConnection.Connect();
         UtenteDao.UpUtente(c, u1);
         UtenteDao.UpUtente(c, u2);
-        ContoDao.UpConto(c, mittente);
-        ContoDao.UpConto(c, destinatario);
+        ContoDao.UpConto(c, mittente, u1.getIdIntestatario());
+        ContoDao.UpConto(c, destinatario, u2.getIdIntestatario());
         MovimentoDao.UpMovimento(c, bonifico);
         Movimento accountDb = MovimentoDao.getMovimento(c, bonifico.getId());
         System.out.println(bonifico.getId());

@@ -1,22 +1,19 @@
 package com.stoteam.server;
 
-import java.lang.reflect.Field;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
@@ -27,9 +24,11 @@ import com.stoteam.dao.UtenteDao;
 
 @Path("/utente")
 public class UtenteResource {
-
-	List<NewCookie> cookies = new ArrayList<>();
-
+	
+	Map<String, Utente> users = new HashMap<>();
+	Map<String, NewCookie> cookies = new HashMap<>();
+	@Context HttpServletRequest req;
+	
 	@POST
 	@ManagedAsync
 	@Produces("application/json")
@@ -42,7 +41,7 @@ public class UtenteResource {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}).thenApply(res -> ar.resume(Response.seeOther(URI.create("login")).status(200).build()));
+		}).thenApply(res -> ar.resume(Response.status(200).build()));
 	}
 	@POST
 	@Path("login")
@@ -55,9 +54,10 @@ public class UtenteResource {
 			ids[0] = UtenteDao.checkLogUtente(c, ld.getEmail(), ld.getPassword());
 			ids[1] = UtenteDao.getIdIntestatario(c, ids[0]);
 			if(ids[0] > 0) {
-				cookies.add(new NewCookie("logged", "true"));
-				cookies.add(new NewCookie("id", "" + ids[0]));
-				cookies.add(new NewCookie("idInt", "" + ids[1]));
+				cookies.put(req.getRemoteAddr(), new NewCookie("logged", "true " + ids[0] + " " + ids[1]));
+//				cookies.put(req.getRemoteAddr() + "_1", new NewCookie("id", "" + ids[0]));
+//				cookies.put(req.getRemoteAddr() + "_2", new NewCookie("idInt", "" + ids[1]));
+				users.put(req.getRemoteAddr(), UtenteDao.getUtente(c, ids[0]));
 			}
 			try {
 				c.close();
@@ -65,7 +65,7 @@ public class UtenteResource {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("/")).status(200).cookie(cookies.remove(0), cookies.remove(0)).build()));
+		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("" + users.get(req.getRemoteAddr()).getId())).status(200).cookie(cookies.remove(req.getRemoteAddr())).build()));
 	}
 
 	@GET
@@ -74,22 +74,24 @@ public class UtenteResource {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
 			boolean log = Boolean.parseBoolean(login.getValue());
 			if(log) {
-				cookies.add(new NewCookie("logged", "false"));
-				cookies.add(new NewCookie("id", "0"));
-				cookies.add(new NewCookie("idInt", "0"));
+				cookies.put(req.getRemoteAddr(), new NewCookie("logged", "false 0 0"));
+//				cookies.add(new NewCookie("id", "0"));
+//				cookies.add(new NewCookie("idInt", "0"));
 				System.out.println("CP TROVATO");	
 			}
-		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("")).status(200).cookie(cookies.remove(0)).build()));
+		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("")).status(200).cookie(cookies.remove(req.getRemoteAddr())).build()));
 	}
 	@GET
 	@Path("{userId}")
 	@Produces("application/json")
-	public void getUserById(@PathParam("userId") int id, @Suspended final AsyncResponse ar, @CookieParam("id") Cookie idAss, @CookieParam("logged") Cookie logged){
+	public void getUserById(@PathParam("userId") int id, @Suspended final AsyncResponse ar, @CookieParam("logged") Cookie logged){
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
-			boolean log = Boolean.parseBoolean(logged.getValue());
-			if(log && id == Integer.parseInt(idAss.getValue())) {
+			String[] cookieArr = logged.getValue().split(" ");
+			boolean log = Boolean.parseBoolean(cookieArr[0]);
+			if(log && id == Integer.parseInt(cookieArr[1])) {
 				Connection c = DbConnection.Connect();
 				Utente u = UtenteDao.getUtente(c, id);
+				users.put(req.getRemoteAddr(), u);
 				try {
 					c.close();
 				} catch (SQLException e) {
@@ -97,18 +99,22 @@ public class UtenteResource {
 					e.printStackTrace();
 				}
 			}
-		}).thenApply(res -> ar.resume(Response.status(200).build()));
+		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));
 	}
 
 	@GET
 	@Produces("application/json")
-	public void getUserByCookie(@CookieParam("id") Cookie idAss, @CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar){
-		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {	
-			boolean log = Boolean.parseBoolean(logged.getValue());
-			int id = Integer.parseInt(idAss.getValue());
+	public void getUserByCookie(@CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar){
+		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
+			System.out.println(req.getRemoteAddr());
+			String[] cookieArr = logged.getValue().split(" ");
+			boolean log = Boolean.parseBoolean(cookieArr[0]);
+			int id = Integer.parseInt(cookieArr[1]);
 			if(log) {
 				Connection c = DbConnection.Connect();
 				Utente u = UtenteDao.getUtente(c, id);
+				users.put(req.getRemoteAddr(), u);
+				System.out.println("id: " + req.getRemoteAddr());
 				try {
 					c.close();
 				} catch (SQLException e) {
@@ -116,17 +122,19 @@ public class UtenteResource {
 					e.printStackTrace();
 				}
 			}
-		}).thenApply(res -> ar.resume(Response.status(200).build()));	
+		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));	
 	}
 
 	@PUT
 	@Path("{userId}")
-	public void editUtente(@PathParam("userId") int id, @CookieParam("logged") Cookie cp, @CookieParam("id") Cookie idAss, @Suspended final AsyncResponse ar, Utente newUser) {
-		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {	
-			boolean log = Boolean.parseBoolean(cp.getValue());
-			if(log && id == Integer.parseInt(idAss.getValue())) {
+	public void editUtente(@PathParam("userId") int id, @CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar, Utente newUser) {
+		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
+			String[] cookieArr = logged.getValue().split(" ");
+			boolean log = Boolean.parseBoolean(cookieArr[0]);
+			if(log && id == Integer.parseInt(cookieArr[1])) {
 				Connection c = DbConnection.Connect();
 				UtenteDao.updateUtente(c, id, newUser);
+				users.put(req.getRemoteAddr(), newUser);
 				try {
 					c.close();
 				} catch (SQLException e) {
@@ -136,7 +144,7 @@ public class UtenteResource {
 			} else {
 				System.out.println("id non valido");
 			}
-		}).thenApply(res -> ar.resume(Response.status(200).build()));
+		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));
 	}
 
 }
