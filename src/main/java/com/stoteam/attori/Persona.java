@@ -1,3 +1,18 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+
+@param nome - Nome Cliente
+@param cognome - Cognome Cliente
+@param telefono - Recapito Telefonico Cliente
+@param email - Indirizzo Email Cliente
+@param password - Password accesso Cliente
+@param tipoUtente - Tipologia Utente
+@param indirizzo - Indirizzo Cliente
+@param ragioneSociale - Ragione Sociale Azienda
+@param pIva - Partita IVA Azienda
+*/
+
 package com.stoteam.attori;
 
 public abstract class Persona {
@@ -22,16 +37,38 @@ public abstract class Persona {
 		setTipoUtente(tipoUtente);
 		setIndirizzo(indirizzo);
 	}
-
+	
+	/**
+ * @param getIdIntestatario - Ottiene l'ID intestatario
+ * @return ID intestatario
+ */
+	
 	public int getIdIntestatario() {
 		return idIntestatario;
 	}
+	
+/**
+ * @param setIdIntestatario - Imposta l'ID intestatario
+ * @return ID intestatario
+ */
+	
 	public void setIdIntestatario(int id_intestatario) {
 		this.idIntestatario = id_intestatario;
 	}
+	
+	/**
+	 * @param setId - Imposta l'ID
+	 * @return ID
+	 */
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	/**
+	 * @param getId - Ottiene l'ID
+	 * @return ID
+	 */
 	public int getId() {
 		return this.id;
 	}
