@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
@@ -72,7 +71,8 @@ public class UtenteResource {
 	@Path("logout")
 	public void logOut(@CookieParam("logged") Cookie login, @Suspended final AsyncResponse ar) {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
-			boolean log = Boolean.parseBoolean(login.getValue());
+			String[] cookieArr = login.getValue().split(" ");
+			boolean log = Boolean.parseBoolean(cookieArr[0]);
 			if(log) {
 				cookies.put(req.getRemoteAddr(), new NewCookie("logged", "false 0 0"));
 //				cookies.add(new NewCookie("id", "0"));
