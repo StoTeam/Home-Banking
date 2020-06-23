@@ -35,6 +35,7 @@ public class PrestitoDao {
 			ps.setInt(12, prestito.getConto().getId());
 			ps.execute();
 			prestito.setId(getIdPrestito(c, prestito.getConto().getId(), prestito.getDataInizio()));
+			System.out.println(prestito.getId() + "prestito.getId");
 			System.out.println("Prestito Salvato");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -69,17 +70,21 @@ public class PrestitoDao {
 	}
 	return prestito;
 }
+	
 public static int getIdPrestito(Connection c, int contoId, Timestamp dataInizio) {
+	System.out.println(dataInizio.toString() + "dataInizio - " + contoId + " contoId" );
 	int id = 0;
-	String query = "SELECT * FROM prestito WHERE conto_id = ? AND data_inizio = ?;";
+	String query = "SELECT id FROM prestito WHERE conto_id = ? AND data_inizio = ?;";
 	PreparedStatement ps = null;
 	try {
 		ps = c.prepareStatement(query);
 		ps.setInt(1, contoId);
 		ps.setTimestamp(2, dataInizio);
 		ResultSet rs = ps.executeQuery();
+		System.out.println("executeQuery");
 		if(rs.next())
 			id = rs.getInt("id");
+		System.out.println("id=" + id);
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

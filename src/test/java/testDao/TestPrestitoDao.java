@@ -36,10 +36,12 @@ class TestPrestitoDao {
         // then
         Connection c = DbConnection.Connect();
         UtenteDao.UpUtente(c, u1);
-        ContoDao.UpConto(c, conto);
+        ContoDao.UpConto(c, conto, u1.getIdIntestatario());
         PrestitoDao.UpPrestito(c, prestito);
+        System.out.println(prestito.getId() + "a");
+        System.out.println(prestito.getConto().getId() + "conto id");
         Prestito accountDb = PrestitoDao.getPrestito(c, prestito.getId());
-        System.out.println(prestito.getId());
+        System.out.println(prestito.getId() + "b");
         System.out.println(accountDb.toString());
         double result = accountDb.getImporto();
         PrestitoDao.removePrestito(c, accountDb.getId());

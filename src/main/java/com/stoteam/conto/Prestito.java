@@ -2,6 +2,7 @@ package com.stoteam.conto;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import com.stoteam.attori.Persona;
 
@@ -30,7 +31,7 @@ public class Prestito {
 		setTempo(tempo);
 		setFisso(isFisso);
 		setConto(conto);
-		this.dataInizio = LocalDateTime.now();
+		this.dataInizio = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		this.dataFine = dataInizio.plusYears(tempo);
 		this.dataRata = dataInizio.plusMonths(1);
 	}

@@ -18,9 +18,9 @@ public class DbConnection {
 	public static synchronized Connection Connect() {
 		MysqlDataSource dataSource = new MysqlDataSource();
 		dataSource.setUser("root");
-		dataSource.setPassword("gianluca");
+		dataSource.setPassword("F_3*phz?=M");
 		dataSource.setServerName("localhost");
-		dataSource.setDatabaseName("stabanca!");
+		dataSource.setDatabaseName("dbhome");
 		try {
 			return dataSource.getConnection();
 		} catch (SQLException e) {			// TODO Auto-generated catch block
