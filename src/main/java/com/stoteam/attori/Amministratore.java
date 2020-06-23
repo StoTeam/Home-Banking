@@ -6,8 +6,6 @@ import java.util.List;
 
 public class Amministratore extends Persona {
 
-	
-	//cambiare con ENUM
 	private String livelloAccesso;
 	private List<String> areaCompetenza = new ArrayList<>();
 	

@@ -36,7 +36,7 @@ public class Utente extends Persona {
 		if(reg) {
 			this.codiceFiscale = codiceFiscale;
 		} else {
-			throw new IllegalArgumentException(codiceFiscale + " Non � un codice fiscale valido");
+			throw new IllegalArgumentException(codiceFiscale + " Non è un codice fiscale valido");
 		}
 	}
 

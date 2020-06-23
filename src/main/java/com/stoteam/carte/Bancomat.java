@@ -58,7 +58,8 @@ public class Bancomat {
 		return this.contoId;
 	}
 	public void setContoId(int contoId) {
-		this.contoId = contoId;
+		if(contoId>0)
+			this.contoId = contoId;
 	}
 	public boolean isBlock() {
 		return isBlock;
@@ -77,7 +78,6 @@ public class Bancomat {
 			try {
 				c.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}		
@@ -86,6 +86,7 @@ public class Bancomat {
 		return spesaMensile;
 	}
 	public void setSpesaMensile(double spesa) {
+		if(spesa >= 0)
 		this.spesaMensile = spesa;
 	}
 	public void addSpesaMensile(double spesa) {

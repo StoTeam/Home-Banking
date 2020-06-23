@@ -48,15 +48,16 @@ public class Conto {
 		return codice;
 	}
 	public void setCodice(String codice) {
-		this.codice = codice;
+		if(codice != null && codice.trim().length() > 0)
+			this.codice = codice;
 	}
 	public String getIban() {
 		return iban;
 	}
 	public void setIban(String iban) {
 		iban = iban.toUpperCase();
-		//boolean reg = iban.matches("^(IT)[0-9]{2}[A-Z][0-9]{10}[0-9A-Z]{12}$");
-		//if(reg)
+		boolean reg = iban.matches("^(IT)[0-9]{2}[A-Z][0-9]{10}[0-9A-Z]{12}$");
+		if(reg)
 			this.iban = iban;
 	}
 	public Utente getUtente() {
@@ -83,12 +84,14 @@ public class Conto {
 		return saldo;
 	}
 	public void setSaldo(double saldo) {
-		this.saldo = saldo;
+		if(saldo >= 0)
+			this.saldo = saldo;
 	}
 	public double getSaldoContabile() {
 		return this.saldoContabile;
 	}
 	public void setIdIntestatario(int idInt) {
+		if (idInt > 0)
 		this.idIntestatario = idInt;
 	}
 	public void setId(int id) {
