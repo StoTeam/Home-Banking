@@ -16,13 +16,14 @@ public class CCredito extends Bancomat{
 		return limite;
 	}
 	public void setLimite(double limite) {
-		if(limite > 0)
+		if(limite >= 0)
 			this.limite = limite;
 	}
 	public double getDisponibilita() {
 		return disponibilita;
 	}
 	public void setDisponibilita(double disponibilita) {
+		if(disponibilita >= 0)
 		this.disponibilita = disponibilita;
 	}
 	public boolean isUsoPin() {

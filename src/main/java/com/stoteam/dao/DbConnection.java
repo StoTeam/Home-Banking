@@ -18,32 +18,33 @@ public class DbConnection {
 	public static synchronized Connection Connect() {
 		MysqlDataSource dataSource = new MysqlDataSource();
 		dataSource.setUser("root");
-		dataSource.setPassword("gianluca");
+		dataSource.setPassword("F_3*phz?=M");
 		dataSource.setServerName("localhost");
-		dataSource.setDatabaseName("stabanca!");
+		dataSource.setDatabaseName("dbhome");
 		try {
 			return dataSource.getConnection();
 		} catch (SQLException e) {			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			return null;
 		}
-		
-//		try {
-//			conn = DriverManager.getConnection("jdbc:mysql://localhost/stabanca!?user=root&password=gianluca");
-//			System.out.println("Connesso al DB");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return conn;
+
+		//		try {
+		//			conn = DriverManager.getConnection("jdbc:mysql://localhost/stabanca!?user=root&password=gianluca");
+		//			System.out.println("Connesso al DB");
+		//		} catch (SQLException e) {
+		//			e.printStackTrace();
+		//		}
+		//		return conn;
 	}	
-	
-//	public static void closeConnect() {
-//		try {
-//			conn.close();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-	
+
+	//	public static void closeConnect() {
+	//		try {
+	//			conn.close();
+	//		} catch (SQLException e) {
+	//			// TODO Auto-generated catch block
+	//			e.printStackTrace();
+	//		}
+	//	}
+
 }

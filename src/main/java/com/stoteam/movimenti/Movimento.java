@@ -33,10 +33,9 @@ public abstract class Movimento {
 		return importo;
 	}
 	public void setImporto(double importo) {
-		if(importo > 0);
+		if(importo >= 0);
 			this.importo = importo;
 	}
-	
 	public Conto getConto() {
 		return conto;
 	}
