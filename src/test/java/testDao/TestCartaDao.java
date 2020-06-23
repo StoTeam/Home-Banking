@@ -32,12 +32,12 @@ public class TestCartaDao {
         // then
         Connection c = DbConnection.Connect();
         UtenteDao.UpUtente(c, u);
-        ContoDao.UpConto(c, conto);
+        ContoDao.UpConto(c, conto, u.getIdIntestatario());
         CartaDao.UpCarta(c, bancomat);
         Bancomat cartaDb = CartaDao.getCarta(c, bancomat.getId());
         System.out.println(cartaDb.toString());
         String result = cartaDb.getCodSicurezza();
-        CartaDao.removeBancomat(c, cartaDb.getId());
+        CartaDao.removeCarta(c, cartaDb.getId());
         ContoDao.removeConto(c, conto.getId());
         UtenteDao.removeUtente(c, u.getId());
         //System.out.println(result);
