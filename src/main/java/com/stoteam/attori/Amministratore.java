@@ -22,19 +22,19 @@ public class Amministratore extends Persona {
 	
 	}
 	
-/**
- * @param getLivelloAccesso - Ottiene il livello di accesso
- * @return Livello di Accesso in formato String
- */
+	/**
+	 * @param getLivelloAccesso - Ottiene il livello di accesso
+	 * @return Livello di Accesso in formato String
+	 */
 	
 	public String getLivelloAccesso() {
 		return livelloAccesso;
 	}
 
-/**
-* @param toCSV - Trasforma le stringhe in CSV
-* @return 
-*/
+	/**
+	* @param toCSV - Trasforma le stringhe in CSV
+	* @return 
+	*/
 	
 	public String toCSV() {
 		StringBuilder sb = new StringBuilder();
@@ -54,20 +54,20 @@ public class Amministratore extends Persona {
 		return l;
 	}
 	
-/**
-* @param setAreaCompetenza - Imposta area di competenza utente
-* @return Area di competenza
-*/
+	/**
+	* @param setAreaCompetenza - Imposta area di competenza utente
+	* @return Area di competenza
+	*/
 	
 	public void setAreaCompetenza(List<String> areaCompetenza) {
 		this.areaCompetenza = areaCompetenza;
 		
 	}
 
-/**
-* @param setLivelloAccesso - Imposta Livello Accesso Utente
-* @return Livello Accesso
-*/
+	/**
+	* @param setLivelloAccesso - Imposta Livello Accesso Utente
+	* @return Livello Accesso
+	*/
 	
 	public void setLivelloAccesso(String livelloAccesso) {
 		this.livelloAccesso = livelloAccesso;
@@ -78,13 +78,4 @@ public class Amministratore extends Persona {
 	public String toString() {
 		return "Amministratore [livelloAccesso=" + livelloAccesso + ", areaCompetenza=" + toCSV() + "]";
 	}
-
-	
-	
-	
-
-
-	
-	
-
 }
