@@ -25,7 +25,7 @@ public class Conto {
 	private Persona utente;
 	private double saldo;
 	private double saldoContabile;
-	
+
 	public Conto(String codice, String iban, Persona utente, double saldo) {
 		setCodice(codice);
 		setIban(iban);
@@ -35,9 +35,9 @@ public class Conto {
 	}
 	@JsonbCreator
 	public Conto(@JsonbProperty("codice") String codice,
-				@JsonbProperty("iban") String iban, 
-				@JsonbProperty("idIntestatario") int idIntestatario, 
-				@JsonbProperty("saldo") double saldo) {
+			@JsonbProperty("iban") String iban, 
+			@JsonbProperty("idIntestatario") int idIntestatario, 
+			@JsonbProperty("saldo") double saldo) {
 		setCodice(codice);
 		setIban(iban);
 		setUtente(idIntestatario);
@@ -57,7 +57,7 @@ public class Conto {
 		iban = iban.toUpperCase();
 		//boolean reg = iban.matches("^(IT)[0-9]{2}[A-Z][0-9]{10}[0-9A-Z]{12}$");
 		//if(reg)
-			this.iban = iban;
+		this.iban = iban;
 	}
 	public Utente getUtente() {
 		return (Utente) utente;
@@ -99,12 +99,12 @@ public class Conto {
 	}
 	public String toJson() {
 		JsonbConfig config = new JsonbConfig().withPropertyVisibilityStrategy(new PropertyVisibilityStrategy() {
-			
+
 			@Override
 			public boolean isVisible(Method arg0) {
 				return false;
 			}
-			
+
 			@Override
 			public boolean isVisible(Field arg0) {
 				return true;
@@ -117,5 +117,5 @@ public class Conto {
 		return "Conto [id=" + id + ", idIntestatario=" + idIntestatario + ", codice=" + codice + ", iban=" + iban
 				+ ", utente=" + utente + ", saldo=" + saldo + ", saldoContabile=" + saldoContabile + "]";
 	}
-	
+
 }

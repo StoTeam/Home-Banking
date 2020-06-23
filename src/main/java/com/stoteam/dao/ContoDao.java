@@ -82,7 +82,7 @@ public class ContoDao {
 		}
 		return id;
 	}
-	
+
 	public static void removeConto(Connection c, int id) {
 		String deleteU = "DELETE FROM conto WHERE id = ?";
 		PreparedStatement ps = null;
@@ -95,7 +95,7 @@ public class ContoDao {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void updateConto(Connection c, int id, Conto newConto) {
 		Conto contoDB = ContoDao.getConto(c, id);
 		String update = "UPDATE conto SET codice_conto = ?, iban = ?, saldo = ?, saldo_contabile = ? WHERE id = ?";
