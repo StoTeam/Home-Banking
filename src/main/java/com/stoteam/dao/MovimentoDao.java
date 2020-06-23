@@ -34,7 +34,7 @@ public class MovimentoDao {
 			if(m instanceof Bonifico) {
 				Bonifico b = (Bonifico) m;
 				ps.setInt(5, b.getDestinatario().getId());
-				ps.setString(6, b.getDataArrivo());
+				ps.setTimestamp(6, b.getDataArrivo());
 				ps.setString(7, b.getCausale());
 				ps.setNull(8, java.sql.Types.INTEGER);
 			} else if(m instanceof Pagamento) {
@@ -70,7 +70,7 @@ public class MovimentoDao {
 					((Bonifico) m).setDataArrivo(rs.getString("data_arrivo"));
 				} else if(tipoMovimento.equals("pagamento")) {
 					Conto destinatario = ContoDao.getConto(c, rs.getInt("conto_id_d"));
-					//m = new Pagamento(mittente, rs.getDouble("importo"), "pagamento", destinatario,  *carta.getId()*);
+					m = new Pagamento(mittente, rs.getDouble("importo"), "pagamento", destinatario,  CartaDao.getCarta(c, rs.getInt("carta_id")));
 				} else if(tipoMovimento.equals("deposito")) {
 					m = new Deposito(mittente, tipoMovimento, rs.getDouble("importo"));
 				} else if(tipoMovimento.equals("prelievo")) {

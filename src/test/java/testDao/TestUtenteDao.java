@@ -15,7 +15,7 @@ import com.stoteam.dao.UtenteDao;
 class TestUtenteDao {
 
 	@Test
-	void test_getName() {
+	void test_getName() throws SQLException {
         // given
         String name = "John";
         String surname = "Doe";
@@ -46,7 +46,7 @@ class TestUtenteDao {
         assertEquals(name, result, "The name must be the same");
     }
 	@Test
-	void test_editName() {
+	void test_editName() throws SQLException {
         // given
         String name = "John";
         String surname = "Doe";

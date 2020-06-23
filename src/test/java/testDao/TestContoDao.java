@@ -28,7 +28,7 @@ class TestContoDao {
 		// then
 		Connection c = DbConnection.Connect();
 		UtenteDao.UpUtente(c, u);
-		ContoDao.UpConto(c, conto);
+		ContoDao.UpConto(c, conto, u.getIdIntestatario());
 		Conto contoDb = ContoDao.getConto(c, conto.getId());
 		System.out.println(contoDb.toString());
 		String result = contoDb.getCodice();

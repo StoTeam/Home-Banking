@@ -53,6 +53,24 @@ public class UtenteDao {
 		}
 		return u;
 	}
+	public static int getIdIntestatario(Connection c, int id) {
+		int idInt = 0;
+		String query = "SELECT id_intestatario FROM utente WHERE id = ?;";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(query);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				idInt = rs.getInt("id_intestatario");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return idInt;
+	}
 	public static int getIdUtente(Connection c, String cf) {
 		int id = 0;
 		String query = "SELECT * FROM utente WHERE codice_fiscale = ?;";
@@ -104,6 +122,26 @@ public class UtenteDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
+		}
+	}
+	public static void updateUtente(Connection c, int id, Utente newUser) {
+		Utente utenteDB = UtenteDao.getUtente(c, id);
+		String update = "UPDATE utente SET nome = ?, cognome = ?, telefono = ?, email = ?, pass = ?, indirizzo = ?, codice_fiscale = ? WHERE id = ?";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(update);
+			ps.setString(1, newUser.getNome());
+			ps.setString(2, newUser.getCognome());
+			ps.setString(3, newUser.getTelefono());
+			ps.setString(4, newUser.getEmail());
+			ps.setString(5, newUser.getPassword());
+			ps.setString(6, newUser.getIndirizzo());
+			ps.setString(7, newUser.getCodiceFiscale());
+			ps.setInt(8, utenteDB.getId());
+			ps.execute();
+			System.out.println("Utente Aggiornato");
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }
