@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import com.stoteam.attori.Utente;
 import com.stoteam.carte.Bancomat;
 import com.stoteam.carte.CCredito;
 
@@ -22,7 +23,8 @@ public class CartaDao {
 			ps.setTimestamp(4, b.getDataScadenza());
 			ps.setString(5, b.getCodSicurezza());
 			ps.setString(6, b.getPin());
-			ps.setInt(10, b.getUtente().getId());
+			ps.setInt(10, b.getConto().getId());
+
 			ps.setNull(7, java.sql.Types.DOUBLE);
 			ps.setNull(8, java.sql.Types.DOUBLE);
 			ps.setNull(9, java.sql.Types.BOOLEAN);
@@ -33,7 +35,7 @@ public class CartaDao {
 				ps.setBoolean(9, cc.isUsoPin());
 			}
 			ps.execute();
-			b.setId(getIdCarta(c, b.getUtente().getId(), b.getDataRilascio()));
+			b.setId(getIdCarta(c, b.getConto().getId(), b.getDataRilascio()));
 			System.out.println("Carta Salvata");			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -48,6 +50,7 @@ public class CartaDao {
 			ps = c.prepareStatement(query);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
+
 			rs.next();
 //			rs.getDouble("limite");
 			if(rs.getDouble("limite") == 0){
@@ -59,8 +62,8 @@ public class CartaDao {
 			}
 			b.setId(rs.getInt("id"));
 			b.setContoId(rs.getInt("conto_id"));
-			b.setDataRilascio(rs.getString("data_rilascio"));
-			b.setDataScadenza(rs.getString("data_scadenza"));
+			b.setDataRilascio(rs.getTimestamp("data_rilascio"));
+			b.setDataScadenza(rs.getTimestamp("data_scadenza"));
 			b.setSpesaMensile(rs.getDouble("spesa_mensile"));
 			b.setBlock(rs.getBoolean("is_block"));
 			if(b instanceof CCredito) {
@@ -73,6 +76,33 @@ public class CartaDao {
 			e.printStackTrace();
 		}
 		return b;
+	}
+
+	public static void updateCarta(Connection c, int id, Bancomat newCarta) {
+		Utente utenteDB = UtenteDao.getUtente(c, id);
+		String update = "UPDATE carta SET is_block = ?, spesa_mensile = ?, data_rilascio = ?, data_scadenza = ?, codice_sicurezza = ?, pin = ?, limite = ?, disponibilita = ?, uso_pin = ? WHERE id = ?";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(update);
+			ps.setDouble(2, newCarta.getSpesaMensile());
+			ps.setString(3, newCarta.getDataRilascio().toString());
+			ps.setString(4, newCarta.getDataScadenza().toString());
+			ps.setString(5, newCarta.getCodSicurezza());
+			ps.setString(6, newCarta.getPin());
+			ps.setInt(11, id);
+			ps.setNull(7, java.sql.Types.DOUBLE);
+			ps.setNull(8, java.sql.Types.DOUBLE);
+			ps.setNull(9, java.sql.Types.BOOLEAN);
+			if(newCarta instanceof CCredito) {
+				ps.setDouble(7, ((CCredito) newCarta).getLimite());
+				ps.setDouble(8, ((CCredito) newCarta).getDisponibilita());
+				ps.setBoolean(9, ((CCredito) newCarta).isUsoPin());
+			}
+			ps.execute();
+			System.out.println("Utente Aggiornato");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static int getIdCarta(Connection c, int contoId, Timestamp dataRilascio) {
@@ -95,7 +125,7 @@ public class CartaDao {
 		return id;
 	}
 
-	public static void removeBancomat(Connection c, int id) {
+	public static void removeCarta(Connection c, int id) {
 		String deleteU = "DELETE FROM carta WHERE id = ?";
 		PreparedStatement ps = null;
 		try {
@@ -106,6 +136,5 @@ public class CartaDao {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 }

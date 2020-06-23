@@ -33,9 +33,9 @@ public class Bonifico extends Movimento{
 		if(causale != null && !causale.trim().isEmpty())
 			this.causale = causale;
 	}
-	public String getDataArrivo() {
+	public Timestamp getDataArrivo() {
 		Timestamp ts = Timestamp.valueOf(dataArrivo);
-		return ts.toString();
+		return ts;
 	}
 	public void setDataArrivo(String data) {
 		Timestamp ts = Timestamp.valueOf(data);
