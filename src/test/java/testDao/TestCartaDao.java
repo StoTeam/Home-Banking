@@ -32,7 +32,7 @@ public class TestCartaDao {
         // then
         Connection c = DbConnection.Connect();
         UtenteDao.UpUtente(c, u);
-        ContoDao.UpConto(c, conto, u.getIdIntestatario());
+        ContoDao.UpConto(c, conto, conto.getUtente().getIdIntestatario());
         CartaDao.UpCarta(c, bancomat);
         Bancomat cartaDb = CartaDao.getCarta(c, bancomat.getId());
         System.out.println(cartaDb.toString());
