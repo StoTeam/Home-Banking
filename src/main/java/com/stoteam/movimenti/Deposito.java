@@ -11,4 +11,8 @@ public class Deposito extends Movimento{
 		super(utente, importo, tipoMovimento);
 	}
 	
+	public void aggiungiDenaro(int dep) {
+		 this.importo += dep;
+	}
+	
 }

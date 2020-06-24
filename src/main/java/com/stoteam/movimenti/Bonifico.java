@@ -12,7 +12,7 @@ public class Bonifico extends Movimento{
 	private Conto destinatario;
 	private String causale;
 	private LocalDateTime dataArrivo;
-	
+
 	public Bonifico(double importo, Conto mittente, String tipoMovimento, Conto destinatario, String causale) {
 		super(mittente, importo, tipoMovimento);
 		setDestinatario(destinatario);
@@ -40,5 +40,14 @@ public class Bonifico extends Movimento{
 	public void setDataArrivo(String data) {
 		Timestamp ts = Timestamp.valueOf(data);
 		dataArrivo = ts.toLocalDateTime();
+	}
+	public void eseguiBonifico (Conto mittente, Conto destinatario, double importo) {
+		double commissione = 2.0;
+		if(mittente != null && mittente.getSaldoContabile() >= (importo +commissione)) {
+			if(destinatario != null) {
+				mittente.rimuoviDenaro(importo + commissione);
+				destinatario.aggiungiDenaro(importo);
+			}
+		}
 	}
 }

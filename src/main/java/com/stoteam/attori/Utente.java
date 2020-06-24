@@ -2,12 +2,17 @@ package com.stoteam.attori;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.config.PropertyVisibilityStrategy;
+
+import com.stoteam.dao.DbConnection;
+import com.stoteam.dao.UtenteDao;
 
 public class Utente extends Persona {
 
@@ -62,4 +67,15 @@ public class Utente extends Persona {
 		});
 		return JsonbBuilder.newBuilder().withConfig(config).build().toJson(this);
 	}
+	
+	public void salvaUtente() {
+		Connection c = DbConnection.Connect();
+		UtenteDao.UpUtente(c, this);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

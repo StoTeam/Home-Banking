@@ -25,7 +25,7 @@ public class Conto {
 	private Persona utente;
 	private double saldo;
 	private double saldoContabile;
-	
+
 	public Conto(String codice, String iban, Persona utente, double saldo) {
 		setCodice(codice);
 		setIban(iban);
@@ -35,9 +35,9 @@ public class Conto {
 	}
 	@JsonbCreator
 	public Conto(@JsonbProperty("codice") String codice,
-				@JsonbProperty("iban") String iban, 
-				@JsonbProperty("idIntestatario") int idIntestatario, 
-				@JsonbProperty("saldo") double saldo) {
+			@JsonbProperty("iban") String iban, 
+			@JsonbProperty("idIntestatario") int idIntestatario, 
+			@JsonbProperty("saldo") double saldo) {
 		setCodice(codice);
 		setIban(iban);
 		setUtente(idIntestatario);
@@ -92,7 +92,7 @@ public class Conto {
 	}
 	public void setIdIntestatario(int idInt) {
 		if (idInt > 0)
-		this.idIntestatario = idInt;
+			this.idIntestatario = idInt;
 	}
 	public void setId(int id) {
 		this.id = id;
@@ -100,14 +100,22 @@ public class Conto {
 	public int getId() {
 		return this.id;
 	}
+	public void aggiungiDenaro(double dep) {
+		if(dep > 0)
+			this.saldoContabile += dep;
+	}
+	public void rimuoviDenaro(double prel) {
+		if(saldo >= prel && prel > 0)
+			this.saldoContabile -= prel;
+	}
 	public String toJson() {
 		JsonbConfig config = new JsonbConfig().withPropertyVisibilityStrategy(new PropertyVisibilityStrategy() {
-			
+
 			@Override
 			public boolean isVisible(Method arg0) {
 				return false;
 			}
-			
+
 			@Override
 			public boolean isVisible(Field arg0) {
 				return true;
@@ -120,5 +128,5 @@ public class Conto {
 		return "Conto [id=" + id + ", idIntestatario=" + idIntestatario + ", codice=" + codice + ", iban=" + iban
 				+ ", utente=" + utente + ", saldo=" + saldo + ", saldoContabile=" + saldoContabile + "]";
 	}
-	
+
 }
