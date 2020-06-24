@@ -27,6 +27,7 @@ public abstract class Movimento {
 	double importo;
 	private String tipoMovimento;
 	private LocalDateTime dataEsecuzione;
+	private boolean isEseguito;
 	
 	public Movimento(Conto conto, double importo, String tipoMovimento) {
 		this.dataEsecuzione = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
@@ -37,10 +38,18 @@ public abstract class Movimento {
 	@JsonbCreator
 	public Movimento(@JsonbProperty("contoIban") String contoIban, 
 					@JsonbProperty("importo") double importo, 
-					@JsonbProperty("tipoMovimento") String tipoMovimento) {
+					@JsonbProperty("tipoMovimento") String tipoMovimento,
+					@JsonbProperty("isEseguito") boolean isEseguito ){
 		setConto(contoIban);
 		setImporto(importo);
 		setTipoMovimento(tipoMovimento);
+		setEseguito(isEseguito);
+	}
+	public boolean isEseguito() {
+		return isEseguito;
+	}
+	public void setEseguito(boolean isEseguito) {
+		this.isEseguito = isEseguito;
 	}
 	public int getId() {
 		return this.id;

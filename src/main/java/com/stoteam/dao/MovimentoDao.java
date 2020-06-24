@@ -20,13 +20,13 @@ import com.stoteam.movimenti.Prelievo;
 public class MovimentoDao {
 
 	public static void UpMovimento(Connection c, Movimento m) {
-		String insert = "INSERT INTO movimento_conto (tipo_movimento, importo, conto_id_m, data_esecuzione, conto_id_d, data_arrivo, causale, carta_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+		String insert = "INSERT INTO movimento_conto (tipo_movimento, importo, conto_iban_m, data_esecuzione, conto_iban_d, data_arrivo, causale, carta_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(insert);
 			ps.setString(1, m.getTipoMovimento());
 			ps.setDouble(2, m.getImporto());
-			ps.setInt(3, m.getConto().getId());
+			ps.setString(3, m.getConto().getIban());
 			ps.setTimestamp(4, m.getDataEsecuzione());
 			ps.setNull(5, java.sql.Types.INTEGER);
 			ps.setNull(6, java.sql.Types.TIMESTAMP);
@@ -34,13 +34,13 @@ public class MovimentoDao {
 			ps.setNull(8, java.sql.Types.INTEGER);
 			if(m instanceof Bonifico) {
 				Bonifico b = (Bonifico) m;
-				ps.setInt(5, b.getDestinatario().getId());
+				ps.setString(5, b.getDestinatario().getIban());
 				ps.setTimestamp(6, b.getDataArrivo());
 				ps.setString(7, b.getCausale());
 				ps.setNull(8, java.sql.Types.INTEGER);
 			} else if(m instanceof Pagamento) {
 				Pagamento p = (Pagamento) m;
-				ps.setInt(5, p.getDestinatario().getId());
+				ps.setString(5, p.getDestinatario().getIban());
 				ps.setNull(6, java.sql.Types.VARCHAR);
 				ps.setNull(7, java.sql.Types.VARCHAR);
 				ps.setInt(8, p.getCarta().getId());
