@@ -82,7 +82,23 @@ public class ContoDao {
 		}
 		return id;
 	}
-	
+	public static int getIdContoByIban(Connection c, String iban) {
+		int id = 0;
+		String query = "SELECT * FROM conto WHERE iban = ?;";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(query);
+			ps.setString(1, iban);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+				id = rs.getInt("id");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return id;
+	}
+
 	public static void removeConto(Connection c, int id) {
 		String deleteU = "DELETE FROM conto WHERE id = ?";
 		PreparedStatement ps = null;
@@ -95,7 +111,7 @@ public class ContoDao {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void updateConto(Connection c, int id, Conto newConto) {
 		Conto contoDB = ContoDao.getConto(c, id);
 		String update = "UPDATE conto SET codice_conto = ?, iban = ?, saldo = ?, saldo_contabile = ? WHERE id = ?";

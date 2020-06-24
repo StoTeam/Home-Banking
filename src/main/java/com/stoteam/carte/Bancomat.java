@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.carte;
 
 import java.sql.Connection;
@@ -47,29 +52,76 @@ public class Bancomat {
 		this.dataRilascio = LocalDateTime.now();
 		this.dataScadenza = dataRilascio.plusYears(3);
 	}
-
+	
+	/**
+	 * @param getId - Ottiene l'ID
+	 * @return ID
+	 */
+	
 	public int getId() {
 		return this.id;
 	}
+	
+	/**
+	 * @param setId - Imposta l'ID
+	 * @return ID
+	 */
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	/**
+	 * @param getId - Ottiene l'ID del Conto
+	 * @return ID Conto
+	 */
+	
 	public int getContoId() {
 		return this.contoId;
 	}
+
+	/**
+	 * @param setId - Imposta l'ID del Conto
+	 * @return ID Conto
+	 */
+	
 	public void setContoId(int contoId) {
 		if(contoId>0)
 			this.contoId = contoId;
 	}
+
+	/**
+	 * @param isBlock - Verifica che la carta sia bloccata
+	 * @return Blocco Carta
+	 */
+	
 	public boolean isBlock() {
 		return isBlock;
 	}
+
+	/**
+	 * @param setBlock - Imposta il blocco sulla carta
+	 * @return Blocco Carta
+	 */
+	
 	public void setBlock(boolean isBlock) {
 		this.isBlock = isBlock;
 	}
+
+	/**
+	 * @param getConto - Ottiene l'oggetto Conto
+	 * @return Conto
+	 */
+	
 	public Conto getConto() {
 		return conto;
 	}
+
+	/**
+	 * @param setConto - Imposta Conto Carta
+	 * @return Conto
+	 */
+	
 	private void setConto(String codiceConto) {
 		if(codiceConto != null && codiceConto.trim().length() > 0) {
 			Connection c = DbConnection.Connect();
@@ -82,39 +134,105 @@ public class Bancomat {
 			}
 		}		
 	}
+
+	/**
+	 * @param getSpesaMensile - Ottiene importo spesa mensile
+	 * @return Spesa Mensile
+	 */
+	
 	public double getSpesaMensile() {
 		return spesaMensile;
 	}
+
+	/**
+	 * @param setSpesaMensile - Imposta spesa mensile
+	 * @return Spesa Mensile
+	 */
+	
 	public void setSpesaMensile(double spesa) {
 		if(spesa >= 0)
 		this.spesaMensile = spesa;
 	}
+
+	/**
+	 * @param addSpesaMensile - Aggiunge importo spesa mensile
+	 * @return Spesa Mensile
+	 */
+	
 	public void addSpesaMensile(double spesa) {
 		this.spesaMensile += spesa;
 	}
+
+	/**
+	 * @param getPin - Ottiene PIN carta
+	 * @return PIN Carta
+	 */
+	
 	public String getPin() {
 		return pin;
 	}
+
+	/**
+	 * @param setPin - Imposta PIN carta
+	 * @return PIN Carta
+	 */
+	
 	public void setPin(String pin) {
 		if(pin != null && !pin.trim().isEmpty())
 			this.pin = pin;
 	}
+
+	/**
+	 * @param getCodSicurezza - Ottiene codice di sicurezza
+	 * @return Codice Sicurezza
+	 */
+	
 	public String getCodSicurezza() {
 		return codSicurezza;
 	}
+
+	/**
+	 * @param setCodSicurezza - Imposta codice di sicurezza
+	 * @return Codice Sicurezza
+	 */
+	
 	public void setCodSicurezza(String codSicurezza) {
 		if(codSicurezza != null && !codSicurezza.trim().isEmpty())
 			this.codSicurezza = codSicurezza;
 	}
+
+	/**
+	 * @param getDataScadenza - Ottiene data scadenza carta
+	 * @return Scadenza Carta
+	 */
+	
 	public Timestamp getDataScadenza() {
 		return Timestamp.valueOf(dataScadenza);
 	}
+
+	/**
+	 * @param setDataScadenza - Imposta data scadenza carta
+	 * @return Scadenza Carta
+	 */
+	
 	public void setDataScadenza(Timestamp data) {
 		this.dataScadenza = data.toLocalDateTime();
 	}
+
+	/**
+	 * @param getDataRilascio - Ottiene data rilascio carta
+	 * @return Rilascio Carta
+	 */
+	
 	public Timestamp getDataRilascio() {
 		return Timestamp.valueOf(dataRilascio);
 	}
+
+	/**
+	 * @param setDataRilascio - Imposta data rilascio carta
+	 * @return Rilascio Carta
+	 */
+	
 	public void setDataRilascio(Timestamp data) {
 		this.dataRilascio = data.toLocalDateTime();
 
