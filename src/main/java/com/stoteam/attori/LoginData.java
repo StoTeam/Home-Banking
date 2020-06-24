@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.attori;
 
 import java.lang.reflect.Field;
@@ -19,18 +24,42 @@ public class LoginData {
 		setEmail(email);
 		setPassword(password);
 	}
+	
+/**
+ * @param getEmail - Ottiene l'indirizzo email
+ * @return Indirizzo Email
+ */
+	
 	public String getEmail() {
 		return email;
 	}
+	
+/**
+ * @param setEmail - Imposta l'indirizzo email
+ * @return Indirizzo Email
+ */
+	
 	public void setEmail(String email) {
 		if(email != null && !email.trim().isEmpty())
 			this.email = email;
 		else
 			throw new IllegalArgumentException();
 	}
+	
+/**
+ * @param getPassword - Ottiene la password
+ * @return Password
+ */
+		
 	public String getPassword() {
 		return password;
 	}
+	
+/**
+ * @param setPassword - Imposta la password
+ * @return Password
+ */
+		
 	public void setPassword(String password) {
 		if(password != null && !password.trim().isEmpty())
 			this.password = password;

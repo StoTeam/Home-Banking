@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.attori;
 
 import java.lang.reflect.Field;
@@ -26,10 +31,19 @@ public class Utente extends Persona {
 		setCodiceFiscale(codiceFiscale);
 	}
 
-	
+	/**
+	 * @param getCodiceFiscale - Ottiene il codice fiscale dell'utente
+	 * @return Codice Fiscale
+	 */
+
 	public String getCodiceFiscale() {
 		return codiceFiscale;
 	}
+
+	/**
+	 * @param setCodiceFiscale - Imposta il codice fiscale dell'utente
+	 * @return Codice Fiscale
+	 */
 
 	public void setCodiceFiscale(String codiceFiscale) {
 		boolean reg = codiceFiscale.matches("\\p{Upper}{6}\\p{Digit}{2}\\p{Upper}\\p{Digit}{2}\\p{Upper}\\p{Digit}{3}\\p{Upper}");		
