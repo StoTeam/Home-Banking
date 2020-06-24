@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.dao;
 
 
@@ -7,7 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.stoteam.attori.Amministratore;
-
+/**
+ * @param UpAmministratore - Inserimento nel database dei dati dell'amministratore 
+ * (nome, cognome, telefono, email, password, tipo utente, indirizzo, livello accesso e area competenza)
+ * @return Dati Amministratore
+ */
 public class AmministratoreDao {
 
 	public static void UpAmministratore(Connection c, Amministratore a) {
@@ -31,6 +40,11 @@ public class AmministratoreDao {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * @param getAmministratore - Ottiene dal database i dati dell'amministratore
+	 * (nome, cognome, telefono, email, password, tipo utente, indirizzo, livello accesso e area competenza)
+	 * @return Dati Amministratore
+	 */
 	public static Amministratore getAmministratore(Connection c, int id) {
 		Amministratore a = null;
 		String query = "SELECT * FROM utente WHERE id = ?;";
@@ -51,6 +65,10 @@ public class AmministratoreDao {
 		}
 		return a;
 	}
+	/**
+	 * @param getIdAmministratore - Ottiene dal database l'ID dell'amministratore
+	 * @return ID Amministratore
+	 */
 	public static int getIdAmministratore(Connection c, String email) {
 		int id = 0;
 		String query = "SELECT id FROM amministratore WHERE email = ?;";
@@ -67,6 +85,10 @@ public class AmministratoreDao {
 		}
 		return id;
 	}
+	/**
+	 * @param removeAmministratore - Rimuove dal database l'amministratore
+	 * @return Amministratore
+	 */
 	public static void removeAmministratore(Connection c, int id) {
 		String deleteU = "DELETE FROM amministratore WHERE id = ?" ;
 		PreparedStatement ps = null;
@@ -80,6 +102,11 @@ public class AmministratoreDao {
 		}
 
 	}
+	/**
+	 * @param updateAmministratore - Aggiorna nel database i dati dell'amministratore 
+	 * (nome, cognome, telefono, email, password, indirizzo, livello accesso e area competenza)
+	 * @return Dati Amministratore
+	 */
 	public static void updateAmministratore(Connection c, int id, Amministratore newAmministratore) {
 		Amministratore utenteDB = AmministratoreDao.getAmministratore(c, id);
 		String update = "UPDATE amministratore SET nome = ?, cognome = ?, telefono = ?, email = ?, pass = ?, indirizzo = ?, livello_accesso = ?, area_competenza = ? WHERE id = ?";

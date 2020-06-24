@@ -10,7 +10,12 @@ import com.stoteam.attori.Amministratore;
 import com.stoteam.attori.Azienda;
 
 public class AziendaDao {
-
+	/**
+	 * @param UpAzienda - Inserisce nel database i dati dell'azienda (nome, cognome,
+	 *                  telefono, email, password, tipo utente, indirizzo, ragione
+	 *                  sociale, partita IVA e ID intestatario)
+	 * @return Dati Azienda
+	 */
 	public static Future<Void> UpAzienda(Connection c, Azienda a) {
 		int idInt = IntestatarioDao.createIntestatario(c);
 		String insert = "INSERT INTO aziende (nome, cognome, telefono, email, passw, tipo_utente, indirizzo, ragione_sociale, partita_iva, id_intestatario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -37,6 +42,13 @@ public class AziendaDao {
 		}
 		return null;
 	}
+
+	/**
+	 * @param getAzienda - Ottiene dal database i dati dell'azienda (nome, cognome,
+	 *                   telefono, email, password, tipo utente, indirizzo, ragione
+	 *                   sociale, partita IVA e ID intestatario)
+	 * @return Dati Azienda
+	 */
 	public static Azienda getAzienda(Connection c, int id) {
 		Azienda u = null;
 		String query = "SELECT * FROM aziende WHERE id = ?;";
@@ -45,8 +57,10 @@ public class AziendaDao {
 			ps = c.prepareStatement(query);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				u = new Azienda(rs.getString("nome"), rs.getString("cognome"), rs.getString("telefono"), rs.getString("email"), rs.getString("passw"), rs.getInt("tipo_utente"), rs.getString("indirizzo"), rs.getString("ragione_sociale"), rs.getString("partita_iva"));
+			while (rs.next()) {
+				u = new Azienda(rs.getString("nome"), rs.getString("cognome"), rs.getString("telefono"),
+						rs.getString("email"), rs.getString("passw"), rs.getInt("tipo_utente"),
+						rs.getString("indirizzo"), rs.getString("ragione_sociale"), rs.getString("partita_iva"));
 				u.setId(rs.getInt("id"));
 				u.setIdIntestatario(rs.getInt("id_intestatario"));
 			}
@@ -56,6 +70,11 @@ public class AziendaDao {
 		}
 		return u;
 	}
+
+	/**
+	 * @param getIdAzienda - Ottiene dal database l'ID dell'azienda
+	 * @return ID Azienda
+	 */
 	public static int getIdAzienda(Connection c, String pIva) {
 		int id = 0;
 		String query = "SELECT * FROM aziende WHERE partita_iva = ?;";
@@ -64,7 +83,7 @@ public class AziendaDao {
 			ps = c.prepareStatement(query);
 			ps.setString(1, pIva);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next())
+			while (rs.next())
 				id = rs.getInt("id");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -72,6 +91,11 @@ public class AziendaDao {
 		}
 		return id;
 	}
+
+	/**
+	 * @param removeAzienda - Rimuove dal database l'azienda
+	 * @return Azienda
+	 */
 	public static void removeAzienda(Connection c, int id) {
 		String deleteU = "DELETE FROM aziende WHERE id = " + id;
 		int idInt = AziendaDao.getAzienda(c, id).getIdIntestatario();
@@ -84,10 +108,18 @@ public class AziendaDao {
 			psI = c.prepareStatement(deleteI);
 			psI.execute();
 			System.out.println("Azienda eliminata");
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * @param updateAzienda - Aggiorna sul database i dati dell'azienda (nome,
+	 *                      cognome, telefono, email, password, tipo utente,
+	 *                      indirizzo, ragione sociale, partita IVA e ID
+	 *                      intestatario)
+	 * @return Dati Azienda
+	 */
 	public static void updateAzienda(Connection c, int id, Azienda newAzienda) {
 		Amministratore utenteDB = AmministratoreDao.getAmministratore(c, id);
 		String update = "UPDATE aziende SET nome = ?, cognome = ?, telefono = ?, email = ?, pass = ?, indirizzo = ?, ragione_sociale = ?, partita_iva = ? WHERE id = ?";
