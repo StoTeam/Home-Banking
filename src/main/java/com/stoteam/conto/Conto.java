@@ -13,6 +13,7 @@ import javax.json.bind.config.PropertyVisibilityStrategy;
 
 import com.stoteam.attori.Persona;
 import com.stoteam.attori.Utente;
+import com.stoteam.dao.ContoDao;
 import com.stoteam.dao.DbConnection;
 import com.stoteam.dao.UtenteDao;
 
@@ -45,66 +46,55 @@ public class Conto {
 		this.saldoContabile = this.saldo;
 	}
 
+	public Conto() {
+	}
 	/**
 	 * @param getCodice - Ottiene Codice Conto
 	 * @return Codice Conto
 	 */
-
 	public String getCodice() {
 		return codice;
 	}
-
 	/**
 	 * @param setCodice - Imposta Codice Conto
 	 * @return Codice Conto
 	 */
-
 	public void setCodice(String codice) {
 		if(codice != null && codice.trim().length() > 0)
 			this.codice = codice;
 	}
-
 	/**
 	 * @param getIban - Ottieni IBAN Conto
 	 * @return IBAN Conto
 	 */
-
 	public String getIban() {
 		return iban;
 	}
-
 	/**
 	 * @param getIban - Imposta IBAN Conto
 	 * @return IBAN Conto
 	 */
-
 	public void setIban(String iban) {
 		iban = iban.toUpperCase();
-
 		boolean reg = iban.matches("^(IT)[0-9]{2}[A-Z][0-9]{10}[0-9A-Z]{12}$");
 		if(reg)
 			this.iban = iban;
 	}
-
 	/**
 	 * @param getUtente - Ottieni l'oggetto utente
 	 * @return Utente
 	 */
-
 	public Utente getUtente() {
 		return (Utente) utente;
 	}
-
 	/**
 	 * @param setUtente - Imposta l'oggetto utente
 	 * @return Utente
 	 */
-
 	public void setUtente(Persona utente) {
 		if(utente != null)
 			this.utente = utente;
 	}
-
 	public void setUtente(int idUtente) {
 		if(idUtente > 0) {
 			Connection c = DbConnection.Connect();
@@ -118,59 +108,47 @@ public class Conto {
 			}
 		}
 	}
-
 	/**
 	 * @param getSaldo - Ottiene Saldo Conto
 	 * @return Saldo Conto
 	 */
-
 	public double getSaldo() {
 		return saldo;
 	}
-
 	/**
 	 * @param setSaldo - Imposta Saldo Conto
 	 * @return Saldo Conto
 	 */
-
 	public void setSaldo(double saldo) {
 		if(saldo >= 0)
 			this.saldo = saldo;
 	}
-
 	/**
 	 * @param getSaldoContabile - Ottieni Saldo Contabile
 	 * @return Saldo Contabile
 	 */
-
 	public double getSaldoContabile() {
 		return this.saldoContabile;
 	}
-
 	/**
 	 * @param setIdIntestatario - Imposta ID Intestatario
 	 * @return ID Intestatario
 	 */
-
 	public void setIdIntestatario(int idInt) {
 		if (idInt > 0)
 			this.idIntestatario = idInt;
 	}
-
 	/**
 	 * @param setId - Imposta ID
 	 * @return ID
 	 */
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	/**
 	 * @param getId - Ottieni ID
 	 * @return ID
 	 */
-
 	public int getId() {
 		return this.id;
 	}
@@ -208,5 +186,33 @@ public class Conto {
 		return "Conto [id=" + id + ", idIntestatario=" + idIntestatario + ", codice=" + codice + ", iban=" + iban
 				+ ", utente=" + utente + ", saldo=" + saldo + ", saldoContabile=" + saldoContabile + "]";
 	}
-
+	public void salva(String[] cookieArr) {
+		Connection c = DbConnection.Connect();
+		ContoDao.UpConto(c, this, Integer.parseInt(cookieArr[2]));
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public Conto download(int contoId) {
+		Connection c = DbConnection.Connect();
+		Conto co = ContoDao.getConto(c, contoId);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return co;
+	}
+	public Conto update(int id) {
+		Connection c = DbConnection.Connect();
+		ContoDao.updateConto(c, id, this);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return this;
+	}
 }

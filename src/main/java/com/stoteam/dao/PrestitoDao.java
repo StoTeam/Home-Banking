@@ -84,7 +84,6 @@ public static int getIdPrestito(Connection c, int contoId, Timestamp dataInizio)
 		System.out.println("executeQuery");
 		if(rs.next())
 			id = rs.getInt("id");
-		System.out.println("id=" + id);
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

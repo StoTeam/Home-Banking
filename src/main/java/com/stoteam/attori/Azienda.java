@@ -23,56 +23,44 @@ public class Azienda extends Persona {
 		setRagioneSociale(ragioneSociale);
 		setpIva(pIva);
 		
-	}
-	
+	}	
 	/**
 	 * @param getRagioneSociale - Ottiene una stringa contenente la ragione sociale
 	 * @return Ragione Sociale
 	 */
-	
 	public String getRagioneSociale() {
 		return ragioneSociale;
-	}
-	
+	}	
 	/**
 	 * @param setRagioneSociale - Imposta una stringa contenente la ragione sociale
 	 * @return Ragione Sociale
-	 */
-	
+	 */	
 	public void setRagioneSociale(String ragioneSociale) {
 		if(ragioneSociale != null && !ragioneSociale.trim().isEmpty())
 			this.ragioneSociale = ragioneSociale;
-	}
-	
+	}	
 	/**
 	 * @param getpIva - Ottiene una stringa contenente la partita IVA
 	 * @return Partita IVA
-	 */
-	
+	 */	
 	public String getpIva() {
 		return pIva;
-	}
-	
+	}	
 	/**
 	 * @param getpIva - Imposta una stringa contenente la partita IVA
 	 * @return Partita IVA
-	 */
-	
-	public void setpIva(String pIva) {
-		
+	 */	
+	public void setpIva(String pIva) {		
 		boolean reg = pIva.matches("p{Digit}{11}");
 		if(reg) {
 			this.pIva = pIva;
 		}
 	}
-	
-
 	@Override
 	public String toString() {
 		return "Azienda [ragioneSociale=" + ragioneSociale + ", pIva=" + pIva + ", getIdIntestatario()="
 				+ getIdIntestatario() + ", getId()=" + getId() + ", getNome()=" + getNome() + ", getCognome()="
-				+ getCognome() + ", getTelefono()=" + getTelefono() + ", getEmail()=" + getEmail() + ", getPassword()="
-				+ getPassword() + ", isAuth()=" + isAuth()
+				+ getCognome() + ", getTelefono()=" + getTelefono() + ", getEmail()=" + getEmail() + ", isAuth()=" + isAuth()
 				+ ", getTipoUtente()=" + getTipoUtente() + ", getIndirizzo()=" + getIndirizzo() + ", getClass()="
 				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}

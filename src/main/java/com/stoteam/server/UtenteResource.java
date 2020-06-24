@@ -33,13 +33,7 @@ public class UtenteResource {
 	@Produces("application/json")
 	public void createUser(Utente utente, @Suspended final AsyncResponse ar) {
 		CompletableFuture<Object> fut = CompletableFuture.runAsync(() -> {
-			Connection c = DbConnection.Connect();
-			UtenteDao.UpUtente(c, utente);
-			try {
-				c.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			utente.salva();
 		}).thenApply(res -> ar.resume(Response.status(200).build()));
 	}
 	@POST
@@ -54,8 +48,6 @@ public class UtenteResource {
 			ids[1] = UtenteDao.getIdIntestatario(c, ids[0]);
 			if(ids[0] > 0) {
 				cookies.put(req.getRemoteAddr(), new NewCookie("logged", "true " + ids[0] + " " + ids[1]));
-//				cookies.put(req.getRemoteAddr() + "_1", new NewCookie("id", "" + ids[0]));
-//				cookies.put(req.getRemoteAddr() + "_2", new NewCookie("idInt", "" + ids[1]));
 				users.put(req.getRemoteAddr(), UtenteDao.getUtente(c, ids[0]));
 			}
 			try {
@@ -80,8 +72,6 @@ public class UtenteResource {
 			boolean log = Boolean.parseBoolean(cookieArr[0]);
 			if(log) {
 				cookies.put(req.getRemoteAddr(), new NewCookie("logged", "false 0 0"));
-//				cookies.add(new NewCookie("id", "0"));
-//				cookies.add(new NewCookie("idInt", "0"));
 				System.out.println("CP TROVATO");	
 			}
 		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("")).status(200).cookie(cookies.remove(req.getRemoteAddr())).build()));
@@ -94,42 +84,24 @@ public class UtenteResource {
 			String[] cookieArr = logged.getValue().split(" ");
 			boolean log = Boolean.parseBoolean(cookieArr[0]);
 			if(log && id == Integer.parseInt(cookieArr[1])) {
-				Connection c = DbConnection.Connect();
-				Utente u = UtenteDao.getUtente(c, id);
+				Utente u = (Utente) new Utente().downloadPersona(id);
 				users.put(req.getRemoteAddr(), u);
-				try {
-					c.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));
 	}
-
 	@GET
 	@Produces("application/json")
 	public void getUserByCookie(@CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar){
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
-			System.out.println(req.getRemoteAddr());
 			String[] cookieArr = logged.getValue().split(" ");
 			boolean log = Boolean.parseBoolean(cookieArr[0]);
 			int id = Integer.parseInt(cookieArr[1]);
 			if(log) {
-				Connection c = DbConnection.Connect();
-				Utente u = UtenteDao.getUtente(c, id);
+				Utente u = (Utente) new Utente().downloadPersona(id);
 				users.put(req.getRemoteAddr(), u);
-				System.out.println("id: " + req.getRemoteAddr());
-				try {
-					c.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));	
 	}
-
 	@PUT
 	@Path("{userId}")
 	public void editUtente(@PathParam("userId") int id, @CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar, Utente newUser) {
@@ -137,19 +109,11 @@ public class UtenteResource {
 			String[] cookieArr = logged.getValue().split(" ");
 			boolean log = Boolean.parseBoolean(cookieArr[0]);
 			if(log && id == Integer.parseInt(cookieArr[1])) {
-				Connection c = DbConnection.Connect();
-				UtenteDao.updateUtente(c, id, newUser);
-				users.put(req.getRemoteAddr(), newUser);
-				try {
-					c.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Utente u = (Utente) newUser.updatePersona(id);
+				users.put(req.getRemoteAddr(), u);
 			} else {
 				System.out.println("id non valido");
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));
 	}
-
 }

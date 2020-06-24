@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import com.stoteam.attori.Amministratore;
 
@@ -62,7 +61,6 @@ public class AmministratoreDao {
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				id = rs.getInt("id");
-				System.out.println("ID trovato: " + id);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -82,6 +80,26 @@ public class AmministratoreDao {
 		}
 
 	}
-
+	public static void updateAmministratore(Connection c, int id, Amministratore newAmministratore) {
+		Amministratore utenteDB = AmministratoreDao.getAmministratore(c, id);
+		String update = "UPDATE amministratore SET nome = ?, cognome = ?, telefono = ?, email = ?, pass = ?, indirizzo = ?, livello_accesso = ?, area_competenza = ? WHERE id = ?";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(update);
+			ps.setString(1, newAmministratore.getNome());
+			ps.setString(2, newAmministratore.getCognome());
+			ps.setString(3, newAmministratore.getTelefono());
+			ps.setString(4, newAmministratore.getEmail());
+			ps.setString(5, newAmministratore.getPassword());
+			ps.setString(6, newAmministratore.getIndirizzo());
+			ps.setString(7, newAmministratore.getLivelloAccesso());
+			ps.setString(8, newAmministratore.toCSV());
+			ps.setInt(9, utenteDB.getId());
+			ps.execute();
+			System.out.println("Amministratore Aggiornato");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
 

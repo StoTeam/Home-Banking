@@ -3,12 +3,10 @@ package com.stoteam.movimenti;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 import javax.json.bind.annotation.JsonbProperty;
 
-import com.stoteam.attori.Persona;
 import com.stoteam.conto.Conto;
 import com.stoteam.dao.ContoDao;
 import com.stoteam.dao.DbConnection;

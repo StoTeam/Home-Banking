@@ -7,8 +7,6 @@ package com.stoteam.attori;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
@@ -16,13 +14,12 @@ import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.config.PropertyVisibilityStrategy;
 
-import com.stoteam.dao.DbConnection;
-import com.stoteam.dao.UtenteDao;
-
 public class Utente extends Persona {
 
 	private String codiceFiscale;
 
+	public Utente() {
+	}	
 	@JsonbCreator
 	public Utente(@JsonbProperty("nome") String nome, 
 			@JsonbProperty("cognome") String cognome,
@@ -40,16 +37,13 @@ public class Utente extends Persona {
 	 * @param getCodiceFiscale - Ottiene il codice fiscale dell'utente
 	 * @return Codice Fiscale
 	 */
-
 	public String getCodiceFiscale() {
 		return codiceFiscale;
 	}
-
 	/**
 	 * @param setCodiceFiscale - Imposta il codice fiscale dell'utente
 	 * @return Codice Fiscale
 	 */
-
 	public void setCodiceFiscale(String codiceFiscale) {
 		boolean reg = codiceFiscale.matches("\\p{Upper}{6}\\p{Digit}{2}\\p{Upper}\\p{Digit}{2}\\p{Upper}\\p{Digit}{3}\\p{Upper}");		
 		if(reg) {
@@ -58,14 +52,11 @@ public class Utente extends Persona {
 			throw new IllegalArgumentException(codiceFiscale + " Non è un codice fiscale valido");
 		}
 	}
-
 	@Override
 	public String toString() {
 		return "Utente [codiceFiscale=" + codiceFiscale + ", getNome()=" + getNome() + ", getCognome()=" + getCognome()
-		+ ", getTelefono()=" + getTelefono() + ", getEmail()=" + getEmail() + ", getPassword()=" + getPassword()
-		+ "]";
+		+ ", getTelefono()=" + getTelefono() + ", getEmail()=" + getEmail() + "]";
 	}
-
 	public String toJson() {
 		JsonbConfig config = new JsonbConfig().withPropertyVisibilityStrategy(new PropertyVisibilityStrategy() {
 

@@ -38,7 +38,7 @@ public class Amministratore extends Persona {
 	}
 
 	/**
-	* @param toCSV - Trasforma le stringhe in CSV
+	* @param toCSV - Trasforma la lista in CSV
 	* @return 
 	*/
 	

@@ -40,8 +40,5 @@ public class Pagamento extends Movimento{
 	public void setCarta(Bancomat carta) {
 		if(carta != null)
 			this.carta = carta;
-	}
-
-	
-	
+	}	
 }
