@@ -10,7 +10,11 @@ import com.stoteam.attori.Amministratore;
 import com.stoteam.attori.Azienda;
 
 public class AziendaDao {
-
+	/**
+	 * @param UpAzienda - Inserisce nel database i dati dell'azienda 
+	 * (nome, cognome, telefono, email, password, tipo utente, indirizzo, ragione sociale, partita IVA e ID intestatario)
+	 * @return Dati Azienda
+	 */
 	public static Future<Void> UpAzienda(Connection c, Azienda a) {
 		int idInt = IntestatarioDao.createIntestatario(c);
 		String insert = "INSERT INTO aziende (nome, cognome, telefono, email, passw, tipo_utente, indirizzo, ragione_sociale, partita_iva, id_intestatario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -37,6 +41,11 @@ public class AziendaDao {
 		}
 		return null;
 	}
+	/**
+	 * @param getAzienda - Ottiene dal database i dati dell'azienda 
+	 * (nome, cognome, telefono, email, password, tipo utente, indirizzo, ragione sociale, partita IVA e ID intestatario)
+	 * @return Dati Azienda
+	 */
 	public static Azienda getAzienda(Connection c, int id) {
 		Azienda u = null;
 		String query = "SELECT * FROM aziende WHERE id = ?;";
@@ -56,6 +65,10 @@ public class AziendaDao {
 		}
 		return u;
 	}
+	/**
+	 * @param getIdAzienda - Ottiene dal database l'ID dell'azienda 
+	 * @return ID Azienda
+	 */
 	public static int getIdAzienda(Connection c, String pIva) {
 		int id = 0;
 		String query = "SELECT * FROM aziende WHERE partita_iva = ?;";
@@ -72,6 +85,10 @@ public class AziendaDao {
 		}
 		return id;
 	}
+	/**
+	 * @param removeAzienda - Rimuove dal database l'azienda 
+	 * @return Azienda
+	 */
 	public static void removeAzienda(Connection c, int id) {
 		String deleteU = "DELETE FROM aziende WHERE id = " + id;
 		int idInt = AziendaDao.getAzienda(c, id).getIdIntestatario();
@@ -88,6 +105,11 @@ public class AziendaDao {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * @param updateAzienda - Aggiorna sul database i dati dell'azienda 
+	 * (nome, cognome, telefono, email, password, tipo utente, indirizzo, ragione sociale, partita IVA e ID intestatario)
+	 * @return Dati Azienda
+	 */
 	public static void updateAzienda(Connection c, int id, Azienda newAzienda) {
 		Amministratore utenteDB = AmministratoreDao.getAmministratore(c, id);
 		String update = "UPDATE aziende SET nome = ?, cognome = ?, telefono = ?, email = ?, pass = ?, indirizzo = ?, ragione_sociale = ?, partita_iva = ? WHERE id = ?";
