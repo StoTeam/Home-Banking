@@ -66,7 +66,12 @@ public class UtenteResource {
 			}
 		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("" + users.get(req.getRemoteAddr()).getId())).status(200).cookie(cookies.remove(req.getRemoteAddr())).build()));
 	}
-
+/**
+ * Metodo che ascolta per una richiesta get su utente/logout e disconnette l'utente
+ * sovrascrivendo il cookie d'itentificazione
+ * @param login    | il Cookie
+ * @param ar       | Risposta Asincrona
+ */	
 	@GET
 	@Path("logout")
 	public void logOut(@CookieParam("logged") Cookie login, @Suspended final AsyncResponse ar) {

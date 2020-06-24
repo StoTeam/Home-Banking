@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import com.stoteam.attori.Azienda;
+import com.stoteam.attori.Utente;
 import com.stoteam.carte.Bancomat;
 import com.stoteam.conto.Conto;
 import com.stoteam.movimenti.Bonifico;
@@ -27,8 +28,8 @@ public class MovimentoDao {
 			ps.setDouble(2, m.getImporto());
 			ps.setInt(3, m.getConto().getId());
 			ps.setTimestamp(4, m.getDataEsecuzione());
-			ps.setNull(8, java.sql.Types.INTEGER);
-			ps.setNull(6, java.sql.Types.VARCHAR);
+			ps.setNull(5, java.sql.Types.INTEGER);
+			ps.setNull(6, java.sql.Types.TIMESTAMP);
 			ps.setNull(7, java.sql.Types.VARCHAR);
 			ps.setNull(8, java.sql.Types.INTEGER);
 			if(m instanceof Bonifico) {
