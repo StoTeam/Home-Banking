@@ -13,20 +13,32 @@ import com.stoteam.carte.CCredito;
 public class CartaDao {
 
 	public static void UpCarta(Connection c, Bancomat b) {
-		String insert = "INSERT INTO carta (is_block, spesa_mensile, data_rilascio, data_scadenza, codice_sicurezza, pin, limite, disponibilita, uso_pin, conto_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		String insert = "INSERT INTO carta (is_block, spesa_mensile, data_rilascio, data_scadenza, codice_sicurezza, pin, limite, disponibilita, uso_pin, conto_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = null;
 		try {
+			System.out.println("prepared statement");
 			ps = c.prepareStatement(insert);
+			System.out.println("ok");
 			ps.setBoolean(1, b.isBlock());
+			System.out.println("ok2");
 			ps.setDouble(2, b.getSpesaMensile());
+			System.out.println("ok3");
 			ps.setTimestamp(3, b.getDataRilascio());
+			System.out.println("ok4");
 			ps.setTimestamp(4, b.getDataScadenza());
+			System.out.println("ok5");
 			ps.setString(5, b.getCodSicurezza());
+			System.out.println("ok6");
 			ps.setString(6, b.getPin());
-			ps.setInt(10, b.getConto().getId());
+			System.out.println("ok7");
+			ps.setInt(10, b.getContoId());
+			System.out.println("ok8");
 			ps.setNull(7, java.sql.Types.DOUBLE);
+			System.out.println("ok9");
 			ps.setNull(8, java.sql.Types.DOUBLE);
+			System.out.println("ok10");
 			ps.setNull(9, java.sql.Types.BOOLEAN);
+			System.out.println("finita prima parte");
 			if(b instanceof CCredito) {
 				CCredito cc = (CCredito) b;
 				ps.setDouble(7, cc.getLimite());
@@ -34,6 +46,7 @@ public class CartaDao {
 				ps.setBoolean(9, cc.isUsoPin());
 			}
 			ps.execute();
+			System.out.println("executed");
 			b.setId(getIdCarta(c, b.getConto().getId(), b.getDataRilascio()));
 			System.out.println("Carta Salvata");			
 		} catch (SQLException e) {
