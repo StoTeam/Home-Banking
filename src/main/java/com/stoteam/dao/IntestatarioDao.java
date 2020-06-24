@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.dao;
 
 import java.sql.Connection;
@@ -6,7 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class IntestatarioDao {
-	
+	/**
+	 * @param createIntestatario - Inserisce nel database Intestatario Conto
+	 * @return ID Intestatario
+	 */
 	public static int createIntestatario(Connection c) {
 		String insert = "INSERT INTO intestatario () VALUES ()";
 		PreparedStatement ps = null;

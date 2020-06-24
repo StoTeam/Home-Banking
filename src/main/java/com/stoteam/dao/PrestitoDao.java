@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.dao;
 
 import java.sql.Connection;
@@ -11,7 +16,12 @@ import com.stoteam.conto.Conto;
 import com.stoteam.conto.Prestito;
 
 public class PrestitoDao {
-
+	
+	/**
+	 * @param UpPrestito - Inserisce nel database i dati del prestito
+	 * @return Prestito
+	 */
+	
 	public static void UpPrestito(Connection c, Prestito prestito) {
 		String insert = "INSERT INTO prestito (importo, dovuti,"
 				+ "pagati, tan, taeg, tempo, is_fisso,"
@@ -42,6 +52,12 @@ public class PrestitoDao {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @param getPrestito - Ottiene dal database i dati del prestito
+	 * @return Prestito
+	 */
+	
 	public static Prestito getPrestito(Connection c, int id) {
 		Prestito prestito = null;
 		Conto co = null;
@@ -71,6 +87,11 @@ public class PrestitoDao {
 	return prestito;
 }
 	
+	/**
+	 * @param getIdPrestito - Ottiene dal database l'ID del prestito
+	 * @return ID Prestito
+	 */
+	
 public static int getIdPrestito(Connection c, int contoId, Timestamp dataInizio) {
 	System.out.println(dataInizio.toString() + "dataInizio - " + contoId + " contoId" );
 	int id = 0;
@@ -90,6 +111,11 @@ public static int getIdPrestito(Connection c, int contoId, Timestamp dataInizio)
 	}
 	return id;
 }
+
+/**
+ * @param removePrestito - Rimuove dal database il prestito
+ * @return Prestito
+ */
 
 public static void removePrestito(Connection c, int id) {
 	String deleteU = "DELETE FROM prestito WHERE id = ?";

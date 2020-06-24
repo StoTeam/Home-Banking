@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.dao;
 
 import java.sql.Connection;
@@ -88,6 +93,7 @@ public class GeneralDao {
 			e.printStackTrace();
 		}
 	}
+	
 	public static boolean azOrPers(Connection c, int idInt) {
 		PreparedStatement ps = null;
 		String query = "select * from utente, aziende where utente.id_intestatario = ? AND aziende.id_intestatario = ?;";

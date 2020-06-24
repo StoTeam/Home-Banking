@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.dao;
 
 import java.sql.Connection;
@@ -8,6 +13,11 @@ import java.sql.SQLException;
 import com.stoteam.attori.Utente;
 
 public class UtenteDao {
+	
+	/**
+	 * @param UpUtente - Inserisce nel database l'utente
+	 * @return Utente
+	 */	
 	
 	public static void UpUtente(Connection c, Utente u) {
 		int idInt = IntestatarioDao.createIntestatario(c);
@@ -33,6 +43,12 @@ public class UtenteDao {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @param UpUtente - Ottiene dal database l'utente
+	 * @return Utente
+	 */	
+	
 	public static Utente getUtente(Connection c, int id) {
 		Utente u = null;
 		String query = "SELECT * FROM utente WHERE id = ?;";
@@ -53,6 +69,12 @@ public class UtenteDao {
 		}
 		return u;
 	}
+	
+	/**
+	 * @param getIdIntestatario - Ottiene dal database l'ID intestatario
+	 * @return ID Intestatario
+	 */	
+	
 	public static int getIdIntestatario(Connection c, int id) {
 		int idInt = 0;
 		String query = "SELECT id_intestatario FROM utente WHERE id = ?;";
@@ -71,6 +93,11 @@ public class UtenteDao {
 		}
 		return idInt;
 	}
+	
+	/**
+	 * @param getIdUtente - Ottiene dal database l'ID utente
+	 * @return ID Utente
+	 */	
 	public static int getIdUtente(Connection c, String cf) {
 		int id = 0;
 		String query = "SELECT * FROM utente WHERE codice_fiscale = ?;";
@@ -87,6 +114,12 @@ public class UtenteDao {
 		}
 		return id;
 	}
+	
+	/**
+	 * @param removeUtente - Rimuove dal database l'utente
+	 * @return Utente
+	 */	
+	
 	public static void removeUtente(Connection c, int id) {
 		String deleteU = "DELETE FROM utente WHERE id = ?";
 		int idInt = UtenteDao.getUtente(c, id).getIdIntestatario();
@@ -105,6 +138,12 @@ public class UtenteDao {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @param checkLogUtente - Login Utente
+	 * @return Utente
+	 */	
+	
 	public static int checkLogUtente(Connection c, String email, String password) {
 		String query = "SELECT pass, id FROM utente WHERE email = ?";
 		PreparedStatement ps = null;
@@ -124,6 +163,12 @@ public class UtenteDao {
 			return -1;
 		}
 	}
+	
+	/**
+	 * @param updateUtente - Aggiornamento database utente
+	 * @return Utente
+	 */	
+	
 	public static void updateUtente(Connection c, int id, Utente newUser) {
 		Utente utenteDB = UtenteDao.getUtente(c, id);
 		String update = "UPDATE utente SET nome = ?, cognome = ?, telefono = ?, email = ?, pass = ?, indirizzo = ?, codice_fiscale = ? WHERE id = ?";
