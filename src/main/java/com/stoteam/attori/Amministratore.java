@@ -38,8 +38,8 @@ public class Amministratore extends Persona {
 	}
 
 	/**
-	* @param toCSV - Trasforma la lista in CSV
-	* @return 
+	* @param toCSV - Trasforma la lista delle aree di competenza nel formato CSV
+	* @return Aree di competenza
 	*/
 	
 	public String toCSV() {
