@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.dao;
 
 import java.sql.Connection;
@@ -9,7 +14,12 @@ import com.stoteam.attori.Persona;
 import com.stoteam.conto.Conto;
 
 public class ContoDao {
-
+	
+	/**
+	 * @param UpConto - Inserimento nel database dei dati del conto (codice_conto, iban, saldo, saldo contabile, id intestatario)
+	 * @return Conto
+	 */
+	
 	public static void UpConto(Connection c, Conto co, int idInt) {
 		System.out.println(co.toString());
 		String insert = "INSERT INTO conto (codice_conto, iban, saldo, saldo_contabile, id_intestatario) VALUES (?, ?, ?, ?, ?);";
@@ -29,6 +39,12 @@ public class ContoDao {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @param getConto - Ottiene dal database i dati del conto (codice_conto, iban, saldo, saldo contabile, ID intestatario)
+	 * @return Conto
+	 */
+	
 	public static Conto getConto(Connection c, int id) {
 		Conto co = null;
 		Persona p = null;
@@ -54,6 +70,12 @@ public class ContoDao {
 		}
 		return co;
 	}
+	
+	/**
+	 * @param getConto - Ottiene dal database l'ID del conto
+	 * @return ID Conto
+	 */
+	
 	public static int getIdConto(Connection c, String codice_conto) {
 		int id = 0;
 		String query = "SELECT * FROM conto WHERE codice_conto = ?;";
@@ -70,6 +92,12 @@ public class ContoDao {
 		}
 		return id;
 	}
+	
+	/**
+	 * @param getIdContoByIban - Ottiene dal database l'ID del conto dall'IBAN
+	 * @return ID Conto
+	 */
+	
 	public static int getIdContoByIban(Connection c, String iban) {
 		int id = 0;
 		String query = "SELECT * FROM conto WHERE iban = ?;";
@@ -86,6 +114,12 @@ public class ContoDao {
 		}
 		return id;
 	}
+	
+	/**
+	 * @param removeConto - Rimuove dal database il conto
+	 * @return Conto
+	 */
+	
 	public static void removeConto(Connection c, int id) {
 		String deleteU = "DELETE FROM conto WHERE id = ?";
 		PreparedStatement ps = null;
@@ -98,6 +132,12 @@ public class ContoDao {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * @param updateConto - Aggiornamento sul database dei dati del conto (codice_conto, iban, saldo, saldo contabile, id intestatario)
+	 * @return Conto
+	 */
+	
 	public static void updateConto(Connection c, int id, Conto newConto) {
 		Conto contoDB = ContoDao.getConto(c, id);
 		String update = "UPDATE conto SET codice_conto = ?, iban = ?, saldo = ?, saldo_contabile = ? WHERE id = ?";

@@ -1,3 +1,7 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
 package com.stoteam.dao;
 
 import java.sql.Connection;
@@ -18,6 +22,11 @@ import com.stoteam.movimenti.Pagamento;
 import com.stoteam.movimenti.Prelievo;
 
 public class MovimentoDao {
+	
+	/**
+	 * @param UpMovimento - Inserisce nel database il movimento conto 
+	 * @return Movimento
+	 */
 
 	public static void UpMovimento(Connection c, Movimento m) {
 		String insert = "INSERT INTO movimento_conto (tipo_movimento, importo, conto_iban_m, data_esecuzione, conto_iban_d, data_arrivo, causale, carta_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -53,6 +62,12 @@ public class MovimentoDao {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @param getMovimento - Ottiene dal database il movimento conto 
+	 * @return Movimento
+	 */
+
 	public static Movimento getMovimento(Connection c, int id) {
 		Movimento m = null;
 		String query = "SELECT * FROM movimento_conto WHERE id = ?;";
@@ -85,6 +100,10 @@ public class MovimentoDao {
 		}
 		return m;
 	}
+	/**
+	 * @param removeMovimento - Rimuove dal database il movimento conto 
+	 */
+
 	public static void removeMovimento(Connection c, int id) {
 		String deleteM = "DELETE FROM movimento_conto WHERE id = ?";
 		Movimento idInt = MovimentoDao.getMovimento(c, id);
@@ -98,6 +117,12 @@ public class MovimentoDao {
 			e.printStackTrace();
 		}		
 	}
+	
+	/**
+	 * @param getIdMovimento - Ottiene dal database l'ID del movimento conto 
+	 * @return ID Movimento
+	 */
+	
 	public static int getIdMovimento(Connection c, Timestamp dataEsecuzione) {
 		int id = 0;
 		String query = "SELECT id FROM movimento_conto WHERE data_esecuzione = ?;";

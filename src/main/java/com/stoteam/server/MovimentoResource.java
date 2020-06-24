@@ -1,3 +1,7 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
 package com.stoteam.server;
 
 import java.sql.Connection;
@@ -40,6 +44,10 @@ public class MovimentoResource {
 	@ManagedAsync
 	@Produces("application/json")
 	@Consumes("application/json")
+	/**
+	 * @param createMovimento - Crea il movimento bancario
+	 * @return Movimento
+	 */
 	public void createMovimento(Movimento movimento, @Suspended final AsyncResponse ar, @CookieParam("logged") Cookie logged) {
 		CompletableFuture<Object> fut = CompletableFuture.runAsync(() -> {
 			String[] cookieArr = logged.getValue().split(" ");
@@ -53,6 +61,10 @@ public class MovimentoResource {
 	@GET
 	@Path("{idMovimento}")
 	@Produces("application/json")
+	/**
+	 * @param getCartaById - Ottiene Carta da ID
+	 * @return Carta
+	 */
 	public void getCartaById(@PathParam("idMovimento") int idMovimento, @Suspended final AsyncResponse ar, @CookieParam("logged") Cookie logged){
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
 			String[] cookieArr = logged.getValue().split(" ");
