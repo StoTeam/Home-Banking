@@ -44,12 +44,12 @@ public class Conto {
 		setSaldo(saldo);
 		this.saldoContabile = this.saldo;
 	}
-	
+
 	/**
 	 * @param getCodice - Ottiene Codice Conto
 	 * @return Codice Conto
 	 */
-	
+
 	public String getCodice() {
 		return codice;
 	}
@@ -58,7 +58,7 @@ public class Conto {
 	 * @param setCodice - Imposta Codice Conto
 	 * @return Codice Conto
 	 */
-	
+
 	public void setCodice(String codice) {
 		if(codice != null && codice.trim().length() > 0)
 			this.codice = codice;
@@ -68,7 +68,7 @@ public class Conto {
 	 * @param getIban - Ottieni IBAN Conto
 	 * @return IBAN Conto
 	 */
-	
+
 	public String getIban() {
 		return iban;
 	}
@@ -77,7 +77,7 @@ public class Conto {
 	 * @param getIban - Imposta IBAN Conto
 	 * @return IBAN Conto
 	 */
-	
+
 	public void setIban(String iban) {
 		iban = iban.toUpperCase();
 
@@ -90,7 +90,7 @@ public class Conto {
 	 * @param getUtente - Ottieni l'oggetto utente
 	 * @return Utente
 	 */
-	
+
 	public Utente getUtente() {
 		return (Utente) utente;
 	}
@@ -99,12 +99,12 @@ public class Conto {
 	 * @param setUtente - Imposta l'oggetto utente
 	 * @return Utente
 	 */
-	
+
 	public void setUtente(Persona utente) {
 		if(utente != null)
 			this.utente = utente;
 	}
-	
+
 	public void setUtente(int idUtente) {
 		if(idUtente > 0) {
 			Connection c = DbConnection.Connect();
@@ -118,21 +118,21 @@ public class Conto {
 			}
 		}
 	}
-	
+
 	/**
 	 * @param getSaldo - Ottiene Saldo Conto
 	 * @return Saldo Conto
 	 */
-	
+
 	public double getSaldo() {
 		return saldo;
 	}
-	
+
 	/**
 	 * @param setSaldo - Imposta Saldo Conto
 	 * @return Saldo Conto
 	 */
-	
+
 	public void setSaldo(double saldo) {
 		if(saldo >= 0)
 			this.saldo = saldo;
@@ -142,7 +142,7 @@ public class Conto {
 	 * @param getSaldoContabile - Ottieni Saldo Contabile
 	 * @return Saldo Contabile
 	 */
-	
+
 	public double getSaldoContabile() {
 		return this.saldoContabile;
 	}
@@ -151,17 +151,17 @@ public class Conto {
 	 * @param setIdIntestatario - Imposta ID Intestatario
 	 * @return ID Intestatario
 	 */
-	
+
 	public void setIdIntestatario(int idInt) {
 		if (idInt > 0)
-		this.idIntestatario = idInt;
+			this.idIntestatario = idInt;
 	}
 
 	/**
 	 * @param setId - Imposta ID
 	 * @return ID
 	 */
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -170,9 +170,23 @@ public class Conto {
 	 * @param getId - Ottieni ID
 	 * @return ID
 	 */
-	
+
 	public int getId() {
 		return this.id;
+	}
+	public double aggiungiDenaro(double dep) {
+		if(dep > 0) {
+			this.saldoContabile += dep;
+			return dep;
+		}
+		return 0;
+	}
+	public double rimuoviDenaro(double prel) {
+		if(saldo >= prel && prel > 0) {
+			this.saldoContabile -= prel;
+			return prel;
+		}
+		return 0;
 	}
 	public String toJson() {
 		JsonbConfig config = new JsonbConfig().withPropertyVisibilityStrategy(new PropertyVisibilityStrategy() {

@@ -15,6 +15,15 @@
 
 package com.stoteam.attori;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.stoteam.dao.AmministratoreDao;
+import com.stoteam.dao.AziendaDao;
+import com.stoteam.dao.DbConnection;
+import com.stoteam.dao.UtenteDao;
+import com.stoteam.movimenti.Bonifico;
+
 public abstract class Persona {
 	
 	private int id;
@@ -236,4 +245,36 @@ public abstract class Persona {
 		if(indirizzo != null && !indirizzo.trim().isEmpty())
 			this.indirizzo = indirizzo;
 	}
+	
+	public void salva() {
+		Connection c = DbConnection.Connect();
+		if(this instanceof Utente) {
+			UtenteDao.UpUtente(c, ((Utente) this));
+		}else if(this instanceof Amministratore) {
+			AmministratoreDao.UpAmministratore(c, ((Amministratore) this));
+		}else if(this instanceof Azienda) {
+			AziendaDao.UpAzienda(c, ((Azienda) this));
+		}
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void rimuovi() {
+		Connection c = DbConnection.Connect();
+		if(this instanceof Utente) {
+			UtenteDao.removeUtente(c, ((Utente) this.getId()));
+		}else if(this instanceof Amministratore) {
+			AmministratoreDao.removeAmministratore(c, ((Amministratore) this.getId()));
+		}else if(this instanceof Azienda) {
+			AziendaDao.removeAzienda(c, ((Azienda) this.getId()));
+		}
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
