@@ -28,10 +28,11 @@ public class Bonifico extends Movimento{
 	public Bonifico(
 			@JsonbProperty("importo") double importo, 
 			@JsonbProperty("ibanContoM") String ibanContoM, 
-			@JsonbProperty("tipoMovimento") String tipoMovimento, 
+			@JsonbProperty("tipoMovimento") String tipoMovimento,
+			@JsonbProperty("isEseguito") boolean isEseguito,
 			@JsonbProperty("ibanContoD") String ibanContoD, 
 			@JsonbProperty("causale") String causale) {
-		super(ibanContoM, importo, tipoMovimento);
+		super(ibanContoM, importo, tipoMovimento, isEseguito);
 		setDestinatario(ibanContoD);
 		setCausale(causale);
 	}
