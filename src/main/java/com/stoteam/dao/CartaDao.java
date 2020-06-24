@@ -24,7 +24,7 @@ public class CartaDao {
 	 */
 
 	public static void UpCarta(Connection c, Bancomat b) {
-		String insert = "INSERT INTO carta (is_block, spesa_mensile, data_rilascio, data_scadenza, codice_sicurezza, pin, limite, disponibilita, uso_pin, conto_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		String insert = "INSERT INTO carta (is_block, spesa_mensile, data_rilascio, data_scadenza, codice_sicurezza, pin, limite, disponibilita, uso_pin, conto_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = null;
 		try {
 			ps = c.prepareStatement(insert);
@@ -34,11 +34,12 @@ public class CartaDao {
 			ps.setTimestamp(4, b.getDataScadenza());
 			ps.setString(5, b.getCodSicurezza());
 			ps.setString(6, b.getPin());
-			ps.setInt(10, b.getConto().getId());
+			ps.setInt(10, b.getContoId());
 			ps.setNull(7, java.sql.Types.DOUBLE);
 			ps.setNull(8, java.sql.Types.DOUBLE);
 			ps.setNull(9, java.sql.Types.BOOLEAN);
-			if (b instanceof CCredito) {
+			if(b instanceof CCredito) {
+
 				CCredito cc = (CCredito) b;
 				ps.setDouble(7, cc.getLimite());
 				ps.setDouble(8, cc.getDisponibilita());
@@ -46,7 +47,6 @@ public class CartaDao {
 			}
 			ps.execute();
 			b.setId(getIdCarta(c, b.getConto().getId(), b.getDataRilascio()));
-			System.out.println("Carta Salvata");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

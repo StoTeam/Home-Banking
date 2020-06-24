@@ -36,7 +36,6 @@ public class ContoDao {
 			co.setId(getIdConto(c, co.getCodice()));
 			System.out.println("Conto Salvato");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

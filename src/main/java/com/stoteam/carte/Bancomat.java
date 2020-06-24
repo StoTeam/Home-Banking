@@ -107,10 +107,10 @@ public class Bancomat {
 	 * @param setConto - Imposta Conto Carta
 	 * @return Conto
 	 */
-	protected void setConto(String codiceConto) {
-		if(codiceConto != null && codiceConto.trim().length() > 0) {
+	protected void setConto(String idConto) {
+		if(idConto != null && idConto.trim().length() > 0) {
 			Connection c = DbConnection.Connect();
-			this.conto = ContoDao.getConto(c, ContoDao.getIdConto(c, codiceConto));
+			this.conto = ContoDao.getConto(c, ContoDao.getIdConto(c, idConto));
 			try {
 				c.close();
 			} catch (SQLException e) {
