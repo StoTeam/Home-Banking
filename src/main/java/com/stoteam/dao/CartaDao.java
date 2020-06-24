@@ -48,7 +48,6 @@ public class CartaDao {
 			b.setId(getIdCarta(c, b.getConto().getId(), b.getDataRilascio()));
 			System.out.println("Carta Salvata");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

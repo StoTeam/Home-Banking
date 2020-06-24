@@ -27,7 +27,12 @@ public class UtenteResource {
 	Map<String, Utente> users = new HashMap<>();
 	Map<String, NewCookie> cookies = new HashMap<>();
 	@Context HttpServletRequest req;
-	
+/**
+ * Questo metodo attende una richiesta POST per creare 
+ * un nuovo utente nel DB attraverso un CompletableFuture
+ * @param utente
+ * @param ar
+ */
 	@POST
 	@ManagedAsync
 	@Produces("application/json")
@@ -36,6 +41,12 @@ public class UtenteResource {
 			utente.salva();
 		}).thenApply(res -> ar.resume(Response.status(200).build()));
 	}
+	/**
+	 * Questo metodo attende una richiesta POST su "utente/login" per effettuare 
+	 * l'autenticazzione dell'utente attraverso un CompletableFuture
+	 * @param ld
+	 * @param ar
+	 */
 	@POST
 	@Path("login")
 	@ManagedAsync
@@ -59,8 +70,8 @@ public class UtenteResource {
 		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("" + users.get(req.getRemoteAddr()).getId())).status(200).cookie(cookies.remove(req.getRemoteAddr())).build()));
 	}
 /**
- * Metodo che ascolta per una richiesta get su utente/logout e disconnette l'utente
- * sovrascrivendo il cookie d'itentificazione
+ * Metodo che ascolta per una richiesta get su "utente/logout" e disconnette l'utente
+ * sovrascrivendo il cookie d'itentificazione previa identificazione
  * @param login    | il Cookie
  * @param ar       | Risposta Asincrona
  */	
@@ -76,6 +87,13 @@ public class UtenteResource {
 			}
 		}).thenApplyAsync(res -> ar.resume(Response.seeOther(URI.create("")).status(200).cookie(cookies.remove(req.getRemoteAddr())).build()));
 	}
+	/**
+	 * Questo metodo attende una richiesta GET su "utente/{userId}"
+	 * per richiedere i dati di un utente dal DB previa identificazione
+	 * @param id
+	 * @param ar
+	 * @param logged
+	 */
 	@GET
 	@Path("{userId}")
 	@Produces("application/json")
@@ -89,6 +107,13 @@ public class UtenteResource {
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));
 	}
+	/**
+	 * Questo metodo ascolta per una richiesta GET, è alternativo al metodo
+	 * getUserById suddetto, recupera le info necessarie al recupero dei dati
+	 * dell'utente dai cookie di login.
+	 * @param logged
+	 * @param ar
+	 */
 	@GET
 	@Produces("application/json")
 	public void getUserByCookie(@CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar){
@@ -102,6 +127,14 @@ public class UtenteResource {
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));	
 	}
+	/**
+	 * Questo metodo modifica tutti i campi di un utente sul DB
+	 * utilizzando i dati forniti all'API in newUser previa identificazione
+	 * @param id
+	 * @param logged
+	 * @param ar
+	 * @param newUser
+	 */
 	@PUT
 	@Path("{userId}")
 	public void editUtente(@PathParam("userId") int id, @CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar, Utente newUser) {
