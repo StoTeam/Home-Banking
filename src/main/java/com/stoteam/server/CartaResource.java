@@ -44,17 +44,7 @@ public class CartaResource {
 			boolean log = Boolean.parseBoolean(cookieArr[0]);
 				System.out.println("verifiche in corso");
 			if(log && idIntestatario == Integer.parseInt(cookieArr[2])) {
-				System.out.println("verifiche effettuate");
-				Connection c = DbConnection.Connect();
-				System.out.println("connesso");
-				CartaDao.UpCarta(c, carta);
-				System.out.println("Carta uploadata");
-				try {
-					c.close();
-					System.out.println("connessione chiusa");
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				carta.salva();
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).build()));
 		System.out.println("Risposta applicata");
@@ -68,15 +58,8 @@ public class CartaResource {
 			String[] cookieArr = logged.getValue().split(" ");
 			boolean log = Boolean.parseBoolean(cookieArr[0]);
 			if(log && idIntestatario == Integer.parseInt(cookieArr[2])) {
-				Connection c = DbConnection.Connect();
-				Bancomat ca = CartaDao.getCarta(c, idCarta);
-				carte.put(req.getRemoteAddr(), ca);
-				try {
-					c.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Bancomat b = new Bancomat().download(idCarta);
+				carte.put(req.getRemoteAddr(), b);
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).entity(carte.remove(req.getRemoteAddr())).build()));
 	}
@@ -87,15 +70,7 @@ public class CartaResource {
 			String[] cookieArr = logged.getValue().split(" ");
 			boolean log = Boolean.parseBoolean(cookieArr[0]);
 			if(log && idIntestatario == Integer.parseInt(cookieArr[2])) {
-				Connection c = DbConnection.Connect();
-				CartaDao.updateCarta(c, idCarta, newCarta);
-				carte.put(req.getRemoteAddr(), newCarta);
-				try {
-					c.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				newCarta.update(idCarta);
 			} else {
 				System.out.println("id non valido");
 			}

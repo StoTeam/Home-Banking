@@ -23,6 +23,9 @@ public class Utente extends Persona {
 
 	private String codiceFiscale;
 
+	public Utente() {
+	}
+	
 	@JsonbCreator
 	public Utente(@JsonbProperty("nome") String nome, 
 			@JsonbProperty("cognome") String cognome,

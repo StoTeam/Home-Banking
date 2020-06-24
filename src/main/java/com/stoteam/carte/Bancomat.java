@@ -17,6 +17,7 @@ import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 
 import com.stoteam.conto.Conto;
+import com.stoteam.dao.CartaDao;
 import com.stoteam.dao.ContoDao;
 import com.stoteam.dao.DbConnection;
 import com.stoteam.dao.UtenteDao;
@@ -53,6 +54,8 @@ public class Bancomat {
 		this.dataScadenza = dataRilascio.plusYears(3);
 	}
 	
+	public Bancomat() {
+	}
 	/**
 	 * @param getId - Ottiene l'ID
 	 * @return ID
@@ -235,6 +238,37 @@ public class Bancomat {
 	
 	public void setDataRilascio(Timestamp data) {
 		this.dataRilascio = data.toLocalDateTime();
-
+	}
+	public void salva() {
+		Connection c = DbConnection.Connect();
+		CartaDao.UpCarta(c, this);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public Bancomat download(int idCarta) {
+		Connection c = DbConnection.Connect();
+		Bancomat ca = CartaDao.getCarta(c, idCarta);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ca;
+	}
+	
+	public Bancomat update(int idCarta) {
+		Connection c = DbConnection.Connect();
+		CartaDao.updateCarta(c, idCarta, this);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return this;
 	}
 }

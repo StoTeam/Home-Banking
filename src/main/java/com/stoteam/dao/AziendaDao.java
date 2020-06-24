@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.Future;
 
+import com.stoteam.attori.Amministratore;
 import com.stoteam.attori.Azienda;
 
 public class AziendaDao {
@@ -84,6 +85,27 @@ public class AziendaDao {
 			psI.execute();
 			System.out.println("Azienda eliminata");
 		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void updateAzienda(Connection c, int id, Azienda newAzienda) {
+		Amministratore utenteDB = AmministratoreDao.getAmministratore(c, id);
+		String update = "UPDATE aziende SET nome = ?, cognome = ?, telefono = ?, email = ?, pass = ?, indirizzo = ?, ragione_sociale = ?, partita_iva = ? WHERE id = ?";
+		PreparedStatement ps = null;
+		try {
+			ps = c.prepareStatement(update);
+			ps.setString(1, newAzienda.getNome());
+			ps.setString(2, newAzienda.getCognome());
+			ps.setString(3, newAzienda.getTelefono());
+			ps.setString(4, newAzienda.getEmail());
+			ps.setString(5, newAzienda.getPassword());
+			ps.setString(6, newAzienda.getIndirizzo());
+			ps.setString(7, newAzienda.getpIva());
+			ps.setString(8, newAzienda.getRagioneSociale());
+			ps.setInt(9, utenteDB.getId());
+			ps.execute();
+			System.out.println("Utente Aggiornato");
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

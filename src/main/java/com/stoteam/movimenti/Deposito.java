@@ -22,7 +22,7 @@ public class Deposito extends Movimento{
 	}
 	
 	@Override
-	public void Esegui() {
+	public void esegui() {
 		double cifra = conto.aggiungiDenaro(importo);
 		this.setEseguito(true);
 	}

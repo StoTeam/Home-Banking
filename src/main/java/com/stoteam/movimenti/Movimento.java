@@ -119,7 +119,7 @@ public abstract class Movimento {
 		});
 		return JsonbBuilder.newBuilder().withConfig(config).build().toJson(this);
 	}
-	public void Esegui() {
+	public void esegui() {
 		double commissione = 2.0;
 		double cifra = conto.rimuoviDenaro(importo + commissione);
 		if(this instanceof Bonifico) {
@@ -131,24 +131,31 @@ public abstract class Movimento {
 	}
 	public void salva() {
 		Connection c = DbConnection.Connect();
-		if(this instanceof Movimento) {
-			MovimentoDao.UpMovimento(c, ((Movimento) this));
-			try {
-				c.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	public void rimuovi() {
-		Connection c = DbConnection.Connect();
-		if(this instanceof Movimento) {
-			MovimentoDao.removeMovimento(c, ((Movimento) this.getId()));
-		}
+		MovimentoDao.UpMovimento(c, this);
 		try {
 			c.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	public void rimuovi() {
+		Connection c = DbConnection.Connect();
+		MovimentoDao.removeMovimento(c, this.getId());
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static Movimento download(int idMovimento) {
+		Connection c = DbConnection.Connect();
+		Movimento mo = MovimentoDao.getMovimento(c, idMovimento);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mo;
 	}
 }

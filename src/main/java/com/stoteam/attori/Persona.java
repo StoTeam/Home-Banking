@@ -37,6 +37,9 @@ public abstract class Persona {
 	private int tipoUtente;
 	private int idIntestatario;
 	
+	public Persona() {
+	}
+	
 	public Persona(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo) {
 		setNome(nome);
 		setCognome(cognome);
@@ -264,11 +267,11 @@ public abstract class Persona {
 	public void rimuovi() {
 		Connection c = DbConnection.Connect();
 		if(this instanceof Utente) {
-			UtenteDao.removeUtente(c, ((Utente) this.getId()));
+			UtenteDao.removeUtente(c, this.getId());
 		}else if(this instanceof Amministratore) {
-			AmministratoreDao.removeAmministratore(c, ((Amministratore) this.getId()));
+			AmministratoreDao.removeAmministratore(c, this.getId());
 		}else if(this instanceof Azienda) {
-			AziendaDao.removeAzienda(c, ((Azienda) this.getId()));
+			AziendaDao.removeAzienda(c, this.getId());
 		}
 		try {
 			c.close();
@@ -276,5 +279,36 @@ public abstract class Persona {
 			e.printStackTrace();
 		}
 	}
-
+	public Persona downloadPersona(int id) {
+		Connection c = DbConnection.Connect();
+		Persona u = null;
+		if(this instanceof Utente)
+			u = UtenteDao.getUtente(c, id);
+		else if(this instanceof Azienda)
+			u = AziendaDao.getAzienda(c, id);
+		else
+			u = AmministratoreDao.getAmministratore(c, id);
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return u;
+	}
+	public Persona updatePersona(int id) {
+		Connection c = DbConnection.Connect();
+		if(this instanceof Utente)
+			UtenteDao.updateUtente(c, id, (Utente)this);
+		else if(this instanceof Azienda)
+			AziendaDao.updateAzienda(c, id, (Azienda)this);
+		else
+			AmministratoreDao.updateAmministratore(c, id, ((Amministratore)this));
+		try {
+			c.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return this;
+	}
 }
