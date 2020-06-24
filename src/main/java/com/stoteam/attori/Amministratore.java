@@ -5,9 +5,15 @@
 
 package com.stoteam.attori;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.stoteam.dao.AmministratoreDao;
+import com.stoteam.dao.DbConnection;
+import com.stoteam.dao.UtenteDao;
 
 public class Amministratore extends Persona {
 
@@ -78,4 +84,5 @@ public class Amministratore extends Persona {
 	public String toString() {
 		return "Amministratore [livelloAccesso=" + livelloAccesso + ", areaCompetenza=" + toCSV() + "]";
 	}
+	
 }

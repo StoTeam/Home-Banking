@@ -5,6 +5,8 @@
 
 package com.stoteam.carte;
 
+import javax.json.bind.annotation.JsonbProperty;
+
 import com.stoteam.conto.Conto;
 
 public class CCredito extends Bancomat{
@@ -15,6 +17,16 @@ public class CCredito extends Bancomat{
 	public CCredito(Conto utente, String pin, String codSicurezza, double limite) {
 		super(utente, pin, codSicurezza);
 		setLimite(limite);
+		this.disponibilita = limite;
+	}
+	public CCredito(
+			@JsonbProperty("codiceConto") String codiceConto,
+			@JsonbProperty("pin") String pin, 
+			@JsonbProperty("codSicurezza") String codSicurezza,
+			@JsonbProperty("limite") double limite) {
+		super(codiceConto, pin, codSicurezza);
+		setLimite(limite);
+		setConto(codiceConto);
 		this.disponibilita = limite;
 	}
 	

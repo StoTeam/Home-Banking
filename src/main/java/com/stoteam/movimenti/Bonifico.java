@@ -68,13 +68,4 @@ public class Bonifico extends Movimento{
 		Timestamp ts = Timestamp.valueOf(data);
 		dataArrivo = ts.toLocalDateTime();
 	}
-	public void eseguiBonifico (Conto mittente, Conto destinatario, double importo) {
-		double commissione = 2.0;
-		if(mittente != null && mittente.getSaldoContabile() >= (importo +commissione)) {
-			if(destinatario != null) {
-				mittente.rimuoviDenaro(importo + commissione);
-				destinatario.aggiungiDenaro(importo);
-			}
-		}
-	}
 }

@@ -122,7 +122,7 @@ public class Bancomat {
 	 * @return Conto
 	 */
 	
-	private void setConto(String codiceConto) {
+	protected void setConto(String codiceConto) {
 		if(codiceConto != null && codiceConto.trim().length() > 0) {
 			Connection c = DbConnection.Connect();
 			this.conto = ContoDao.getConto(c, ContoDao.getIdConto(c, codiceConto));

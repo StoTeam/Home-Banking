@@ -1,7 +1,7 @@
 /**
 @author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
 @version 1.0
-*/
+ */
 
 package com.stoteam.attori;
 
@@ -25,13 +25,13 @@ public class Utente extends Persona {
 
 	@JsonbCreator
 	public Utente(@JsonbProperty("nome") String nome, 
-				  @JsonbProperty("cognome") String cognome,
-				  @JsonbProperty("telefono") String telefono, 
-				  @JsonbProperty("email") String email, 
-				  @JsonbProperty("password") String password, 
-				  @JsonbProperty("tipoUtente") int tipoUtente, 
-				  @JsonbProperty("indirizzo") String indirizzo, 
-				  @JsonbProperty("codiceFiscale") String codiceFiscale) {
+			@JsonbProperty("cognome") String cognome,
+			@JsonbProperty("telefono") String telefono, 
+			@JsonbProperty("email") String email, 
+			@JsonbProperty("password") String password, 
+			@JsonbProperty("tipoUtente") int tipoUtente, 
+			@JsonbProperty("indirizzo") String indirizzo, 
+			@JsonbProperty("codiceFiscale") String codiceFiscale) {
 		super(nome, cognome, telefono, email, password, tipoUtente, indirizzo);
 		setCodiceFiscale(codiceFiscale);
 	}
@@ -62,18 +62,18 @@ public class Utente extends Persona {
 	@Override
 	public String toString() {
 		return "Utente [codiceFiscale=" + codiceFiscale + ", getNome()=" + getNome() + ", getCognome()=" + getCognome()
-				+ ", getTelefono()=" + getTelefono() + ", getEmail()=" + getEmail() + ", getPassword()=" + getPassword()
-				+ "]";
+		+ ", getTelefono()=" + getTelefono() + ", getEmail()=" + getEmail() + ", getPassword()=" + getPassword()
+		+ "]";
 	}
-	
+
 	public String toJson() {
 		JsonbConfig config = new JsonbConfig().withPropertyVisibilityStrategy(new PropertyVisibilityStrategy() {
-			
+
 			@Override
 			public boolean isVisible(Method arg0) {
 				return false;
 			}
-			
+
 			@Override
 			public boolean isVisible(Field arg0) {
 				return true;
@@ -81,15 +81,4 @@ public class Utente extends Persona {
 		});
 		return JsonbBuilder.newBuilder().withConfig(config).build().toJson(this);
 	}
-	
-	public void salvaUtente() {
-		Connection c = DbConnection.Connect();
-		UtenteDao.UpUtente(c, this);
-		try {
-			c.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
 }
