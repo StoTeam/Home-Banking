@@ -1,10 +1,6 @@
 package com.stoteam.server;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,10 +14,7 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.server.ManagedAsync;
-import com.stoteam.attori.*;
 import com.stoteam.conto.Conto;
-import com.stoteam.dao.ContoDao;
-import com.stoteam.dao.DbConnection;
 
 @Path("/utente/{idIntestatario}/conto")
 public class ContoResource {
@@ -43,9 +36,7 @@ public class ContoResource {
 				conto.salva(cookieArr);
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).build()));
-		System.out.println("Risposta applicata");
 	}
-
 	@GET
 	@Path("{contoId}")
 	@Produces("application/json")

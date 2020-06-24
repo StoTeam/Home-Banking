@@ -108,7 +108,6 @@ public class MovimentoDao {
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				id = rs.getInt("id");
-				System.out.println("ID trovato: " + id);
 			}
 			System.out.println(dataEsecuzione);
 		} catch (SQLException e) {

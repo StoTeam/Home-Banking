@@ -50,7 +50,6 @@ public class MovimentoResource {
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).build()));
 	}
-
 	@GET
 	@Path("{idMovimento}")
 	@Produces("application/json")

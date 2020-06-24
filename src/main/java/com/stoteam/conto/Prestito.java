@@ -112,11 +112,9 @@ public class Prestito {
 		if(conto != null)
 			this.conto = conto;
 	}
-
 	public boolean getIsFisso() {
 		return isFisso;
 	}
-
 	public boolean getIsApprovato() {
 		return isApprovato;
 	}
@@ -126,7 +124,6 @@ public class Prestito {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public int getId() {
 		return id;
 	}	

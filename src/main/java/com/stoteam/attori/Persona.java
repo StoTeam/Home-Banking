@@ -22,7 +22,6 @@ import com.stoteam.dao.AmministratoreDao;
 import com.stoteam.dao.AziendaDao;
 import com.stoteam.dao.DbConnection;
 import com.stoteam.dao.UtenteDao;
-import com.stoteam.movimenti.Bonifico;
 
 public abstract class Persona {
 	
@@ -38,8 +37,7 @@ public abstract class Persona {
 	private int idIntestatario;
 	
 	public Persona() {
-	}
-	
+	}	
 	public Persona(String nome, String cognome, String telefono, String email, String password, int tipoUtente, String indirizzo) {
 		setNome(nome);
 		setCognome(cognome);
@@ -53,12 +51,10 @@ public abstract class Persona {
 	/**
 	 * @param getIdIntestatario - Ottiene l'ID intestatario
 	 * @return ID intestatario
-	 */
-	
+	 */	
 	public int getIdIntestatario() {
 		return idIntestatario;
-	}
-	
+	}	
 	/**
 	 * @param setIdIntestatario - Imposta l'ID intestatario
 	 * @return ID intestatario
@@ -66,79 +62,63 @@ public abstract class Persona {
 	
 	public void setIdIntestatario(int id_intestatario) {
 		this.idIntestatario = id_intestatario;
-	}
-	
+	}	
 	/**
 	 * @param setId - Imposta l'ID
 	 * @return ID
-	 */
-	
+	 */	
 	public void setId(int id) {
 		this.id = id;
-	}
-	
+	}	
 	/**
 	 * @param getId - Ottiene l'ID
 	 * @return ID
-	 */
-	
+	 */	
 	public int getId() {
 		return this.id;
-	}
-	
+	}	
 	/**
 	 * @param getNome - Ottiene il nome del cliente
 	 * @return Nome
-	 */
-	
+	 */	
 	public String getNome() {
 		return nome;
-	}
-		
+	}		
 	/**
 	 * @param setNome - Imposta il nome del cliente
 	 * @return Nome
-	 */
-	
+	 */	
 	public void setNome(String nome) {
 		if(nome != null && !nome.trim().isEmpty()) {
 			this.nome = nome;
 		}
-	}
-	
+	}	
 	/**
 	 * @param getCognome - Ottieni il cognome del cliente
 	 * @return Cognome
 	 */
-
 	public String getCognome() {
 		return cognome;
 	}
-
 	/**
 	 * @param setCognome - Imposta il cognome del cliente
 	 * @return Cognome
 	 */
-
 	public void setCognome(String cognome) {
 		if(cognome != null && !cognome.trim().isEmpty())
 			this.cognome = cognome;
-	}
-	
+	}	
 	/**
 	 * @param getTelefono - Ottieni il numero telefonico del cliente
 	 * @return Numero Telefono
 	 */
-
 	public String getTelefono() {
 		return telefono;
 	}
-
 	/**
 	 * @param setTelefono - Imposta il numero telefonico del cliente
 	 * @return Numero Telefono
 	 */
-
 	public void setTelefono(String telefono) {
 		boolean reg = telefono.matches("^\\d+");
 		if(telefono.trim().length() >= 6 && reg) {
@@ -147,21 +127,17 @@ public abstract class Persona {
 		}
 		else throw new IllegalArgumentException();
 	}
-
 	/**
 	 * @param getEmail - Ottieni l'indirizzo email del cliente
 	 * @return Email
 	 */
-
 	public String getEmail() {
 		return email;
 	}
-
 	/**
 	 * @param setEmail - Imposta l'indirizzo email del cliente
 	 * @return Email
 	 */
-
 	public void setEmail(String email) {
 		if(email != null) {
 			email = email.trim();
@@ -173,16 +149,13 @@ public abstract class Persona {
 			}
 		}
 	}
-
 	/**
 	 * @param getPassword - Ottiene la password
 	 * @return Password
 	 */
-
 	public String getPassword() {
 		return password;
 	}
-
 	/**
 	 * @param setPassword - Imposta la password
 	 * @return Password
@@ -192,7 +165,6 @@ public abstract class Persona {
 		if(password != null && password.trim().length() >= 8)
 			this.password = password;
 	}
-
 	/**
 	 * @param isAuth - Verifica che l'utente sia abilitato
 	 * @return Autorizzazione
@@ -200,55 +172,44 @@ public abstract class Persona {
 
 	public boolean isAuth() {
 		return auth;
-	}
-	
+	}	
 	/**
 	 * @param setAuth - Imposta autorizzazioni utente
 	 * @return Autorizzazione
-	 */
-	
+	 */	
 	public void setAuth(boolean auth) {
 		this.auth = auth;
-	}
-	
+	}	
 	/**
 	 * @param getTipoUtente - Ottiene la tipologia dell'utente
 	 * @return Tipo Utente
-	 */
-	
+	 */	
 	public int getTipoUtente() {
 		return tipoUtente;
 	}
-
 	/**
 	 * @param setTipoUtente - Imposta la tipologia dell'utente
 	 * @return Tipo Utente
-	 */
-	
+	 */	
 	public void setTipoUtente(int tipoUtente) {
 		if(tipoUtente >= 0 && tipoUtente < 2)
 		this.tipoUtente = tipoUtente;
 	}
-
 	/**
 	 * @param getIndirizzo - Ottiene l'indirizzo dell'utente
 	 * @return Indirizzo
 	 */
-
 	public String getIndirizzo() {
 		return this.indirizzo;
 	}
-
 	/**
 	 * @param setIndirizzo - Imposta l'indirizzo dell'utente
 	 * @return Indirizzo
 	 */
-
 	public void setIndirizzo(String indirizzo) {
 		if(indirizzo != null && !indirizzo.trim().isEmpty())
 			this.indirizzo = indirizzo;
-	}
-	
+	}	
 	public void salva() {
 		Connection c = DbConnection.Connect();
 		if(this instanceof Utente) {

@@ -3,10 +3,8 @@ package com.stoteam.movimenti;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -16,16 +14,10 @@ import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.config.PropertyVisibilityStrategy;
 
-import com.stoteam.attori.Amministratore;
-import com.stoteam.attori.Azienda;
-import com.stoteam.attori.Utente;
 import com.stoteam.conto.Conto;
-import com.stoteam.dao.AmministratoreDao;
-import com.stoteam.dao.AziendaDao;
 import com.stoteam.dao.ContoDao;
 import com.stoteam.dao.DbConnection;
 import com.stoteam.dao.MovimentoDao;
-import com.stoteam.dao.UtenteDao;
 
 public abstract class Movimento {
 

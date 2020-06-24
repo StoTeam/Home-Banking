@@ -89,7 +89,6 @@ public class UtenteResource {
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));
 	}
-
 	@GET
 	@Produces("application/json")
 	public void getUserByCookie(@CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar){
@@ -103,7 +102,6 @@ public class UtenteResource {
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));	
 	}
-
 	@PUT
 	@Path("{userId}")
 	public void editUtente(@PathParam("userId") int id, @CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar, Utente newUser) {
@@ -118,5 +116,4 @@ public class UtenteResource {
 			}
 		}).thenApply(res -> ar.resume(Response.status(200).entity(users.remove(req.getRemoteAddr()).toJson()).build()));
 	}
-
 }

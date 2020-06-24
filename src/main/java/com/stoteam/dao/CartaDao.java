@@ -24,7 +24,6 @@ public class CartaDao {
 			ps.setString(5, b.getCodSicurezza());
 			ps.setString(6, b.getPin());
 			ps.setInt(10, b.getConto().getId());
-
 			ps.setNull(7, java.sql.Types.DOUBLE);
 			ps.setNull(8, java.sql.Types.DOUBLE);
 			ps.setNull(9, java.sql.Types.BOOLEAN);
@@ -55,10 +54,8 @@ public class CartaDao {
 //			rs.getDouble("limite");
 			if(rs.getDouble("limite") == 0){
 				b = new Bancomat(ContoDao.getConto(c, rs.getInt("conto_id")), rs.getString("pin"), rs.getString("codice_sicurezza"));
-			System.out.println("limite uguale a 0");
 			} else {
-				b = (CCredito) new CCredito(ContoDao.getConto(c, rs.getInt("conto_id")), rs.getString("pin"), rs.getString("codice_sicurezza"), rs.getDouble("limite"));	
-			System.out.println("limite maggiore di 0");
+				b = (CCredito) new CCredito(ContoDao.getConto(c, rs.getInt("conto_id")), rs.getString("pin"), rs.getString("codice_sicurezza"), rs.getDouble("limite"));
 			}
 			b.setId(rs.getInt("id"));
 			b.setContoId(rs.getInt("conto_id"));
@@ -70,7 +67,6 @@ public class CartaDao {
 				((CCredito) b).setDisponibilita(rs.getDouble("disponibilita"));
 				((CCredito) b).setUsoPin(rs.getBoolean("uso_pin"));
 			}
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,12 +95,11 @@ public class CartaDao {
 				ps.setBoolean(9, ((CCredito) newCarta).isUsoPin());
 			}
 			ps.execute();
-			System.out.println("Utente Aggiornato");
+			System.out.println("Carta Aggiornata");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
 	public static int getIdCarta(Connection c, int contoId, Timestamp dataRilascio) {
 		int id = 0;
 		String query = "SELECT * FROM carta WHERE conto_id = ? AND data_rilascio = ?;";
@@ -116,7 +111,6 @@ public class CartaDao {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				id = rs.getInt("id");
-				System.out.println("id = " + id);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -124,7 +118,6 @@ public class CartaDao {
 		}
 		return id;
 	}
-
 	public static void removeCarta(Connection c, int id) {
 		String deleteU = "DELETE FROM carta WHERE id = ?";
 		PreparedStatement ps = null;

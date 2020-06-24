@@ -5,10 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import com.stoteam.attori.Amministratore;
-import com.stoteam.attori.Utente;
 
 public class AmministratoreDao {
 
@@ -63,7 +61,6 @@ public class AmministratoreDao {
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				id = rs.getInt("id");
-				System.out.println("ID trovato: " + id);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -99,7 +96,7 @@ public class AmministratoreDao {
 			ps.setString(8, newAmministratore.toCSV());
 			ps.setInt(9, utenteDB.getId());
 			ps.execute();
-			System.out.println("Utente Aggiornato");
+			System.out.println("Amministratore Aggiornato");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

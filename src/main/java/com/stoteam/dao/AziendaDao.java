@@ -104,7 +104,7 @@ public class AziendaDao {
 			ps.setString(8, newAzienda.getRagioneSociale());
 			ps.setInt(9, utenteDB.getId());
 			ps.execute();
-			System.out.println("Utente Aggiornato");
+			System.out.println("Azienda Aggiornata");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

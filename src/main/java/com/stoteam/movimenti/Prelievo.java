@@ -6,7 +6,6 @@ import com.stoteam.conto.Conto;
 
 public class Prelievo extends Movimento{
 
-
 	public Prelievo(Conto utente, double importo, String tipoMovimento) {
 		super(utente, importo, tipoMovimento);
 	}
@@ -18,5 +17,4 @@ public class Prelievo extends Movimento{
 			@JsonbProperty("isEseguito") boolean isEseguito) {
 		super(ibanUtente, importo, tipoMovimento, isEseguito);
 	}
-
 }
