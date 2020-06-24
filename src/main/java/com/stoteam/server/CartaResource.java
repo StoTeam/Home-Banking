@@ -1,3 +1,7 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
 package com.stoteam.server;
 
 import java.util.HashMap;
@@ -41,6 +45,10 @@ public class CartaResource {
 	@GET
 	@Path("{idCarta}")
 	@Produces("application/json")
+	/**
+	 * @param getCartaById - Ottiene Carta in base all'ID
+	 * @return Carta
+	 */
 	public void getCartaById(@PathParam("idCarta") int idCarta, @Suspended final AsyncResponse ar, @CookieParam("logged") Cookie logged){
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
 			String[] cookieArr = logged.getValue().split(" ");
@@ -53,6 +61,10 @@ public class CartaResource {
 	}
 	@PUT
 	@Path("{idCarta}")
+	/**
+	 * @param editCarta - Imposta Carta
+	 * @return Carta
+	 */
 	public void editCarta(@PathParam("idCarta") int idCarta, @CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar, Bancomat newCarta) {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {	
 			String[] cookieArr = logged.getValue().split(" ");

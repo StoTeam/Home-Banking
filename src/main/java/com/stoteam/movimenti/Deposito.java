@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.movimenti;
 
 import javax.json.bind.annotation.JsonbProperty;
@@ -9,6 +14,7 @@ public class Deposito extends Movimento{
 	public Deposito(Conto utente, String tipoMovimento, double importo) {
 		super(utente, importo, tipoMovimento);
 	}
+	
 	public Deposito(
 			@JsonbProperty("importo") double importo,
 			@JsonbProperty("ibanUtente") String ibanUtente, 

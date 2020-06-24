@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.movimenti;
 
 import java.sql.Connection;
@@ -34,13 +39,25 @@ public class Bonifico extends Movimento{
 		setDestinatario(ibanContoD);
 		setCausale(causale);
 	}
+	/**
+	 * @param getDestinatario - Ottiene Destinatario
+	 * @return Destinatario
+	 */
 	public Conto getDestinatario() {
 		return destinatario;
 	}
+	/**
+	 * @param setDestinatario - Imposta Destinatario
+	 * @return Destinatario
+	 */
 	public void setDestinatario(Conto destinatario) {
 		if(destinatario != null)
 			this.destinatario = destinatario;
 	}
+	/**
+	 * @param setDestinatario - Imposta IBAN Destinatario
+	 * @return Destinatario
+	 */
 	public void setDestinatario(String ibanContoD) {
 		Connection c = DbConnection.Connect();
 		ContoDao.getConto(c, ContoDao.getIdContoByIban(c, ibanContoD));
@@ -51,17 +68,33 @@ public class Bonifico extends Movimento{
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * @param getCausale - Ottiene Causale
+	 * @return Causale
+	 */
 	public String getCausale() {
 		return causale;
 	}
+	/**
+	 * @param setCausale - Imposta Causale
+	 * @return Causale
+	 */
 	public void setCausale(String causale) {
 		if(causale != null && !causale.trim().isEmpty())
 			this.causale = causale;
 	}
+	/**
+	 * @param getDataArrivo - Ottiene Data Arrivo
+	 * @return Data Arrivo
+	 */
 	public Timestamp getDataArrivo() {
 		Timestamp ts = Timestamp.valueOf(dataArrivo);
 		return ts;
 	}
+	/**
+	 * @param setDataArrivo - Imposta Data Arrivo
+	 * @return Data Arrivo
+	 */
 	public void setDataArrivo(String data) {
 		Timestamp ts = Timestamp.valueOf(data);
 		dataArrivo = ts.toLocalDateTime();

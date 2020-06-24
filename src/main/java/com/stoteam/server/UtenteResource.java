@@ -1,3 +1,7 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
 package com.stoteam.server;
 
 import java.net.URI;
@@ -31,6 +35,10 @@ public class UtenteResource {
 	@POST
 	@ManagedAsync
 	@Produces("application/json")
+	/**
+	 * @param createUser - Crea utente
+	 * @return Utente
+	 */
 	public void createUser(Utente utente, @Suspended final AsyncResponse ar) {
 		CompletableFuture<Object> fut = CompletableFuture.runAsync(() -> {
 			utente.salva();
@@ -40,6 +48,10 @@ public class UtenteResource {
 	@Path("login")
 	@ManagedAsync
 	@Produces("application/json")
+	/**
+	 * @param logIn - Login utente
+	 * @return Utente
+	 */
 	public synchronized void logIn(LoginData ld, @Suspended final AsyncResponse ar) {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
 			Connection c = DbConnection.Connect();
