@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 
 import com.stoteam.conto.Conto;
@@ -28,14 +29,15 @@ public class Bonifico extends Movimento{
 		setCausale(causale);
 		dataArrivo = LocalDateTime.now().plusMinutes(10);
 	}
+	@JsonbCreator
 	public Bonifico(
 			@JsonbProperty("importo") double importo, 
-			@JsonbProperty("ibanContoM") String ibanContoM, 
+			@JsonbProperty("contoIban") String contoIban, 
 			@JsonbProperty("tipoMovimento") String tipoMovimento,
 			@JsonbProperty("isEseguito") boolean isEseguito,
 			@JsonbProperty("ibanContoD") String ibanContoD, 
 			@JsonbProperty("causale") String causale) {
-		super(ibanContoM, importo, tipoMovimento, isEseguito);
+		super(contoIban, importo, tipoMovimento, isEseguito);
 		setDestinatario(ibanContoD);
 		setCausale(causale);
 	}

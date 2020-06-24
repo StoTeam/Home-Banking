@@ -5,6 +5,7 @@
 
 package com.stoteam.movimenti;
 
+import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 
 import com.stoteam.carte.Bancomat;
@@ -20,14 +21,14 @@ public class Pagamento extends Movimento{
 		setDestinatario(destinatario);
 		setCarta(carta);
 	}
-	
-	public Pagamento(@JsonbProperty("mittenteIban") String mittenteIban, 
+	@JsonbCreator
+	public Pagamento(@JsonbProperty("contoIban") String contoIban, 
 					@JsonbProperty("importo") double importo, 
 					@JsonbProperty("tipoMovimento") String tipoMovimento,
 					@JsonbProperty("isEseguito") boolean isEseguito,
 					@JsonbProperty("destinatarioIban") String destinatarioIban, 
 					@JsonbProperty("idCarta") int idCarta) {
-		super(mittenteIban, importo, tipoMovimento, isEseguito);
+		super(contoIban, importo, tipoMovimento, isEseguito);
 		setDestinatario(destinatario);
 		setCarta(carta);
 	}

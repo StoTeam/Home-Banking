@@ -111,7 +111,6 @@ public class Bancomat {
 		if(codiceConto != null && codiceConto.trim().length() > 0) {
 			Connection c = DbConnection.Connect();
 			this.conto = ContoDao.getConto(c, ContoDao.getIdConto(c, codiceConto));
-			System.out.println("Conto carta settato");
 			try {
 				c.close();
 			} catch (SQLException e) {
@@ -200,6 +199,9 @@ public class Bancomat {
 	public void setDataRilascio(Timestamp data) {
 		this.dataRilascio = data.toLocalDateTime();
 	}
+	/**
+	 * Aggiunge una nuova carta sul db
+	 */
 	public void salva() {
 		Connection c = DbConnection.Connect();
 		CartaDao.UpCarta(c, this);
@@ -209,6 +211,11 @@ public class Bancomat {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Restituisce una carta dal DB
+	 * @param idCarta
+	 * @return
+	 */
 	public Bancomat download(int idCarta) {
 		Connection c = DbConnection.Connect();
 		Bancomat ca = CartaDao.getCarta(c, idCarta);
@@ -220,6 +227,11 @@ public class Bancomat {
 		}
 		return ca;
 	}
+	/**
+	 * Aggiorna una carta nel DB
+	 * @param idCarta
+	 * @return
+	 */
 	public Bancomat update(int idCarta) {
 		Connection c = DbConnection.Connect();
 		CartaDao.updateCarta(c, idCarta, this);
