@@ -1,3 +1,7 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
 package com.stoteam.server;
 
 import java.util.HashMap;
@@ -40,6 +44,10 @@ public class ContoResource {
 	@GET
 	@Path("{contoId}")
 	@Produces("application/json")
+	/**
+	 * @param getContoById - Ottiene Conto in base all'ID
+	 * @return Conto
+	 */
 	public void getContoById(@PathParam("contoId") int contoId, @Suspended final AsyncResponse ar, @CookieParam("logged") Cookie logged){
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {
 			String[] cookieArr = logged.getValue().split(" ");
@@ -52,6 +60,10 @@ public class ContoResource {
 	}
 	@PUT
 	@Path("{contoId}")
+	/**
+	 * @param editConto - Imposta Conto
+	 * @return Conto
+	 */
 	public void editConto(@PathParam("contoId") int id, @CookieParam("logged") Cookie logged, @Suspended final AsyncResponse ar, Conto newConto) {
 		CompletableFuture<Object> cf = CompletableFuture.runAsync(() -> {	
 			String[] cookieArr = logged.getValue().split(" ");

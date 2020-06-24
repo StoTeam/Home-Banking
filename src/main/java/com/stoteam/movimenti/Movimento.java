@@ -1,3 +1,8 @@
+/**
+@author Gianluca Tiribelli, Marino Cervoni, Diego Viglianisi
+@version 1.0
+*/
+
 package com.stoteam.movimenti;
 
 import java.lang.reflect.Field;
@@ -44,6 +49,10 @@ public abstract class Movimento {
 		setTipoMovimento(tipoMovimento);
 		setEseguito(isEseguito);
 	}
+	/**
+	 * @param isEseguito - Restituisce un booleano se il movimento è stato eseguito
+	 * @return Destinatario
+	 */
 	public boolean isEseguito() {
 		return isEseguito;
 	}
